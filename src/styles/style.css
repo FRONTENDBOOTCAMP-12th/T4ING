@@ -1,5 +1,9 @@
+@import './base.css';
 
+:root {
+  background: var(--black);
+}
 
-#app{
-  background: orange
+#app {
+  background: transparent;
 }

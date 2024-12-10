@@ -1,1 +1,2 @@
-import '@/components/MainPage';
+import '@/pages/MainPage';
+import '@/components/MainBanner';

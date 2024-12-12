@@ -1,0 +1,33 @@
+.btn-icon {
+  display: inline-block;
+  overflow: hidden;
+  inline-size: 1.125rem;
+  border: none;
+  background-color: initial;
+  background-position: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-size: 0;
+  aspect-ratio: 1/1;
+  appearance: none;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &.search {
+    background-image: url(/assets/icon/search.svg);
+  }
+  &.close {
+    background-image: url(/assets/icon/close.svg);
+  }
+}
+@media (width >= 48rem) {
+  .btn-icon {
+    inline-size: 1.5rem;
+  }
+}
+
+@media (width >= 120rem) {
+  .btn-icon {
+    inline-size: 2.5rem;
+  }
+}

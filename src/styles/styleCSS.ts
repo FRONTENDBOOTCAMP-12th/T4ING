@@ -1,19 +1,6 @@
 import { css } from 'lit';
 
 export default css`
-  :root {
-    /* text color */
-    --base-font-color: var(--gray200);
-
-    /* rounded */
-    --round-xs: var(--size-1);
-
-    min-inline-size: 20rem;
-    background: var(--black);
-    font-family: 'Pretendard-Regular', sans-serif;
-    color: var(--base-font-color);
-  }
-
   /* 숨김 콘텐츠 */
   .sr-only {
     position: absolute;

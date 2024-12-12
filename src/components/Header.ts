@@ -1,7 +1,7 @@
-import { html, LitElement, CSSResultGroup } from 'lit';
+import { CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { taingElement } from './Taing';
 import buttonCSS from '../styles/buttonCSS';
+import { taingElement } from './Taing';
 
 @customElement('taing-header')
 export class Header extends taingElement {
@@ -12,6 +12,7 @@ export class Header extends taingElement {
   search() {
     this.isActiveSearch = !this.isActiveSearch;
   }
+
   render() {
     return html`
       <style>

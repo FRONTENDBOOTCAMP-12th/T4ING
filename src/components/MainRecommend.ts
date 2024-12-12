@@ -1,18 +1,10 @@
 import { LitElement, html, css, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import Swiper from 'swiper';
-import { ProgramList } from '../@types/type.d';
+// import { ProgramList } from '../@types/type.d';
 
 @customElement('main-recommend')
 class MainRecommend extends LitElement {
-  @property({ type: Object }) data: ProgramList = {
-    items: [],
-    page: 0,
-    perPage: 0,
-    totalItems: 0,
-    totalPages: 0,
-  };
-
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
 
   // Swiper 설정을 Lit 속성으로 관리

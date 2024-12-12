@@ -1,40 +1,35 @@
-export interface Product {
-  items: Item[];
-  page: number;
-  perPage: number;
-  totalItems: number;
-  totalPages: number;
-}
+// export interface ProgramList {
+//   items: Item[];
+//   page: number;
+//   perPage: number;
+//   totalItems: number;
+//   totalPages: number;
+// }
 
-export interface Item {
-  brand: string;
-  collectionId: string;
-  collectionName: string;
-  created: Date;
-  description: string;
-  discount: number;
-  id: string;
-  photo: string;
-  price: number;
-  updated: Date;
-  [key: string]: string;
-}
+// export interface Item {
+//   cast: string;
+//   category: string;
+//   collectionId: CollectionID;
+//   collectionName: CollectionName;
+//   created: Date;
+//   device: Device;
+//   genre: string;
+//   id: string;
+//   img: string;
+//   title: string;
+//   updated: Date;
+// }
 
-export interface Record {
-  avatar: string;
-  collectionId: string;
-  collectionName: string;
-  created: string;
-  email: string;
-  emailVisibility: boolean;
-  id: string;
-  name: string;
-  updated: string;
-  verified: boolean;
-}
+// export enum CollectionID {
+//   Pbc3198651770 = 'pbc_3198651770',
+// }
 
-export interface Auth {
-  isAuth: boolean;
-  token: string;
-  user: Record;
-}
+// export enum CollectionName {
+//   MainReccomend = 'main_reccomend',
+// }
+
+// export enum Device {
+//   Desktop = 'desktop',
+//   Mobile = 'mobile',
+//   Tablet = 'tablet',
+// }

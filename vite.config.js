@@ -6,6 +6,7 @@ export default defineConfig({
     outDir: 'docs',
     rollupOptions: {
       input: {
+        login: resolve(__dirname, 'src/pages/login/index.html'),
         main: resolve(__dirname, 'index.html'),
       },
       output: {

@@ -90,6 +90,8 @@ class MainRecommend extends LitElement {
     const newDevice = this.getDevice();
     if (this.device !== newDevice) {
       this.device = newDevice;
+
+      // 수정 필요 (데이터 계속 불러와짐)
       this.fetchData();
     }
   };

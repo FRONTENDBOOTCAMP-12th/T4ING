@@ -1,0 +1,27 @@
+.guide-wrap {
+  padding: 2rem;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    padding-block-end: 2rem;
+    font-size: 1.6rem;
+    color: #d3d3d3;
+
+    img {
+      inline-size: 108px;
+    }
+  }
+
+  .guide-title {
+    padding-block-end: 1rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #e93945;
+
+    & ~ .guide-title {
+      margin-block-start: 3rem;
+    }
+  }
+}

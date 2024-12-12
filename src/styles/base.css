@@ -17,4 +17,15 @@
   --red-2: #e93945;
   --dark-bg-1: #191919;
   --dark-bg-2: #212121;
+  /* size */
+  --size-1: 4px;
+  --size-2: 8px;
+  --size-3: 12px;
+  --size-4: 16px;
+  --size-5: 20px;
+  --size-6: 24px;
+  --size-7: 28px;
+  --size-8: 32px;
+  --size-9: 36px;
+  --size-10: 40px;
 }

@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  color: white;
+}
+.container {
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.banner {
+  background-image: url(/public/TAING.svg);
+  text-align: center;
+  padding: 50px 20px;
+
+  & h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  & p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  & button {
+    background-color: #e93945;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+}
+
+.section {
+  margin: 20px 0;
+
+  h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  .card {
+    display: inline-block;
+    width: calc(33%-20px);
+    margin: 10px;
+    text-align: center;
+
+    & img {
+      width: 100%;
+      border-radius: 8px;
+    }
+  }
+}
+
+.header {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}

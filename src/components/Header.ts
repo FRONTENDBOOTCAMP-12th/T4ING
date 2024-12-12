@@ -16,7 +16,7 @@ export class Header extends LitElement {
       <header id="header" class="header">
         <h1>
           <a href="/" title="메인">
-            <img src="/assets/logo/logo.svg" class="logo" alt="TAING" />
+            <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
           </a>
         </h1>
         <nav class="header__gnb">
@@ -34,19 +34,23 @@ export class Header extends LitElement {
             ? html`<button
                 type="button"
                 @click=${this.search}
-                class="btn-icon search"
+                class="btn-icon size-xs search"
               >
                 검색
               </button>`
             : html`<button
                 type="button"
                 @click=${this.search}
-                class="btn-icon close"
+                class="btn-icon size-xs close"
               >
                 닫기
               </button>`}
-          <a href="/" class="btn-icon header__user" aria-label="프로필 변경">
-            <img src="/assets/profile/profile_4.webp" alt="user name" />
+          <a
+            href="/"
+            class="btn-icon size-xs header__user"
+            aria-label="프로필 변경"
+          >
+            <img src="/assets/images/profile/profile_4.webp" alt="user name" />
           </a>
         </aside>
       </header>

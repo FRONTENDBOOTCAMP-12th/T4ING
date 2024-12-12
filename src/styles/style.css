@@ -11,6 +11,7 @@
 
   min-inline-size: 20rem;
   background: var(--black);
+  font-family: 'Pretendard-Regular', sans-serif;
   color: var(--base-font-color);
 }
 

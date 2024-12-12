@@ -3,8 +3,14 @@
 
 :root {
   background: var(--black);
-}
+  /* text */
+  --base-font-family: 'Pretendard-Regular';
+  --base-font-color: var(--gray200);
 
-#app {
-  background: transparent;
+  /* rounded */
+  --round-xs: var(--size-1);
+
+  min-inline-size: 20rem;
+  font-family: var(--base-font-family), sans-serif;
+  color: var(--base-font-color);
 }

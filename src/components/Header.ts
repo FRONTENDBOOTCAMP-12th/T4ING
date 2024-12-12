@@ -1,8 +1,12 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { taingElement } from './Taing';
+import buttonCSS from '../styles/buttonCSS';
 
 @customElement('taing-header')
-export class Header extends LitElement {
+export class Header extends taingElement {
+  static styles: CSSResultGroup = [super.styles, buttonCSS];
+
   @property() isActiveSearch = false;
 
   search() {
@@ -11,7 +15,7 @@ export class Header extends LitElement {
   render() {
     return html`
       <style>
-        @import url('/src/styles/style.css');
+        /* @import url('/src/styles/style.css'); */
       </style>
       <header id="header" class="header">
         <h1>

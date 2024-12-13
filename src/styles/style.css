@@ -1,9 +1,10 @@
 @import './reset.css';
+@import './fonts.css';
 @import './base.css';
 :root {
   background: var(--black);
   /* text */
-  --base-font-family: 'Pretendard-Regular';
+  --base-font-family: 'Pretendard';
   --base-font-color: var(--gray200);
 
   /* rounded */

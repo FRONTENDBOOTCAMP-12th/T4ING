@@ -14,40 +14,12 @@ export default css`
     border-width: 0;
   }
 
-  /* header */
-  .header {
-    display: flex;
-    align-items: center;
-    column-gap: var(--size-6);
-    position: relative;
-    block-size: 2.375rem;
-    padding: 0.625rem 1rem;
-
-    .header__gnb {
-      display: none;
-      margin-block-end: auto;
-
-      ul {
-        display: contents;
-      }
-    }
-
-    aside {
-      display: flex;
-      column-gap: var(--size-6);
-      margin-inline-start: auto;
-    }
-
-    .header__user {
-      border-radius: var(--round-xs);
-    }
+  .mobile-hidden {
+    display: none;
   }
   @media (width >= 48rem) {
-    .header {
-      .header__gnb {
-        display: contents;
-        font-size: 0.75rem;
-      }
+    .mobile-hidden {
+      display: block;
     }
   }
 

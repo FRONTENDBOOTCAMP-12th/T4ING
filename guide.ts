@@ -1,6 +1,7 @@
 import { CSSResultGroup, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { taingElement } from './src/components/Taing';
+import '/main.ts';
 import buttonCSS from './src/styles/buttonCSS';
 
 @customElement('guide-logo')
@@ -30,14 +31,17 @@ class GuideBadge extends taingElement {
 
   render() {
     return html`
-      <span class="badge type-circle restricted-18"><span class="sr-only">18세 이상 관람가</span></span>
-      <span class="badge type-circle restricted-19"><span class="sr-only">청소년 관람 불가</span></span>
-      <span class="badge taing-original"><span class="sr-only">TAING Original</span></span>
+      <span class="badge type-circle restricted-18"
+        ><span class="sr-only">18세 이상 관람가</span></span
+      >
+      <span class="badge type-circle restricted-19"
+        ><span class="sr-only">청소년 관람 불가</span></span
+      >
+      <span class="badge taing-original"
+        ><span class="sr-only">TAING Original</span></span
+      >
       <span class="badge type-txt red">Quick VOD</span>
       <span class="badge type-txt green">무료</span>
     `;
   }
 }
-
-export { Header } from './src/components/Header';
-

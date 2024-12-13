@@ -17,7 +17,7 @@
   --red-2: #e93945;
   --dark-bg-1: #191919;
   --dark-bg-2: #212121;
-  /* size */
+  /* Size */
   --size-1: 4px;
   --size-2: 8px;
   --size-3: 12px;
@@ -28,4 +28,11 @@
   --size-8: 32px;
   --size-9: 36px;
   --size-10: 40px;
+  /* Text size */
+  --text-size-s: 0.75rem;
+  --text-size-m: 1rem;
+  --text-size-l: 1.3125rem;
+  --text-size-xl: 1.75rem;
+  --text-size-2xl: 2.375rem;
+  --text-size-3xl: 3.125rem;
 }

@@ -1,5 +1,6 @@
 @import './reset.css';
 @import './base.css';
+
 :root {
   height: 100%;
   background: var(--black);

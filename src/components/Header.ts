@@ -1,7 +1,8 @@
-import { CSSResultGroup, html, css } from 'lit';
+import { html, css, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { taingElement } from './Taing';
 import buttonCSS from '../styles/buttonCSS';
+import './Search';
 
 @customElement('taing-header')
 class Header extends taingElement {
@@ -19,6 +20,19 @@ class Header extends taingElement {
         position: relative;
         block-size: var(--header-height);
         padding: var(--header-padding);
+
+        @media (min-width: 48rem) {
+          --header-padding: 1rem 2.5rem;
+          --header-height: 3.5rem;
+          --column-gap: 1.75rem;
+          --gnb-font-size: var(--text-size-s);
+        }
+        @media (min-width: 120rem) {
+          --header-padding: 1.5625rem 70px;
+          --header-height: 6.25rem;
+          --column-gap: 3.25rem;
+          --gnb-font-size: var(--text-size-l);
+        }
 
         .header__gnb {
           display: none;
@@ -38,13 +52,8 @@ class Header extends taingElement {
         .header__user {
           border-radius: var(--round-xs);
         }
-      }
-      @media (width >= 48rem) {
-        .header {
-          --header-padding: 1rem 2.5rem;
-          --header-height: 3.5rem;
-          --column-gap: 1.75rem;
-          --gnb-font-size: var(--text-size-s);
+
+        @media (min-width: 48rem) {
           .header__gnb {
             display: contents;
             font-size: var(--gnb-font-size);
@@ -55,14 +64,7 @@ class Header extends taingElement {
         aside {
           column-gap: var(--size-6);
         }
-      }
-      @media (width >= 120rem) {
-        .header {
-          --header-padding: 1.5625rem 70px;
-          --header-height: 6.25rem;
-          --column-gap: 3.25rem;
-          --gnb-font-size: var(--text-size-l);
-
+        @media (min-width: 120rem) {
           aside {
             column-gap: var(--size-10);
           }
@@ -71,7 +73,7 @@ class Header extends taingElement {
     `,
   ];
 
-  @property() isActiveSearch = false;
+  @property({ type: Boolean }) isActiveSearch = true;
 
   search() {
     this.isActiveSearch = !this.isActiveSearch;
@@ -119,6 +121,7 @@ class Header extends taingElement {
             <img src="/assets/images/profile/profile_4.webp" alt="user name" />
           </a>
         </aside>
+        <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
       </header>
     `;
   }

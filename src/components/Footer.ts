@@ -12,6 +12,13 @@ class Footer extends taingElement {
         --footer-padding: 3.25rem 1rem 5.125rem;
         margin-top: auto;
         padding: var(--footer-padding);
+
+        @media (min-width: 48rem) {
+          --footer-padding: 4.375rem 2.5rem 6.25rem;
+        }
+        @media (min-width: 120rem) {
+          --footer-padding: 8.75rem 4.25rem 10.625rem;
+        }
       }
 
       .footer {
@@ -40,8 +47,9 @@ class Footer extends taingElement {
             font-size: inherit;
             line-height: inherit;
             color: var(--gray200);
-            appearance: none;
             vertical-align: top;
+            appearance: none;
+            cursor: pointer;
 
             &:after {
               margin-inline-start: var(--size-4);
@@ -54,14 +62,8 @@ class Footer extends taingElement {
           padding-block: var(--size-2);
           border-block-start: 1px solid var(--dark-bg-2);
         }
-      }
 
-      @media (width >= 48rem) {
-        :host {
-          --footer-padding: 4.375rem 2.5rem 6.25rem;
-        }
-
-        .footer {
+        @media (min-width: 48rem) {
           .notice {
             padding-block-end: var(--size-4);
           }
@@ -76,14 +78,7 @@ class Footer extends taingElement {
             padding-block: var(--size-4) var(--size-3);
           }
         }
-      }
-
-      @media (width >= 120rem) {
-        :host {
-          --footer-padding: 8.75rem 4.25rem 10.625rem;
-        }
-
-        .footer {
+        @media (min-width: 120rem) {
           font-size: var(--text-size-l);
           line-height: 2.125rem;
 
@@ -97,30 +92,12 @@ class Footer extends taingElement {
   ];
 
   corpMenu = [
-    {
-      corpName: '고객센터',
-      url: '/',
-    },
-    {
-      corpName: '이용약관',
-      url: '/',
-    },
-    {
-      corpName: '개인정보처리방침',
-      url: '/',
-    },
-    {
-      corpName: '청소년',
-      url: '/',
-    },
-    {
-      corpName: '이벤트',
-      url: '/',
-    },
-    {
-      corpName: '인재채용',
-      url: '/',
-    },
+    { corpName: '고객센터', url: '/' },
+    { corpName: '이용약관', url: '/' },
+    { corpName: '개인정보처리방침', url: '/' },
+    { corpName: '청소년', url: '/' },
+    { corpName: '이벤트', url: '/' },
+    { corpName: '인재채용', url: '/' },
   ];
 
   render() {
@@ -200,7 +177,7 @@ class Footer extends taingElement {
         </address>
         <sns-group></sns-group>
         <span class="copyright"
-          >Copyright &copy; 주식회사 티빙 All right reserved.</span
+          >Copyright &copy; 주식회사 타잉 All right reserved.</span
         >
       </footer>
     `;

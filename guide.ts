@@ -14,7 +14,7 @@ class GuideLogo extends taingElement {
 }
 
 @customElement('guide-buttons')
-class GuideElement extends taingElement {
+class GuideButton extends taingElement {
   static styles: CSSResultGroup = [super.styles, buttonCSS];
 
   render() {

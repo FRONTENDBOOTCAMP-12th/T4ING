@@ -1,9 +1,9 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 
 @customElement('sns-group')
-export class Sns extends taingElement {
+export class Sns extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`

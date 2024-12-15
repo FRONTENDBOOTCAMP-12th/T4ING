@@ -1,7 +1,7 @@
 import { LitElement, css, CSSResultGroup, unsafeCSS } from 'lit';
 import resetCSS from '@/styles/reset.css?inline';
 
-export class taingElement extends LitElement {
+export class TaingElement extends LitElement {
   static styles: CSSResultGroup = [
     unsafeCSS(resetCSS),
     css`
@@ -40,4 +40,16 @@ export class taingElement extends LitElement {
       }
     `,
   ];
+
+  get getDevice() {
+    if (window.matchMedia('(min-width: 1920px)').matches) {
+      return 'desktop';
+    } else if (
+      window.matchMedia('(min-width: 768px) and (max-width: 1920px)').matches
+    ) {
+      return 'tablet';
+    } else {
+      return 'mobile';
+    }
+  }
 }

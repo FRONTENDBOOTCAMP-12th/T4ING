@@ -1,10 +1,10 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 import { searchCSS } from '../styles/searchCSS';
 
 @customElement('taing-search')
-class Search extends taingElement {
+class Search extends TaingElement {
   static styles: CSSResultGroup = [super.styles, searchCSS['taing-search']];
 
   handleSubmit(e: Event) {

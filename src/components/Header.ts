@@ -1,15 +1,19 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 import buttonCSS from '../styles/buttonCSS';
 import './Search';
+import './SvgIcon';
 
 @customElement('taing-header')
-class Header extends taingElement {
+class Header extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     buttonCSS,
     css`
+      :host {
+        position: relative;
+      }
       .header {
         --header-padding: 0.625rem 1rem;
         --header-height: 2.375rem;
@@ -17,7 +21,6 @@ class Header extends taingElement {
         display: flex;
         align-items: center;
         column-gap: var(--column-gap);
-        position: relative;
         block-size: var(--header-height);
         padding: var(--header-padding);
 
@@ -37,10 +40,6 @@ class Header extends taingElement {
         .header__gnb {
           display: none;
           margin-block-end: auto;
-
-          ul {
-            display: contents;
-          }
         }
 
         aside {
@@ -73,7 +72,14 @@ class Header extends taingElement {
     `,
   ];
 
-  @property({ type: Boolean }) isActiveSearch = true;
+  @property({ type: Boolean }) isActiveSearch = false;
+
+  navMenu = [
+    { navName: '실시간', url: '/' },
+    { navName: 'TV프로그램', url: '/', className: 'tv' },
+    { navName: '영화', url: '/' },
+    { navName: 'Paramount+', url: '/', className: 'paramount' },
+  ];
 
   search() {
     this.isActiveSearch = !this.isActiveSearch;
@@ -88,30 +94,33 @@ class Header extends taingElement {
           </a>
         </h1>
         <nav class="header__gnb">
-          <ul>
-            <li><a href="/">실시간</a></li>
-            <li><a href="/" class="header__gnb-item tv">TV프로그램</a></li>
-            <li><a href="/" class="header__gnb-item">영화</a></li>
-            <li>
-              <a href="/" class="header__gnb-item paramount">Paramount+</a>
-            </li>
-          </ul>
+          ${this.navMenu.map(
+            ({ navName, url, className }) =>
+              html`<a href=${url} class="header__gnb-item ${className}"
+                >${navName}</a
+              >`
+          )}
         </nav>
         <aside>
           ${!this.isActiveSearch
             ? html`<button
                 type="button"
                 @click=${this.search}
-                class="btn-icon size-xs search"
+                class="btn-icon size-xs"
               >
-                검색
+                <svg-icon
+                  svg-id="search"
+                  .size=${[[18], [24], [40]]}
+                ></svg-icon>
+                <span class="sr-only">검색</span>
               </button>`
             : html`<button
                 type="button"
                 @click=${this.search}
-                class="btn-icon size-xs close"
+                class="btn-icon size-xs"
               >
-                닫기
+                <svg-icon svg-id="close" .size=${[[22], [28], [50]]}></svg-icon>
+                <span class="sr-only">닫기</span>
               </button>`}
           <a
             href="/"
@@ -121,8 +130,8 @@ class Header extends taingElement {
             <img src="/assets/images/profile/profile_4.webp" alt="user name" />
           </a>
         </aside>
-        <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
       </header>
+      <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
     `;
   }
 }

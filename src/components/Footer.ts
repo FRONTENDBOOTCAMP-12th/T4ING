@@ -1,10 +1,10 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 import './Sns';
 
 @customElement('taing-footer')
-class Footer extends taingElement {
+class Footer extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`
@@ -92,7 +92,7 @@ class Footer extends taingElement {
   ];
 
   corpMenu = [
-    { corpName: '고객센터', url: '/' },
+    { corpName: '고객센터', url: '/guide.html' },
     { corpName: '이용약관', url: '/' },
     { corpName: '개인정보처리방침', url: '/' },
     { corpName: '청소년', url: '/' },

@@ -4,12 +4,14 @@ export default css`
   .btn-icon {
     display: inline-block;
     overflow: hidden;
+    position: relative;
+    padding: 0;
     border: none;
     background-color: initial;
     background-position: 50%;
     background-size: cover;
     background-repeat: no-repeat;
-    font-size: 0;
+    line-height: 0;
     appearance: none;
     cursor: pointer;
     aspect-ratio: 1/1;
@@ -17,13 +19,6 @@ export default css`
 
     &.size-xs {
       inline-size: 1.125rem;
-    }
-
-    &.search {
-      background-image: url(/assets/images/icon/search.svg);
-    }
-    &.close {
-      background-image: url(/assets/images/icon/close.svg);
     }
 
     @media (min-width: 48rem) {

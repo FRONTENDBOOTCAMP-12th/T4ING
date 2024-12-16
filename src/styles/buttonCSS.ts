@@ -4,12 +4,14 @@ export default css`
   .btn-icon {
     display: inline-block;
     overflow: hidden;
+    position: relative;
+    padding: 0;
     border: none;
     background-color: initial;
     background-position: 50%;
     background-size: cover;
     background-repeat: no-repeat;
-    font-size: 0;
+    line-height: 0;
     appearance: none;
     cursor: pointer;
     aspect-ratio: 1/1;
@@ -19,23 +21,12 @@ export default css`
       inline-size: 1.125rem;
     }
 
-    &.search {
-      background-image: url(/assets/images/icon/search.svg);
-    }
-    &.close {
-      background-image: url(/assets/images/icon/close.svg);
-    }
-  }
-  @media (width >= 48rem) {
-    .btn-icon {
+    @media (min-width: 48rem) {
       &.size-xs {
         inline-size: 1.5rem;
       }
     }
-  }
-
-  @media (width >= 120rem) {
-    .btn-icon {
+    @media (min-width: 120rem) {
       &.size-xs {
         inline-size: 2.5rem;
       }
@@ -89,7 +80,7 @@ export default css`
     }
   }
 
-  @media (width >= 48rem) {
+  @media (min-width: 48rem) {
     .badge {
       &.type-circle {
         inline-size: 1rem;
@@ -107,10 +98,8 @@ export default css`
         background-image: url(/assets/images/icon/taing_original_m.png);
       }
     }
-  }
 
-  @media (width >= 120rem) {
-    .badge {
+    @media (min-width: 120rem) {
       &.type-txt {
         --text-size: 1rem;
         --round: var(--round-xs);

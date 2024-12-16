@@ -66,7 +66,6 @@ class svgIcon extends TaingElement {
           href="/assets/images/icon/sprite/_sprite.svg#${this.svgId}_${this
             .svgDevice}"
         />
-        <use href="/assets/images/icon/sprite/_sprite.svg#${this.svgId}" />
       </svg>
     `;
   }

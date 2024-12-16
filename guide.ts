@@ -29,11 +29,19 @@ class GuideButton extends TaingElement {
   render() {
     return html`
       <button type="button" class="btn-icon size-xs">
-        <svg-icon svg-id="search" .size=${[[18], [24], [40]]}></svg-icon>
+        <svg-icon
+          svg-id="search"
+          .size=${[[18], [24], [40]]}
+          centered="true"
+        ></svg-icon>
         <span class="sr-only">검색</span>
       </button>
       <button type="button" class="btn-icon size-xs">
-        <svg-icon svg-id="close" .size=${[[22], [28], [50]]}></svg-icon>
+        <svg-icon
+          svg-id="close"
+          .size=${[[22], [28], [50]]}
+          centered="true"
+        ></svg-icon>
         <span class="sr-only">닫기</span>
       </button>
     `;

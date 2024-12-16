@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, css } from 'lit';
+import { CSSResultGroup, html, css, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 
@@ -8,14 +8,19 @@ class svgIcon extends TaingElement {
     super.styles,
     css`
       :host {
-        position: absolute;
-        inset-inline-start: 50%;
-        inset-block-start: 50%;
-        translate: -50% -50%;
+        position: relative;
+        vertical-align: middle;
       }
 
       svg {
         transition: 0.3s;
+
+        &.center {
+          position: absolute;
+          inset-inline-start: 50%;
+          inset-block-start: 50%;
+          translate: -50% -50%;
+        }
       }
     `,
   ];
@@ -26,12 +31,14 @@ class svgIcon extends TaingElement {
 
   svgId: string | null = '';
   size: number[][] = [];
+  centered: boolean = false;
   svgDevice: string = '';
 
   connectedCallback() {
     super.connectedCallback();
 
     this.svgId = this.getAttribute('svg-id');
+    this.centered = Boolean(this.getAttribute('centered'));
     this.device = this.getDevice;
     this.setIconSize();
 
@@ -61,6 +68,7 @@ class svgIcon extends TaingElement {
         width=${this.width}
         height=${this.height}
         viewBox="0 0 ${this.width} ${this.height}"
+        class=${this.centered ? 'center' : nothing}
       >
         <use
           href="/assets/images/icon/sprite/_sprite.svg#${this.svgId}_${this

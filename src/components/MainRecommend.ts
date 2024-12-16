@@ -1,29 +1,28 @@
 import { LitElement, html, css, CSSResultGroup } from 'lit';
+import { taingElement } from './Taing';
 import { customElement, property } from 'lit/decorators.js';
 import Swiper from 'swiper';
+import { MainData } from '../@types/type';
+import { getRecommendImageURL } from '../api/getMainPageURL';
 // import { ProgramList } from '../@types/type.d';
 
 @customElement('main-recommend')
-class MainRecommend extends LitElement {
-  @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
-
-  // Swiper 설정을 Lit 속성으로 관리
-  @property({ type: Object })
-  swiperConfig = {
-    slidesPerView: 3,
-    slidesPerGroup: 3,
-    spaceBetween: 8,
-    loop: true,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      clickable: true,
-    },
+class MainRecommend extends taingElement {
+  @property({ type: Object }) data: MainData = {
+    items: [],
+    page: 0,
+    perPage: 0,
+    totalItems: 0,
+    totalPages: 0,
   };
+  @property({ type: Array }) slides: Array<{
+    img: string;
+    title: string;
+  }> = [];
+  @property({ type: String }) device = this.getDevice();
 
   static styles: CSSResultGroup = [
+    super.styles,
     css`
       .container {
         background-color: transparent;
@@ -31,10 +30,9 @@ class MainRecommend extends LitElement {
         // max-width: 767px;
         // min-height: 171px;
         width: 100%;
-        height: 100%;
+        height: auto;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
 
         padding-inline: 8px;
         overflow: hidden;
@@ -52,49 +50,37 @@ class MainRecommend extends LitElement {
         flex-direction: row;
         justify-content: center;
         position: relative;
-        height: 100%;
         width: 100%;
+        height: 100%;
         margin-block: 8px;
         background-color: transparent;
+      }
+
+      ::part(wrapper) {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
 
         & swiper-slide {
           display: flex;
           justify-content: center;
           align-items: center;
           width: 100%;
-          font-size: 20px;
-          color: var(--white);
-        }
-      }
+          height: auto;
+          padding: 0;
 
-      img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
+          & img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            object-fit: cover;
+          }
+        }
       }
     `,
   ];
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.fetchData();
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('resize', this.handleResize);
-  }
-
-  handleResize = () => {
-    const newDevice = this.getDevice();
-    if (this.device !== newDevice) {
-      this.device = newDevice;
-
-      // 수정 필요 (데이터 계속 불러와짐)
-      this.fetchData();
-    }
-  };
 
   getDevice() {
     const width = window.innerWidth;
@@ -107,86 +93,61 @@ class MainRecommend extends LitElement {
     }
   }
 
-  device = this.getDevice();
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.handleResize);
 
-  updated() {
-    if (this.device !== this.getDevice()) {
-      this.device = this.getDevice();
-      // this.fetchData();
-    }
+    this.fetchData();
   }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize = () => {
+    const newDevice = this.getDevice();
+    if (this.device !== newDevice) {
+      this.device = newDevice;
+      console.log('rec-device-changed:', this.device);
+    }
+  };
 
   async fetchData() {
     try {
-      const device = this.getDevice();
-
-      console.log('device:', device);
-
       const response = await fetch(
         `${import.meta.env.VITE_PB_API}/collections/main_recommend/records`
       );
-
-      const data = (await response.json()).items;
-
-      this.slides = data.map((item: any) => ({
-        title: item.title || 'Unknown',
-        img: `${import.meta.env.VITE_PB_API}/files/main_recommend/${item.id}/${
-          item.img || 'default.jpg'
-        }`,
-      }));
+      const data = await response.json();
+      this.data = data;
+      console.log('rec-device :', this.device);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching recommend data:', error);
     }
   }
-
-  swiperInstance: Swiper | null = null;
-
-  // Swiper 엘리먼트를 가져오기 위한 getter
-  get swiperEl(): HTMLElement | null {
-    return this.shadowRoot?.querySelector('swiper-container') || null;
-  }
-
-  // initBanner() {
-  //   // DOM이 처음 업데이트된 후에 Swiper 초기화
-  //   const banner = this.shadowRoot?.querySelector('swiper-container');
-  //   if (banner) {
-  //     // Swiper 옵션 설정
-  //     const swiperParams = {
-  //       slidesPerView: 3,
-  //       autoplay: {
-  //         delay: 3000,
-  //         disableOnInteraction: false,
-  //       },
-  //       virtual: {
-  //         enabled: true,
-  //       },
-  //       breakpoints: {},
-  //     };
-
-  //     this.swiperInstance = new Swiper(banner, swiperParams);
-  //   }
-  // }
-
-  // firstUpdated() {
-  //   this.initBanner();
-  // }
 
   render() {
     return html`
       <div class="container">
         <h1>티빙에서 꼭 봐야하는 콘텐츠</h1>
         <swiper-container
-          .slidesPerView=${this.swiperConfig.slidesPerView}
-          .slidesPerGroup=${this.swiperConfig.slidesPerGroup}
-          .spaceBetween=${this.swiperConfig.spaceBetween}
+          .slidesPerView=${3}
+          .slidesPerGroup=${3}
+          .spaceBetween=${8}
         >
-          ${this.slides.map(
-            (item: any) => html`
-              <swiper-slide>
-                <img src="${item.img}" alt="${item.title}" />
-              </swiper-slide>
-            `
-          )}
+          ${this.data.items
+            .filter((item) => item.device === this.device)
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(
+              (slide) => html`
+                <swiper-slide>
+                  <img
+                    src="${getRecommendImageURL(slide)}"
+                    alt="${slide.title}"
+                  />
+                </swiper-slide>
+              `
+            )}
         </swiper-container>
       </div>
     `;

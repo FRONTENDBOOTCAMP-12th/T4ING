@@ -2,10 +2,10 @@ import { html, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import loginCSS from '../styles/loginCSS';
 import Swal from 'sweetalert2';
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 
 @customElement('login-element')
-class Login extends taingElement {
+class Login extends TaingElement {
   static styles: CSSResultGroup = [super.styles, loginCSS];
 
   get idInput() {

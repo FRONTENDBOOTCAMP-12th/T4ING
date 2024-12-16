@@ -16,7 +16,7 @@ class Login extends taingElement {
     return this.renderRoot.querySelector<HTMLInputElement>('#pwField')!;
   }
 
-  get rememberMeInput() {
+  get autoLoginInput() {
     return this.renderRoot.querySelector<HTMLInputElement>('#loginState')!;
   }
 
@@ -44,7 +44,12 @@ class Login extends taingElement {
         throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.');
       }
 
-      sessionStorage.setItem('authToken', result.token);
+      const token = result.token;
+      if (this.autoLoginInput.checked) {
+        localStorage.setItem('authToken', token);
+      } else {
+        sessionStorage.setItem('authToken', token);
+      }
 
       Swal.fire({
         title: '로그인 성공!',
@@ -53,7 +58,7 @@ class Login extends taingElement {
         confirmButtonText: '닫기',
       }).then(() => {
         setTimeout(() => {
-          location.href = '/index.html';
+          location.href = '/src/pages/main/';
         }, 300);
       });
     } catch {
@@ -65,8 +70,6 @@ class Login extends taingElement {
       }).then(() => {
         this.idInput.value = '';
         this.pwInput.value = '';
-
-        // this.idInput.focus()
       });
     }
   }

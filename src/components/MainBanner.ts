@@ -1,3 +1,4 @@
+import { AutoplayOptions } from './../../node_modules/swiper/types/modules/autoplay.d';
 import { LitElement, html, css, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 // import reset from '../styles/reset.css';
@@ -19,8 +20,8 @@ class MainBanner extends taingElement {
         position: relative;
         background-color: transparent;
         min-width: 320px;
-        width: 100%;
-        height: auto;
+        inline-size: 100%;
+        block-size: auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -30,14 +31,14 @@ class MainBanner extends taingElement {
       }
 
       swiper-container {
-        height: 100%;
-        width: 100%;
+        block-size: 100%;
+        inline-size: 100%;
         background-color: var(--gray800);
       }
 
       img {
-        width: 100%;
-        height: auto;
+        inline-size: 100%;
+        block-size: auto;
         padding: 0;
         object-fit: cover;
       }
@@ -47,19 +48,22 @@ class MainBanner extends taingElement {
       }
 
       ::part(pagination) {
-        width: fit-content;
+        inline-size: fit-content;
         display: flex;
         justify-content: flex-start;
-        left: 4rem;
+        bottom: 1.5rem;
+        left: 3.5rem;
+        gap: 6px;
 
-        @media (min-width: 320px) {
-          gap: 6px;
-        }
         @media (min-width: 768px) {
           gap: 8px;
+          bottom: 2.5rem;
+          left: 5.5rem;
         }
         @media (min-width: 1920px) {
           gap: 12px;
+          bottom: 3.5rem;
+          left: 7rem;
         }
       }
 
@@ -68,18 +72,16 @@ class MainBanner extends taingElement {
           no-repeat center center;
         background-size: contain;
         margin: 0;
+        inline-size: 6px;
+        block-size: 6px;
 
-        @media (min-width: 320px) {
-          width: 6px;
-          height: 6px;
-        }
         @media (min-width: 768px) {
-          width: 8px;
-          height: 8px;
+          inline-size: 8px;
+          block-size: 8px;
         }
         @media (min-width: 1920px) {
-          width: 12px;
-          height: 12px;
+          inline-size: 12px;
+          block-size: 12px;
         }
       }
 
@@ -88,23 +90,24 @@ class MainBanner extends taingElement {
           no-repeat center center;
         background-size: contain;
         margin: 0;
-        @media (min-width: 320px) {
-          width: 6px;
-          height: 6px;
-        }
+
+        inline-size: 6px;
+        block-size: 6px;
+
         @media (min-width: 768px) {
-          width: 8px;
-          height: 8px;
+          inline-size: 8px;
+          block-size: 8px;
         }
         @media (min-width: 1920px) {
-          width: 12px;
-          height: 12px;
+          inline-size: 12px;
+          block-size: 12px;
         }
       }
       .play-pause-btn {
         position: absolute;
-        bottom: 0;
+        bottom: 1.8rem;
         left: 1.75rem;
+        block-size: 6px;
 
         font-size: 20px;
         background: none;
@@ -112,6 +115,29 @@ class MainBanner extends taingElement {
         z-index: 999;
         color: var(--white);
         cursor: pointer;
+
+        @media (min-width: 768px) {
+          bottom: 2.9rem;
+          left: 3.5rem;
+        }
+        @media (min-width: 1920px) {
+          bottom: 4.3rem;
+          left: 4rem;
+        }
+
+        & .icon-pause-play {
+          inline-size: 11px;
+          block-size: 11px;
+
+          @media (min-width: 768px) {
+            inline-size: 15px;
+            block-size: 15px;
+          }
+          @media (min-width: 1920px) {
+            inline-size: 25px;
+            block-size: 25px;
+          }
+        }
       }
     `,
   ];
@@ -129,7 +155,6 @@ class MainBanner extends taingElement {
   }> = [];
   @property({ type: String }) device = this.getDevice();
   swiperInstance: Swiper | null = null;
-  paginationInstance: HTMLElement | null = null;
 
   getDevice() {
     const width = window.innerWidth;
@@ -180,6 +205,7 @@ class MainBanner extends taingElement {
   get swiperContainer() {
     return this.renderRoot.querySelector<HTMLElement>('swiper-container');
   }
+
   get swiperPagination() {
     const swiperContainer = this.swiperContainer;
     return swiperContainer
@@ -188,25 +214,40 @@ class MainBanner extends taingElement {
   }
 
   @property({ type: Boolean }) isPlaying = true;
-  @property({ type: HTMLElement }) pausePlayButton = this.getPausePlayButton();
 
-  getPausePlayButton() {
-    const pausePlayButton = this.querySelector('.play-pause-btn');
-    return pausePlayButton as HTMLButtonElement;
+  get pausePlayButton() {
+    return this.renderRoot.querySelector('.play-pause-btn');
   }
 
   togglePlayPause() {
-    console.log('Before toggle:', this.isPlaying);
-    console.log(this.pausePlayButton);
+    const button = this.pausePlayButton;
+    if (!this.swiperContainer || !button) return;
+
+    const swiperContainer = this.swiperContainer as any; // swiper-container를 any로 캐스팅
+    const swiperInstance = swiperContainer.swiper; // swiper 인스턴스를 가져오기
+
+    if (this.isPlaying) {
+      this.isPlaying = !this.isPlaying;
+      button.classList.toggle('pause');
+      swiperInstance.autoplay.stop();
+    } else {
+      this.isPlaying = !this.isPlaying;
+      button.classList.toggle('pause');
+      swiperInstance.autoplay.start();
+    }
   }
 
   render() {
     return html`
       <div class="main-banner-container">
         <swiper-container
+          .navigation="${{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}"
           .autoplay="${{
-            delay: 3000,
-            disableOnInteraction: false,
+            delay: 2000,
+            disablezOnInteraction: false,
           }}"
           .loop="${false}"
           .pagination="${{
@@ -224,11 +265,19 @@ class MainBanner extends taingElement {
             )}
         </swiper-container>
         <button class="play-pause-btn" @click="${this.togglePlayPause}">
-          ❤️
+          ${this.isPlaying
+            ? html`<img
+                class="icon-pause-play"
+                src="/assets/images/icon/pause_banner.svg"
+                alt="play"
+              />`
+            : html`<img
+                class="icon-pause-play"
+                src="/assets/images/icon/play_banner.svg"
+                alt="pause"
+              />`}
         </button>
       </div>
     `;
   }
 }
-
-export default MainBanner;

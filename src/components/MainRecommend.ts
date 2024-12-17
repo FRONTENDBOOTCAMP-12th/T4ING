@@ -34,10 +34,17 @@ class MainRecommend extends taingElement {
         display: flex;
         flex-direction: column;
 
-        padding-inline: 8px;
+        padding-left: 8px;
         overflow: hidden;
         align-items: start;
         color: var(--white);
+
+        @media (min-width: 768px) {
+          padding-left: 40px;
+        }
+        @media (min-width: 1920px) {
+          padding-left: 70px;
+        }
 
         & h1 {
           font-size: 20px;
@@ -62,21 +69,22 @@ class MainRecommend extends taingElement {
         justify-content: flex-start;
         align-items: center;
         width: 100%;
+      }
 
-        & swiper-slide {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+      swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+        padding: 0;
+
+        & img {
           width: 100%;
           height: auto;
-          padding: 0;
-
-          & img {
-            width: 100%;
-            height: auto;
-            max-width: 100%;
-            object-fit: cover;
-          }
+          max-width: 100%;
+          object-fit: cover;
+          border-radius: 8px;
         }
       }
     `,
@@ -110,6 +118,7 @@ class MainRecommend extends taingElement {
     if (this.device !== newDevice) {
       this.device = newDevice;
       console.log('rec-device-changed:', this.device);
+      console.log();
     }
   };
 
@@ -131,7 +140,11 @@ class MainRecommend extends taingElement {
       <div class="container">
         <h1>티빙에서 꼭 봐야하는 콘텐츠</h1>
         <swiper-container
-          .slidesPerView=${3}
+          .slidesPerView=${this.device === 'desktop'
+            ? 7.1
+            : this.device === 'tablet'
+              ? 5.1
+              : 3.1}
           .slidesPerGroup=${3}
           .spaceBetween=${8}
         >

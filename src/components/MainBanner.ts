@@ -172,7 +172,6 @@ class MainBanner extends taingElement {
       console.log('banner-device :', this.device);
       console.log('스와이퍼 컨테이너', this.swiperContainer);
       console.log('페이지네이션', this.swiperPagination);
-      this.addPlayPauseButton();
     } catch (error) {
       console.error('Error fetching banner data:', error);
     }
@@ -189,37 +188,16 @@ class MainBanner extends taingElement {
   }
 
   @property({ type: Boolean }) isPlaying = true;
+  @property({ type: HTMLElement }) pausePlayButton = this.getPausePlayButton();
 
-  togglePlayPause() {
-    const button = this.querySelector('.play-pause-btn');
-    console.log(this.isPlaying);
-    button?.classList.remove('paused', 'playing');
-    if (this.swiperInstance) {
-      if (!this.isPlaying) {
-        this.isPlaying = !this.isPlaying;
-        this.swiperInstance.autoplay.stop();
-        button?.classList.add('paused');
-
-        console.log('Autoplay stopped');
-      } else {
-        this.isPlaying = !this.isPlaying;
-        this.swiperInstance.autoplay.start();
-        button?.classList.add('playing');
-
-        console.log('Autoplay started');
-      }
-    }
+  getPausePlayButton() {
+    const pausePlayButton = this.querySelector('.play-pause-btn');
+    return pausePlayButton as HTMLButtonElement;
   }
 
-  addPlayPauseButton() {
-    // 버튼 클릭 이벤트 추가
-    const playPauseButton = this.querySelector('.play-pause-btn');
-    if (playPauseButton) {
-      playPauseButton.addEventListener(
-        'click',
-        this.togglePlayPause.bind(this)
-      );
-    }
+  togglePlayPause() {
+    console.log('Before toggle:', this.isPlaying);
+    console.log(this.pausePlayButton);
   }
 
   render() {

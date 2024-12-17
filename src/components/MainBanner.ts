@@ -16,6 +16,7 @@ class MainBanner extends taingElement {
     super.styles,
     css`
       .main-banner-container {
+        position: relative;
         background-color: transparent;
         min-width: 320px;
         width: 100%;
@@ -34,17 +35,6 @@ class MainBanner extends taingElement {
         background-color: var(--gray800);
       }
 
-      ::part(pagination) {
-        width: fit-content;
-        display: flex;
-        justify-content: flex-start;
-        left: 1.5rem;
-      }
-
-      ::part(pagination-bullet) {
-        color: var(--white);
-      }
-
       img {
         width: 100%;
         height: auto;
@@ -52,11 +42,15 @@ class MainBanner extends taingElement {
         object-fit: cover;
       }
 
+      .swiper .swiper-wrapper ::part(pagination) {
+        position: absolute;
+      }
+
       ::part(pagination) {
+        width: fit-content;
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
+        left: 4rem;
 
         @media (min-width: 320px) {
           gap: 6px;
@@ -68,6 +62,7 @@ class MainBanner extends taingElement {
           gap: 12px;
         }
       }
+
       ::part(bullet) {
         background: url('/assets/images/icon/swiper_pagination_bullet.svg')
           no-repeat center center;
@@ -107,9 +102,14 @@ class MainBanner extends taingElement {
         }
       }
       .play-pause-btn {
+        position: absolute;
+        bottom: 0;
+        left: 1.75rem;
+
         font-size: 20px;
         background: none;
         border: none;
+        z-index: 999;
         color: var(--white);
         cursor: pointer;
       }
@@ -170,10 +170,9 @@ class MainBanner extends taingElement {
       const data = await response.json();
       this.data = data;
       console.log('banner-device :', this.device);
-
-      this.addPlayPauseButton();
       console.log('스와이퍼 컨테이너', this.swiperContainer);
       console.log('페이지네이션', this.swiperPagination);
+      this.addPlayPauseButton();
     } catch (error) {
       console.error('Error fetching banner data:', error);
     }
@@ -189,53 +188,53 @@ class MainBanner extends taingElement {
       : null;
   }
 
-  // updated(changedProperties: Map<string | number | symbol, unknown>) {
-  //   super.updated(changedProperties);
+  @property({ type: Boolean }) isPlaying = true;
 
-  //   // swiper-container가 렌더링된 후에 쿼리 셀렉터를 사용
-  //   const swiperContainer = this.shadowRoot?.querySelector('swiper-container');
-  //   if (swiperContainer) {
-  //     // swiper-container 내부에 접근하여 swiperInstance 설정
-  //     console.log('swiper-container found in updated lifecycle');
-  //     this.swiperInstance = swiperContainer.swiper;
+  togglePlayPause() {
+    const button = this.querySelector('.play-pause-btn');
+    console.log(this.isPlaying);
+    button?.classList.remove('paused', 'playing');
+    if (this.swiperInstance) {
+      if (!this.isPlaying) {
+        this.isPlaying = !this.isPlaying;
+        this.swiperInstance.autoplay.stop();
+        button?.classList.add('paused');
 
-  //     const paginationElement =
-  //       swiperContainer.shadowRoot?.querySelector('.swiper-pagination');
-  //     this.paginationInstance = paginationElement as HTMLElement;
+        console.log('Autoplay stopped');
+      } else {
+        this.isPlaying = !this.isPlaying;
+        this.swiperInstance.autoplay.start();
+        button?.classList.add('playing');
 
-  //     console.log('swiperInstance:', this.swiperInstance);
-  //     // 버튼 추가
-  //     this.addPlayPauseButton();
-  //   }
-  // }
-
-  addPlayPauseButton() {
-    if (this.swiperPagination) {
-      console.log('페이지네이션:', this.swiperPagination);
-      const button = document.createElement('button');
-      button.className = 'play-pause-btn';
-      button.innerHTML = '▶️ / ❚❚';
-      button.addEventListener('click', () => this.togglePlayPause());
-      this.swiperPagination.insertAdjacentHTML('beforeend', button.outerHTML);
+        console.log('Autoplay started');
+      }
     }
   }
 
-  togglePlayPause() {
-    if (this.swiperInstance) {
-      if (this.swiperInstance.autoplay.running) {
-        this.swiperInstance.autoplay.stop();
-        console.log('Autoplay stopped');
-      } else {
-        this.swiperInstance.autoplay.start();
-        console.log('Autoplay started');
-      }
+  addPlayPauseButton() {
+    // 버튼 클릭 이벤트 추가
+    const playPauseButton = this.querySelector('.play-pause-btn');
+    if (playPauseButton) {
+      playPauseButton.addEventListener(
+        'click',
+        this.togglePlayPause.bind(this)
+      );
     }
   }
 
   render() {
     return html`
       <div class="main-banner-container">
-        <swiper-container .loop="${false}" .pagination="${{ clickable: true }}">
+        <swiper-container
+          .autoplay="${{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}"
+          .loop="${false}"
+          .pagination="${{
+            clickable: true,
+          }}"
+        >
           ${this.data.items
             .filter((item) => item.device === this.device)
             .map(
@@ -246,6 +245,9 @@ class MainBanner extends taingElement {
               `
             )}
         </swiper-container>
+        <button class="play-pause-btn" @click="${this.togglePlayPause}">
+          ❤️
+        </button>
       </div>
     `;
   }

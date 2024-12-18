@@ -6,17 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <title>T4ING</title>
     <link rel="stylesheet" href="/src/styles/style.css" />
     <script type="module" src="/src/pages/landing/index.js"></script>
+    <style>
+      .container {
+        max-width: 100vw;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <landing-page></landing-page>
+      <taing-header></taing-header>
+      <landing-banner> </landing-banner>
+      <landing-slide> </landing-slide>
+      <landing-panorama> </landing-panorama>
+      <landing-welcome> </landing-welcome>
+      <taing-footer></taing-footer>
     </div>
   </body>
 </html>

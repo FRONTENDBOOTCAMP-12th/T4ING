@@ -1,7 +1,6 @@
 import { html, css, CSSResultGroup } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
-import { property } from 'lit/decorators.js';
 
 @customElement('t-checkbox')
 export class Checkbox extends TaingElement {

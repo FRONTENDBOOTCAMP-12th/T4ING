@@ -1,12 +1,12 @@
-import { LitElement, html, css, CSSResultGroup } from 'lit';
 import { taingElement } from './Taing';
-import { customElement, property } from 'lit/decorators.js';
-import Swiper from 'swiper';
 import { MainData } from '../@types/type';
+import { customElement, property } from 'lit/decorators.js';
+import { LitElement, html, css, CSSResultGroup } from 'lit';
 import { getRecommendImageURL } from '../api/getMainPageURL';
+import Swiper from 'swiper';
 // import { ProgramList } from '../@types/type.d';
 
-@customElement('main-recommend')
+@customElement('t-main-recommend')
 class MainRecommend extends taingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
@@ -25,73 +25,89 @@ class MainRecommend extends taingElement {
     super.styles,
     css`
       .container {
-        background-color: transparent;
-        min-width: 320px;
-        // max-width: 767px;
-        // min-height: 171px;
-        width: 100%;
-        height: auto;
+        position: relative;
         display: flex;
         flex-direction: column;
+        width: 100%;
+        min-width: 320px;
+        height: auto;
+        gap: 8px;
+        padding-inline: 0.5rem;
 
-        padding-left: 8px;
-        overflow: hidden;
-        align-items: start;
-        color: var(--white);
+        box-sizing: border-box;
+        overflow: clip;
+        overflow-clip-box: padding-box;
+
+        background-color: transparent;
 
         @media (min-width: 768px) {
-          padding-left: 40px;
+          padding-inline: 2.5rem;
         }
         @media (min-width: 1920px) {
-          padding-left: 70px;
+          padding-inline: 4.375rem;
         }
 
         & h1 {
-          font-size: 20px;
+          font-size: 1.25rem;
           font-weight: 700;
+          color: var(--white);
         }
       }
 
       swiper-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
         position: relative;
-        width: 100%;
-        height: 100%;
-        margin-block: 8px;
-        background-color: transparent;
+        inline-size: 100%;
+        margin-inline: 0;
+
+        @media (max-width: 767px) {
+          width: calc((100% - 16px));
+
+          &.is-middle {
+            margin-inline: 0.5rem;
+          }
+          &.is-end {
+            transform: translateX(1rem);
+          }
+        }
+
+        overflow: visible;
+
+        // --swiper-navigation-size: 24px;
+        box-sizing: border-box;
+      }
+      ::part(container) {
+        inline-size: 100%;
+        box-sizing: border-box;
+
+        overflow: visible;
       }
 
       ::part(wrapper) {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        width: 100%;
+        inline-size: 100%;
+        position: relative;
+        box-sizing: border-box;
+        overflow: visible;
       }
 
       swiper-slide {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        height: auto;
-        padding: 0;
+        inline-size: 100%;
+        block-size: auto;
 
         & img {
-          width: 100%;
-          height: auto;
-          max-width: 100%;
+          inline-size: 100%;
+          block-size: auto;
           object-fit: cover;
-          border-radius: 8px;
+          border-radius: 0.5rem;
         }
       }
     `,
   ];
 
   getDevice() {
-    const width = window.innerWidth;
+    const width = window.outerWidth;
     if (width >= 1920) {
       return 'desktop';
     } else if (width >= 768 && width < 1920) {
@@ -130,24 +146,104 @@ class MainRecommend extends taingElement {
       const data = await response.json();
       this.data = data;
       console.log('rec-device :', this.device);
+
+      this.addSwiperEvents();
     } catch (error) {
       console.error('Error fetching recommend data:', error);
     }
   }
+
+  @property({ type: Boolean }) isBeginning = true;
+  @property({ type: Boolean }) isEnd = false;
+
+  get swiperInstance() {
+    return (this.renderRoot.querySelector('swiper-container') as any)?.swiper;
+  }
+
+  addSwiperEvents() {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      swiper.on('slideChange', this.updateSwiperState);
+      swiper.on('reachBeginning', this.updateSwiperState);
+      swiper.on('reachEnd', this.updateSwiperState);
+    }
+  }
+
+  removeSwiperEvents() {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      swiper.off('slideChange', this.updateSwiperState);
+      swiper.off('reachBeginning', this.updateSwiperState);
+      swiper.off('reachEnd', this.updateSwiperState);
+    }
+  }
+
+  updateSwiperState = () => {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      const isBeginningChanged = this.isBeginning !== swiper.isBeginning;
+      const isEndChanged = this.isEnd !== swiper.isEnd;
+
+      // 상태가 변경된 경우에만 업데이트
+      if (isBeginningChanged || isEndChanged) {
+        this.isBeginning = swiper.isBeginning;
+        this.isEnd = swiper.isEnd;
+
+        const swiperContainer =
+          this.renderRoot.querySelector('swiper-container');
+        if (swiperContainer) {
+          swiperContainer.classList.toggle('is-beginning', this.isBeginning);
+          swiperContainer.classList.toggle('is-end', this.isEnd);
+        }
+
+        console.log('swiper-state:', this.isBeginning, this.isEnd);
+
+        this.requestUpdate();
+      }
+    }
+  };
 
   render() {
     return html`
       <div class="container">
         <h1>티빙에서 꼭 봐야하는 콘텐츠</h1>
         <swiper-container
-          .slidesPerView=${this.device === 'desktop'
-            ? 7.1
-            : this.device === 'tablet'
-              ? 5.1
-              : 3.1}
+          class="${this.isBeginning
+            ? 'is-beginning'
+            : this.isEnd
+              ? 'is-end'
+              : 'is-middle'}"
+          .slidesPerView=${3}
           .slidesPerGroup=${3}
           .spaceBetween=${8}
+          .observer=${true}
+          .observeParents=${true}
+          .breakpoints=${{
+            768: {
+              slidesPerView: 5,
+              slidesPerGroup: 5,
+              spaceBetween: 8,
+            },
+            1920: {
+              slidesPerView: 7,
+              slidesPerGroup: 7,
+              spaceBetween: 8,
+            },
+          }}
         >
+          ${this.data.items
+            .filter((item) => item.device === this.device)
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(
+              (slide) => html`
+                <swiper-slide>
+                  <img
+                    src="${getRecommendImageURL(slide)}"
+                    alt="${slide.title}"
+                  />
+                </swiper-slide>
+              `
+            )}
           ${this.data.items
             .filter((item) => item.device === this.device)
             .sort((a, b) => a.title.localeCompare(b.title))

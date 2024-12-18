@@ -20,6 +20,9 @@ export default css`
     &.size-xs {
       inline-size: 1.125rem;
     }
+    &.size-s {
+      inline-size: 1.25rem;
+    }
 
     @media (min-width: 48rem) {
       &.size-xs {

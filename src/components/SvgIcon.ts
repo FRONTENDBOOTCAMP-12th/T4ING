@@ -3,7 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 
 @customElement('svg-icon')
-class svgIcon extends TaingElement {
+class SvgIcon extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`

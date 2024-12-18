@@ -3,6 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { TaingElement } from './src/components/Taing';
 import buttonCSS from './src/styles/buttonCSS';
 import '/src/components/SvgIcon';
+import '/src/components/Form';
 import '/main.ts';
 
 @customElement('guide-logo')

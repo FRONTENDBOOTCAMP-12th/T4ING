@@ -12,7 +12,11 @@ class Header extends TaingElement {
     buttonCSS['t-button'],
     css`
       :host {
-        position: relative;
+        position: fixed;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        inline-size: 100%;
+        z-index: 1000;
       }
       .header {
         --header-padding: 0.625rem 1rem;

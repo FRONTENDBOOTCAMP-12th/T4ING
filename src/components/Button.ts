@@ -1,6 +1,6 @@
+import { CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
-import { CSSResultGroup, html } from 'lit';
 import { buttonCSS } from '../styles/buttonCSS';
 import { classMap } from 'lit/directives/class-map.js';
 

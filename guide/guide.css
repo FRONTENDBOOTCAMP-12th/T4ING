@@ -1,5 +1,5 @@
 .guide-wrap {
-  padding: 2rem;
+  padding: 8rem 2rem 2rem;
 
   h1 {
     display: flex;
@@ -22,6 +22,16 @@
 
     & ~ .guide-title {
       margin-block-start: 3rem;
+    }
+  }
+
+  .component-wrap {
+    padding-bottom: 2rem;
+
+    &.flex {
+      display: flex;
+      flex-flow: column wrap;
+      row-gap: 1rem;
     }
   }
 }

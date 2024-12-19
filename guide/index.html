@@ -20,15 +20,24 @@
       <taing-header></taing-header>
 
       <h2 class="guide-title">🪄 Buttons</h2>
-      <guide-buttons></guide-buttons>
-      <t-button></t-button>
-      <t-button type="submit" color="primary">로그인</t-button>
-      <t-button color="secondary">본인인증</t-button>
+      <div class="component-wrap">
+        <guide-buttons></guide-buttons>
+      </div>
+
+      <div class="component-wrap flex">
+        <t-button></t-button>
+        <t-button type="submit" color="primary">로그인</t-button>
+        <t-button color="secondary">본인인증</t-button>
+      </div>
 
       <h2 class="guide-title">🪄 Logo</h2>
       <guide-logo></guide-logo>
 
       <h2 class="guide-title">🪄 Form</h2>
+      <div class="component-wrap">
+        <login-checkbox>label</login-checkbox>
+        <t-checkbox>label</t-checkbox>
+      </div>
       <t-input>
         <label slot="label">아이디</label>
         <strong slot="hint" class="hint"

@@ -14,7 +14,9 @@ export class Slide extends TaingElement {
     css`
       .slide-container {
         position: relative;
-        width: calc(100vw-40px);
+        width: 100vw;
+        height: 170vw;
+        max-height: 32rem;
         margin: 0 auto;
         aspect-ratio: 4/5;
       }
@@ -38,11 +40,16 @@ export class Slide extends TaingElement {
       }
 
       .slider-container {
+        width: calc(100vw-40px);
         max-width: 100%;
         box-sizing: border-box;
       }
 
       @media (min-width: 48rem) {
+        .slide-container {
+          height: 70vw;
+          max-height: 58rem;
+        }
         .slide-title {
           visibility: hidden;
         }
@@ -54,6 +61,9 @@ export class Slide extends TaingElement {
         }
       }
       @media (min-width: 120rem) {
+        .slide-container {
+          height: 50vw;
+        }
         .slide-title {
           font-size: var(--size-13);
           visibility: visible;

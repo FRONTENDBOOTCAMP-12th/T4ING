@@ -49,7 +49,7 @@ export class Banner extends TaingElement {
         text-decoration: none;
         background-color: red;
         padding: 0.5rem 1rem;
-        border-radius: 5px;
+        border-radius: 0.5rem;
         color: var(--banner-color);
         transition: background-color 0.3s ease;
         display: flex;

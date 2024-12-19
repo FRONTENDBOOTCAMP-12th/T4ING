@@ -14,7 +14,8 @@ class Welcome extends TaingElement {
       top: 0;
       left: 0;
       width: 100vw;
-      height: 75vw;
+      height: 70vw;
+      max-height: 23rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -23,7 +24,12 @@ class Welcome extends TaingElement {
       background-position: center;
       text-align: center;
       color: white;
+      margin-top: 5rem;
 
+      @media (min-width: 48rem) {
+        height: 50vw;
+        max-height: 57rem;
+      }
       & p {
         line-height: 1.4;
         font-size: 1rem;
@@ -37,7 +43,7 @@ class Welcome extends TaingElement {
       color: var(--white);
       background-color: red;
       padding: 0.5rem 1rem;
-      border-radius: 5px;
+      border-radius: 0.5rem;
       transition: background-color 0.3s ease;
       display: flex;
       align-items: center;
@@ -52,10 +58,7 @@ class Welcome extends TaingElement {
   render() {
     return html`
       <div class="landing-welcome">
-        <img
-          src="/assets/images/New_tving.svg"
-          alt="No.1 K-콘텐츠 플랫폼 TAING"
-        />
+        <img src="/assets/New_tving.svg" alt="No.1 K-콘텐츠 플랫폼 TAING" />
         <p>지금 시작해보세요</p>
         <a
           class="landing-link"

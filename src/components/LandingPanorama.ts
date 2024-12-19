@@ -12,67 +12,88 @@ export class Panorama extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      .slide-container {
+      .p-container {
         position: relative;
         width: 100vw;
         height: 110vw;
+        max-height: 25rem;
         text-align: center;
         color: white;
-        padding-block: 64px;
+        padding-block: 4rem;
+        margin-bottom: 2rem;
       }
-      h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
+      .p-title {
+        font-size: var(--size-5);
+        margin-bottom: 0.625rem;
         line-height: 1.6;
         weight: bold;
       }
-      p {
-        font-size: 16px;
-        margin-bottom: 20px;
+      .p-description-primary {
+        font-size: var(--size-3);
+        margin-bottom: 1.25rem;
         line-height: 1.6;
+      }
+      .p-description-secondary {
+        font-size: var(--size-3);
+        margin-bottom: 1.25rem;
+        line-height: 1.6;
+        visibility: hidden;
       }
       .slider {
         position: relative;
         overflow: hidden;
-        inline-size: 100%;
-        max-inline-size: 600px;
+        width: 100vw;
         margin: auto;
         white-space: nowrap;
-      }
-      .slides {
-        display: flex;
-        will-change: transform;
+        .slides-right {
+          display: flex;
+          will-change: transform;
+        }
+        .slides-left {
+          display: flex;
+          will-change: transform;
+        }
       }
 
       .slide {
         flex: 0 0 auto;
-        inline-size: 100%;
-        min-inline-size: 100%;
-        min-block-size: auto;
+        margin: var(--size-3);
         box-sizing: border-box;
         background-size: cover;
         background-position: center;
       }
 
       img {
-        display: block;
-        width: 95%;
-        height: auto;
+        display: inline;
+        width: 11.25rem;
+        height: 6.375rem;
       }
 
-      @media (min-width: 320px) {
-        .slider {
-          max-inline-size: 320px;
+      @media (min-width: 48rem) {
+        .p-container {
+          height: 55vw;
+          max-height: 63.75rem;
+        }
+        .p-title {
+          font-size: var(--size-7);
+        }
+        .p-description-primary {
+          font-size: var(--size-4);
+        }
+        .p-description-secondary {
+          font-size: var(--size-3);
+          visibility: visible;
         }
       }
-      @media (min-width: 768px) {
-        .slider {
-          max-inline-size: 768px;
+      @media (min-width: 120rem) {
+        .p-title {
+          font-size: var(--size-13);
         }
-      }
-      @media (min-width: 768px) {
-        .slider {
-          max-inline-size: 100%;
+        .p-description-primary {
+          font-size: var(--size-7);
+        }
+        .p-description-secondary {
+          font-size: var(--size-5);
         }
       }
     `,
@@ -151,12 +172,12 @@ export class Panorama extends TaingElement {
     const slideCount = this.slides.length;
     if (slideCount === 0) return;
 
-    const totalWidth = (slideCount - 1) * 100;
-    const animationDuration = slideCount * 2;
+    const totalWidth = (slideCount - 1) * 10;
+    const animationDuration = slideCount * 10;
 
     const styleElement = document.createElement('style');
     styleElement.textContent = `
-      @keyframes scroll{
+      @keyframes scroll-right{
         from{
           transform:translateX(0);
         }
@@ -164,8 +185,18 @@ export class Panorama extends TaingElement {
           transform:translateX(-${totalWidth}%);
         }
       }
-        .slides{
-        animation:scroll ${animationDuration}s linear infinite}
+      @keyframes scroll-left{
+        from{
+          transform:translateX(-${totalWidth}%);
+          }
+          to{
+            transform:translateX(0);
+        }
+      }
+        .slides-right{
+        animation:scroll-right ${animationDuration}s linear infinite}
+        .slides-left{
+        animation:scroll-left ${animationDuration}s linear infinite}
     `;
 
     const existingStyle = this.shadowRoot?.querySelector('style');
@@ -177,11 +208,24 @@ export class Panorama extends TaingElement {
 
   render() {
     return html`
-      <div class="slide-container">
-        <h2>내가 찾던 재미</h2>
-        <p>보고 싶은 콘텐츠를 발견하세요!</p>
+      <div class="p-container">
+        <h2 class="p-title">내가 찾던 재미</h2>
+        <p class="p-description-primary">보고 싶은 콘텐츠를 발견하세요!</p>
+        <p class="p-description-secondary">
+          최신, 인기 TV프로그램, 영화, 해외시리즈,파라마운트+ 오리지널 및 독점
+        </p>
+
         <div class="slider">
-          <div class="slides">
+          <div class="slides-right">
+            ${this.slides.map(
+              (slide: any) =>
+                html` <div class="slide">
+                  <img src="${slide.img}" alt="${slide.title}" />
+                </div>`
+            )}
+          </div>
+
+          <div class="slides-left">
             ${this.slides.map(
               (slide: any) =>
                 html` <div class="slide">

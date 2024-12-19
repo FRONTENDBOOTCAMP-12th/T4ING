@@ -4,7 +4,7 @@ import { MainData } from '../@types/type';
 import { register } from 'swiper/element/bundle';
 import { getBannerImageURL } from '../api/getMainPageURL';
 import { customElement, property } from 'lit/decorators.js';
-import { LitElement, html, css, CSSResultGroup } from 'lit';
+import { html, css, CSSResultGroup } from 'lit';
 
 register();
 

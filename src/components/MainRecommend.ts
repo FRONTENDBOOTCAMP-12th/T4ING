@@ -1,10 +1,9 @@
 import { TaingElement } from './Taing';
 import { MainData } from '../@types/type';
 import { customElement, property } from 'lit/decorators.js';
-import { LitElement, html, css, CSSResultGroup } from 'lit';
+import { html, css, CSSResultGroup } from 'lit';
 import { getRecommendImageURL } from '../api/getMainPageURL';
 import Swiper from 'swiper';
-// import { ProgramList } from '../@types/type.d';
 
 @customElement('t-main-recommend')
 class MainRecommend extends TaingElement {

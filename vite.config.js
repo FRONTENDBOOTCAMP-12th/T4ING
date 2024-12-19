@@ -6,8 +6,11 @@ export default defineConfig({
     outDir: 'docs',
     rollupOptions: {
       input: {
-        login: resolve(__dirname, 'src/pages/login/index.html'),
         main: resolve(__dirname, 'index.html'),
+        loginMain: resolve(__dirname, '/src/pages/main/index.html'),
+        login: resolve(__dirname, '/src/pages/login/index.html'),
+        landding: resolve(__dirname, '/src/pages/landing/index.html'),
+        guide: resolve(__dirname, '/guide/index.html'),
       },
       output: {
         outDir: (folder) => {

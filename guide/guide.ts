@@ -1,7 +1,7 @@
 import { html, CSSResultGroup, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { TaingElement } from './src/components/Taing';
-import { buttonCSS } from './src/styles/buttonCSS';
+import { TaingElement } from '../src/components/Taing';
+import { buttonCSS } from '../src/styles/buttonCSS';
 import '/src/components/SvgIcon';
 import '/src/components/Form';
 import '/src/components/Button';

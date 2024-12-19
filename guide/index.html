@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/" href="/TAING.svg" />
     <link rel="stylesheet" href="/src/styles/style.css" />
-    <link rel="stylesheet" href="/src/styles/_guilde.css" />
-    <script type="module" src="/guide.ts"></script>
+    <link rel="stylesheet" href="/guide/guide.css" />
+    <script type="module" src="/guide/guide.ts"></script>
   </head>
   <body>
     <div class="guide-wrap">
@@ -21,6 +21,9 @@
 
       <h2 class="guide-title">🪄 Buttons</h2>
       <guide-buttons></guide-buttons>
+      <t-button></t-button>
+      <t-button type="submit" color="primary">로그인</t-button>
+      <t-button color="secondary">본인인증</t-button>
 
       <h2 class="guide-title">🪄 Logo</h2>
       <guide-logo></guide-logo>
@@ -41,11 +44,6 @@
       <t-input type="email">
         <label slot="label">이메일</label>
       </t-input>
-
-      <h2 class="guide-title">🪄 Button</h2>
-      <t-button></t-button>
-      <t-button type="submit" color="primary">로그인</t-button>
-      <t-button color="secondary">본인인증</t-button>
 
       <h2 class="guide-title">🪄 Badge</h2>
       <guide-badge></guide-badge>

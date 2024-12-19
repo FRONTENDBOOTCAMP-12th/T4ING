@@ -92,11 +92,11 @@ class Footer extends TaingElement {
   ];
 
   corpMenu = [
-    { corpName: '고객센터', url: '/guide.html' },
-    { corpName: '이용약관', url: '/' },
-    { corpName: '개인정보처리방침', url: '/' },
+    { corpName: '고객센터', url: '/guide/index.html' },
+    { corpName: '이용약관', url: '/src/pages/main/' },
+    { corpName: '개인정보처리방침', url: '/src/pages/login/' },
     { corpName: '청소년', url: '/' },
-    { corpName: '이벤트', url: '/' },
+    { corpName: '이벤트', url: '/src/pages/landing/' },
     { corpName: '인재채용', url: '/' },
   ];
 

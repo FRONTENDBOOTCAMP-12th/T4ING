@@ -1,7 +1,7 @@
 import { html, css, CSSResultGroup, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
-import buttonCSS from '../styles/buttonCSS';
+import { buttonCSS } from '../styles/buttonCSS';
 import './Search';
 import './SvgIcon';
 
@@ -9,7 +9,7 @@ import './SvgIcon';
 class Header extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
-    buttonCSS,
+    buttonCSS['t-button'],
     css`
       :host {
         position: relative;

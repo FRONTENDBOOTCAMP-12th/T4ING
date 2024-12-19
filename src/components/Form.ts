@@ -1,9 +1,9 @@
-import { html, css, CSSResultGroup, nothing, notEqual } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
-import buttonCSS from '../styles/buttonCSS';
-import './SvgIcon';
+import { html, css, CSSResultGroup, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { TaingElement } from './Taing';
+import { buttonCSS } from '../styles/buttonCSS';
+import './SvgIcon';
 
 @customElement('t-input')
 class Input extends TaingElement {
@@ -13,7 +13,7 @@ class Input extends TaingElement {
 
   static styles: CSSResultGroup = [
     super.styles,
-    buttonCSS,
+    buttonCSS['t-button'],
     css`
       :host {
         --padding-inline-start: var(--size-3);

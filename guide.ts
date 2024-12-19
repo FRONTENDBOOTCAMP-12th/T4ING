@@ -1,9 +1,10 @@
 import { html, CSSResultGroup, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { TaingElement } from './src/components/Taing';
-import buttonCSS from './src/styles/buttonCSS';
+import { buttonCSS } from './src/styles/buttonCSS';
 import '/src/components/SvgIcon';
 import '/src/components/Form';
+import '/src/components/Button';
 import '/main.ts';
 
 @customElement('guide-logo')
@@ -17,15 +18,7 @@ class GuideLogo extends TaingElement {
 
 @customElement('guide-buttons')
 class GuideButton extends TaingElement {
-  static styles: CSSResultGroup = [
-    super.styles,
-    buttonCSS,
-    css`
-      button {
-        vertical-align: top;
-      }
-    `,
-  ];
+  static styles: CSSResultGroup = [super.styles, buttonCSS['t-button']];
 
   render() {
     return html`
@@ -51,7 +44,7 @@ class GuideButton extends TaingElement {
 
 @customElement('guide-badge')
 class GuideBadge extends TaingElement {
-  static styles: CSSResultGroup = [super.styles, buttonCSS];
+  static styles: CSSResultGroup = [super.styles, buttonCSS['t-button']];
 
   render() {
     return html`

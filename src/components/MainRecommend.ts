@@ -18,7 +18,7 @@ class MainRecommend extends TaingElement {
     img: string;
     title: string;
   }> = [];
-  @property({ type: String }) device = this.getDevice();
+  @property({ type: String }) device = super.getDevice;
   @property({ type: Boolean }) isBeginning = true;
   @property({ type: Boolean }) isEnd = false;
 
@@ -73,7 +73,6 @@ class MainRecommend extends TaingElement {
 
         overflow: visible;
 
-        // --swiper-navigation-size: 24px;
         box-sizing: border-box;
       }
       ::part(container) {
@@ -107,17 +106,6 @@ class MainRecommend extends TaingElement {
     `,
   ];
 
-  getDevice() {
-    const width = window.outerWidth;
-    if (width >= 1920) {
-      return 'desktop';
-    } else if (width >= 768 && width < 1920) {
-      return 'tablet';
-    } else {
-      return 'mobile';
-    }
-  }
-
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('resize', this.handleResize);
@@ -131,11 +119,10 @@ class MainRecommend extends TaingElement {
   }
 
   handleResize = () => {
-    const newDevice = this.getDevice();
+    const newDevice = super.getDevice;
     if (this.device !== newDevice) {
       this.device = newDevice;
       console.log('rec-device-changed:', this.device);
-      console.log();
     }
   };
 

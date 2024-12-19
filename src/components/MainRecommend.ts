@@ -1,4 +1,4 @@
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 import { MainData } from '../@types/type';
 import { customElement, property } from 'lit/decorators.js';
 import { LitElement, html, css, CSSResultGroup } from 'lit';
@@ -7,7 +7,7 @@ import Swiper from 'swiper';
 // import { ProgramList } from '../@types/type.d';
 
 @customElement('t-main-recommend')
-class MainRecommend extends taingElement {
+class MainRecommend extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
     page: 0,
@@ -20,6 +20,8 @@ class MainRecommend extends taingElement {
     title: string;
   }> = [];
   @property({ type: String }) device = this.getDevice();
+  @property({ type: Boolean }) isBeginning = true;
+  @property({ type: Boolean }) isEnd = false;
 
   static styles: CSSResultGroup = [
     super.styles,
@@ -152,9 +154,6 @@ class MainRecommend extends taingElement {
       console.error('Error fetching recommend data:', error);
     }
   }
-
-  @property({ type: Boolean }) isBeginning = true;
-  @property({ type: Boolean }) isEnd = false;
 
   get swiperInstance() {
     return (this.renderRoot.querySelector('swiper-container') as any)?.swiper;

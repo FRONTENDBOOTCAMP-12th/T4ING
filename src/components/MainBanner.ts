@@ -1,5 +1,5 @@
 import Swiper from 'swiper';
-import { taingElement } from './Taing';
+import { TaingElement } from './Taing';
 import { MainData } from '../@types/type';
 import { register } from 'swiper/element/bundle';
 import { getBannerImageURL } from '../api/getMainPageURL';
@@ -9,7 +9,22 @@ import { LitElement, html, css, CSSResultGroup } from 'lit';
 register();
 
 @customElement('t-main-banner')
-class MainBanner extends taingElement {
+class MainBanner extends TaingElement {
+  @property({ type: Object }) data: MainData = {
+    items: [],
+    page: 0,
+    perPage: 0,
+    totalItems: 0,
+    totalPages: 0,
+  };
+  @property({ type: Array }) slides: Array<{
+    img: string;
+    title: string;
+  }> = [];
+  @property({ type: String }) device = this.getDevice();
+  @property({ type: Boolean }) isPlaying = true;
+  @property({ type: Object }) swiper: Swiper | null = null;
+
   static styles: CSSResultGroup = [
     super.styles,
     css`
@@ -125,21 +140,6 @@ class MainBanner extends taingElement {
       }
     `,
   ];
-
-  @property({ type: Object }) data: MainData = {
-    items: [],
-    page: 0,
-    perPage: 0,
-    totalItems: 0,
-    totalPages: 0,
-  };
-  @property({ type: Array }) slides: Array<{
-    img: string;
-    title: string;
-  }> = [];
-  @property({ type: String }) device = this.getDevice();
-  @property({ type: Boolean }) isPlaying = true;
-  @property({ type: Object }) swiper: Swiper | null = null;
 
   getDevice() {
     const width = window.outerWidth;

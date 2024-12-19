@@ -1,11 +1,14 @@
-import { CSSResultGroup, html } from 'lit';
+import { html, CSSResultGroup, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { taingElement } from './src/components/Taing';
+import { TaingElement } from './src/components/Taing';
+import { buttonCSS } from './src/styles/buttonCSS';
+import '/src/components/SvgIcon';
+import '/src/components/Form';
+import '/src/components/Button';
 import '/main.ts';
-import buttonCSS from './src/styles/buttonCSS';
 
 @customElement('guide-logo')
-class GuideLogo extends taingElement {
+class GuideLogo extends TaingElement {
   render() {
     return html`
       <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
@@ -14,20 +17,34 @@ class GuideLogo extends taingElement {
 }
 
 @customElement('guide-buttons')
-class GuideElement extends taingElement {
-  static styles: CSSResultGroup = [super.styles, buttonCSS];
+class GuideButton extends TaingElement {
+  static styles: CSSResultGroup = [super.styles, buttonCSS['t-button']];
 
   render() {
     return html`
-      <button type="button" class="btn-icon size-xs search">검색</button>
-      <button type="button" class="btn-icon size-xs close">닫기</button>
+      <button type="button" class="btn-icon size-xs">
+        <svg-icon
+          svg-id="search"
+          .size=${[[18], [24], [40]]}
+          centered="true"
+        ></svg-icon>
+        <span class="sr-only">검색</span>
+      </button>
+      <button type="button" class="btn-icon size-xs">
+        <svg-icon
+          svg-id="close"
+          .size=${[[22], [28], [50]]}
+          centered="true"
+        ></svg-icon>
+        <span class="sr-only">닫기</span>
+      </button>
     `;
   }
 }
 
 @customElement('guide-badge')
-class GuideBadge extends taingElement {
-  static styles: CSSResultGroup = [super.styles, buttonCSS];
+class GuideBadge extends TaingElement {
+  static styles: CSSResultGroup = [super.styles, buttonCSS['t-button']];
 
   render() {
     return html`

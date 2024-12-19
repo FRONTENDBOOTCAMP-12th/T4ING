@@ -1,9 +1,9 @@
-import { CSSResultGroup, html, css } from 'lit';
-import { taingElement } from './Taing';
+import { html, css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { TaingElement } from './Taing';
 
 @customElement('sns-group')
-export class Sns extends taingElement {
+export class Sns extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`
@@ -11,6 +11,13 @@ export class Sns extends taingElement {
         display: flex;
         column-gap: var(--size-2);
         padding-block: var(--size-2);
+        @media (min-width: 48rem) {
+          padding-block: var(--size-3);
+        }
+        @media (min-width: 120rem) {
+          column-gap: var(--size-5);
+          padding-block: var(--size-6);
+        }
       }
 
       .btn-sns {
@@ -27,7 +34,7 @@ export class Sns extends taingElement {
         &.youtube {
           background-image: url('/assets/images/icon/sns_youtube.svg');
         }
-        &.instra {
+        &.instragram {
           background-image: url('/assets/images/icon/sns_instra.svg');
         }
         &.twitter {
@@ -36,23 +43,11 @@ export class Sns extends taingElement {
         &.facebook {
           background-image: url('/assets/images/icon/sns_facebook.svg');
         }
-      }
-      @media (width >= 48rem) {
-        :host {
-          padding-block: var(--size-3);
-        }
 
-        .btn-sns {
+        @media (min-width: 48rem) {
           block-size: 1.875rem;
         }
-      }
-      @media (width >= 120rem) {
-        :host {
-          column-gap: var(--size-5);
-          padding-block: var(--size-6);
-        }
-
-        .btn-sns {
+        @media (min-width: 120rem) {
           block-size: 3.25rem;
         }
       }
@@ -61,7 +56,7 @@ export class Sns extends taingElement {
 
   snsList = [
     { snsName: 'youtube', url: '' },
-    { snsName: 'instra', url: '' },
+    { snsName: 'instragram', url: '' },
     { snsName: 'twitter', url: '' },
     { snsName: 'facebook', url: '' },
   ];

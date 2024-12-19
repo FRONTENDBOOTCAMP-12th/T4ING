@@ -123,7 +123,6 @@ class MainRecommend extends TaingElement {
     if (this.device !== newDevice) {
       this.device = newDevice;
       console.log('rec-device-changed:', this.device);
-      console.log();
     }
   };
 

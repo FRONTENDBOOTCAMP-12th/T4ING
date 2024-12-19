@@ -64,6 +64,9 @@ class Input extends TaingElement {
           .btn-icon {
             &.del {
               inset-inline-end: calc(var(--padding-inline-end) * 2);
+              @media (min-width: 120rem) {
+                inset-inline-end: calc(var(--padding-inline-end) * 2 + 1.5rem);
+              }
             }
           }
         }
@@ -89,6 +92,10 @@ class Input extends TaingElement {
         color: var(--white);
         border-radius: var(--size-1);
         transition: 0.3s;
+
+        &:focus {
+          outline: 1px solid var(--gray100);
+        }
       }
 
       ::slotted(.hint) {

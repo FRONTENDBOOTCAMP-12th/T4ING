@@ -9,27 +9,27 @@ class Footer extends TaingElement {
     super.styles,
     css`
       :host {
-        --footer-padding: 3.25rem 1rem 5.125rem;
         margin-top: auto;
-        padding: var(--footer-padding);
-
-        @media (min-width: 48rem) {
-          --footer-padding: 4.375rem 2.5rem 6.25rem;
-        }
-        @media (min-width: 120rem) {
-          --footer-padding: 8.75rem 4.25rem 10.625rem;
-        }
       }
 
       .footer {
+        --padding-block-start: 3.25rem;
+        --padding-block-end: 5.125rem;
+        --padding-inline: 1rem;
+        --footer-padding: var(--padding-block-start) var(--padding-inline)
+          var(--padding-inline);
+        --notice-gap: var(--size-1);
         position: relative;
+        padding: var(--footer-padding);
         font-size: var(--text-size-s);
         line-height: 1.1875rem;
         color: var(--gray500);
         transition: 0.3s;
 
         .notice {
-          padding-block-end: 1.625rem;
+          display: flex;
+          column-gap: var(--notice-gap);
+          padding-block-end: var(--size-3);
 
           .notice__title {
             color: var(--gray200);
@@ -38,10 +38,11 @@ class Footer extends TaingElement {
 
         .link-list {
           position: absolute;
-          inset-inline-end: 0;
-          inset-block-start: 0;
+          inset-inline-end: var(--padding-inline);
+          inset-block-start: var(--padding-block-start);
 
           button {
+            padding: 0;
             border: none;
             background-color: initial;
             font-size: inherit;
@@ -63,7 +64,47 @@ class Footer extends TaingElement {
           border-block-start: 1px solid var(--dark-bg-2);
         }
 
+        .footer__info {
+          ul {
+            li {
+              display: flex;
+              column-gap: var(--size-2);
+            }
+          }
+
+          a {
+            text-decoration: underline;
+          }
+        }
+
+        .footer__info-title {
+          & ~ .footer__info-title {
+            position: relative;
+            padding-inline-start: var(--size-2);
+
+            &:before {
+              position: absolute;
+              inset-block-start: 50%;
+              inset-inline-start: 0;
+              inline-size: 1px;
+              block-size: var(--size-3);
+              background-color: var(--gray800);
+              translate: 0 -50%;
+              content: '';
+            }
+          }
+
+          &:after {
+            content: ' : ';
+          }
+        }
+
         @media (min-width: 48rem) {
+          --padding-block-start: 4.375rem;
+          --padding-block-end: 6.25rem;
+          --padding-inline: 2.5rem;
+          --notice-gap: var(--size-5);
+
           .notice {
             padding-block-end: var(--size-4);
           }
@@ -72,15 +113,48 @@ class Footer extends TaingElement {
             display: flex;
           }
 
+          .link-list__item {
+            & + .link-list__item {
+              --gap: var(--size-4);
+              --block-size: 0.875rem;
+              position: relative;
+              margin-inline-start: var(--gap);
+              padding-inline-start: var(--gap);
+
+              &:before {
+                position: absolute;
+                inset-inline-start: 0;
+                inset-block-start: 50%;
+                inline-size: 1px;
+                block-size: var(--block-size);
+                background-color: var(--gray500);
+                translate: 0 -50%;
+                content: '';
+              }
+            }
+          }
+
           .footer__corp-menu {
             display: flex;
             column-gap: var(--size-5);
             padding-block: var(--size-4) var(--size-3);
           }
         }
+
         @media (min-width: 120rem) {
+          --padding-block-start: 8.75rem;
+          --padding-block-end: 10.625rem;
+          --padding-inline: 4.25rem;
+
           font-size: var(--text-size-l);
           line-height: 2.125rem;
+
+          .link-list__item {
+            & + .link-list__item {
+              --gap: 1.875rem;
+              --block-size: var(--size-6);
+            }
+          }
 
           .footer__corp-menu {
             column-gap: var(--size-9);

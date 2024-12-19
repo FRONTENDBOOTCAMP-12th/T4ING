@@ -7,25 +7,18 @@ import { classMap } from 'lit/directives/class-map.js';
 @customElement('t-button')
 class Button extends TaingElement {
   static styles: CSSResultGroup = [super.styles, buttonCSS['t-button']];
-
-  buttonType: string | null = this.getAttribute('type') || 'button';
-  color: string | null = this.getAttribute('color') || null;
-
-  handleClick(cb: () => {}) {
-    if (cb) {
-      cb();
-    }
-  }
+  @property({ type: String }) buttonType: 'submit' | 'reset' | 'button' =
+    'button';
+  @property({ type: String, reflect: true }) color:
+    | 'primary'
+    | 'secondary'
+    | 'danger' = 'primary';
 
   render() {
-    console.log(this.color);
     return html`
       <button
         type=${this.buttonType}
         class=${classMap({ btn: true, [this.color]: this.color })}
-        @click=${() => {
-          this.handleClick();
-        }}
       >
         <slot>확인</slot>
       </button>

@@ -21,7 +21,7 @@ class MainBanner extends TaingElement {
     img: string;
     title: string;
   }> = [];
-  @property({ type: String }) device = this.getDevice();
+  @property({ type: String }) device = super.getDevice;
   @property({ type: Boolean }) isPlaying = true;
   @property({ type: Object }) swiper: Swiper | null = null;
 
@@ -141,17 +141,6 @@ class MainBanner extends TaingElement {
     `,
   ];
 
-  getDevice() {
-    const width = window.outerWidth;
-    if (width >= 1920) {
-      return 'desktop';
-    } else if (width >= 768 && width < 1920) {
-      return 'tablet';
-    } else {
-      return 'mobile';
-    }
-  }
-
   get swiperContainer() {
     return this.renderRoot.querySelector<HTMLElement>('swiper-container');
   }
@@ -180,7 +169,7 @@ class MainBanner extends TaingElement {
   }
 
   handleResize = () => {
-    const newDevice = this.getDevice();
+    const newDevice = super.getDevice;
     if (this.device !== newDevice) {
       this.device = newDevice;
       console.log('banner-device-changed:', this.device);

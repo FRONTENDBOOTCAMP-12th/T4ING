@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "lit": "^3.2.1",
-    "sweetalert2": "^11.14.5",
+    "sweetalert2": "^11.6.13",
     "swiper": "^11.1.15"
   }
 }

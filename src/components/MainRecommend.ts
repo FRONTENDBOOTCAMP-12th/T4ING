@@ -1,84 +1,128 @@
-import { LitElement, html, css, CSSResultGroup } from 'lit';
+import { TaingElement } from './Taing';
+import { MainData } from '../@types/type';
 import { customElement, property } from 'lit/decorators.js';
+import { html, css, CSSResultGroup } from 'lit';
+import { getRecommendImageURL } from '../api/getMainPageURL';
 import Swiper from 'swiper';
-// import { ProgramList } from '../@types/type.d';
 
-@customElement('main-recommend')
-class MainRecommend extends LitElement {
-  @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
-
-  // Swiper 설정을 Lit 속성으로 관리
-  @property({ type: Object })
-  swiperConfig = {
-    slidesPerView: 3,
-    slidesPerGroup: 3,
-    spaceBetween: 8,
-    loop: true,
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      clickable: true,
-    },
+@customElement('t-main-recommend')
+class MainRecommend extends TaingElement {
+  @property({ type: Object }) data: MainData = {
+    items: [],
+    page: 0,
+    perPage: 0,
+    totalItems: 0,
+    totalPages: 0,
   };
+  @property({ type: Array }) slides: Array<{
+    img: string;
+    title: string;
+  }> = [];
+  @property({ type: String }) device = this.getDevice();
+  @property({ type: Boolean }) isBeginning = true;
+  @property({ type: Boolean }) isEnd = false;
 
   static styles: CSSResultGroup = [
+    super.styles,
     css`
       .container {
-        background-color: transparent;
-        min-width: 320px;
-        // max-width: 767px;
-        // min-height: 171px;
-        width: 100%;
-        height: 100%;
+        position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-
-        padding-inline: 8px;
-        overflow: hidden;
-        align-items: start;
-        color: var(--white);
-
-        & h1 {
-          font-size: 20px;
-          font-weight: 700;
-        }
-      }
-
-      swiper-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        position: relative;
-        height: 100%;
         width: 100%;
-        margin-block: 8px;
+        min-width: 320px;
+        height: auto;
+        gap: 8px;
+        padding-inline: 0.5rem;
+
+        box-sizing: border-box;
+        overflow: clip;
+        overflow-clip-box: padding-box;
+
         background-color: transparent;
 
-        & swiper-slide {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          font-size: 20px;
+        @media (min-width: 768px) {
+          padding-inline: 2.5rem;
+        }
+        @media (min-width: 1920px) {
+          padding-inline: 4.375rem;
+        }
+
+        & h1 {
+          font-size: 1.25rem;
+          font-weight: 700;
           color: var(--white);
         }
       }
 
-      img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
+      swiper-container {
+        position: relative;
+        inline-size: 100%;
+        margin-inline: 0;
+
+        @media (max-width: 767px) {
+          width: calc((100% - 16px));
+
+          &.is-middle {
+            margin-inline: 0.5rem;
+          }
+          &.is-end {
+            transform: translateX(1rem);
+          }
+        }
+
+        overflow: visible;
+
+        // --swiper-navigation-size: 24px;
+        box-sizing: border-box;
+      }
+      ::part(container) {
+        inline-size: 100%;
+        box-sizing: border-box;
+
+        overflow: visible;
+      }
+
+      ::part(wrapper) {
+        inline-size: 100%;
+        position: relative;
+        box-sizing: border-box;
+        overflow: visible;
+      }
+
+      swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        inline-size: 100%;
+        block-size: auto;
+
+        & img {
+          inline-size: 100%;
+          block-size: auto;
+          object-fit: cover;
+          border-radius: 0.5rem;
+        }
       }
     `,
   ];
 
+  getDevice() {
+    const width = window.outerWidth;
+    if (width >= 1920) {
+      return 'desktop';
+    } else if (width >= 768 && width < 1920) {
+      return 'tablet';
+    } else {
+      return 'mobile';
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    this.fetchData();
     window.addEventListener('resize', this.handleResize);
+
+    this.fetchData();
   }
 
   disconnectedCallback() {
@@ -90,103 +134,127 @@ class MainRecommend extends LitElement {
     const newDevice = this.getDevice();
     if (this.device !== newDevice) {
       this.device = newDevice;
-
-      // 수정 필요 (데이터 계속 불러와짐)
-      this.fetchData();
+      console.log('rec-device-changed:', this.device);
+      console.log();
     }
   };
 
-  getDevice() {
-    const width = window.innerWidth;
-    if (width >= 1920) {
-      return 'desktop';
-    } else if (width >= 768 && width < 1920) {
-      return 'tablet';
-    } else {
-      return 'mobile';
-    }
-  }
-
-  device = this.getDevice();
-
-  updated() {
-    if (this.device !== this.getDevice()) {
-      this.device = this.getDevice();
-      // this.fetchData();
-    }
-  }
-
   async fetchData() {
     try {
-      const device = this.getDevice();
-
-      console.log('device:', device);
-
       const response = await fetch(
         `${import.meta.env.VITE_PB_API}/collections/main_recommend/records`
       );
+      const data = await response.json();
+      this.data = data;
+      console.log('rec-device :', this.device);
 
-      const data = (await response.json()).items;
-
-      this.slides = data.map((item: any) => ({
-        title: item.title || 'Unknown',
-        img: `${import.meta.env.VITE_PB_API}/files/main_recommend/${item.id}/${
-          item.img || 'default.jpg'
-        }`,
-      }));
+      this.addSwiperEvents();
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching recommend data:', error);
     }
   }
 
-  swiperInstance: Swiper | null = null;
-
-  // Swiper 엘리먼트를 가져오기 위한 getter
-  get swiperEl(): HTMLElement | null {
-    return this.shadowRoot?.querySelector('swiper-container') || null;
+  get swiperInstance() {
+    return (this.renderRoot.querySelector('swiper-container') as any)?.swiper;
   }
 
-  // initBanner() {
-  //   // DOM이 처음 업데이트된 후에 Swiper 초기화
-  //   const banner = this.shadowRoot?.querySelector('swiper-container');
-  //   if (banner) {
-  //     // Swiper 옵션 설정
-  //     const swiperParams = {
-  //       slidesPerView: 3,
-  //       autoplay: {
-  //         delay: 3000,
-  //         disableOnInteraction: false,
-  //       },
-  //       virtual: {
-  //         enabled: true,
-  //       },
-  //       breakpoints: {},
-  //     };
+  addSwiperEvents() {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      swiper.on('slideChange', this.updateSwiperState);
+      swiper.on('reachBeginning', this.updateSwiperState);
+      swiper.on('reachEnd', this.updateSwiperState);
+    }
+  }
 
-  //     this.swiperInstance = new Swiper(banner, swiperParams);
-  //   }
-  // }
+  removeSwiperEvents() {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      swiper.off('slideChange', this.updateSwiperState);
+      swiper.off('reachBeginning', this.updateSwiperState);
+      swiper.off('reachEnd', this.updateSwiperState);
+    }
+  }
 
-  // firstUpdated() {
-  //   this.initBanner();
-  // }
+  updateSwiperState = () => {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      const isBeginningChanged = this.isBeginning !== swiper.isBeginning;
+      const isEndChanged = this.isEnd !== swiper.isEnd;
+
+      // 상태가 변경된 경우에만 업데이트
+      if (isBeginningChanged || isEndChanged) {
+        this.isBeginning = swiper.isBeginning;
+        this.isEnd = swiper.isEnd;
+
+        const swiperContainer =
+          this.renderRoot.querySelector('swiper-container');
+        if (swiperContainer) {
+          swiperContainer.classList.toggle('is-beginning', this.isBeginning);
+          swiperContainer.classList.toggle('is-end', this.isEnd);
+        }
+
+        console.log('swiper-state:', this.isBeginning, this.isEnd);
+
+        this.requestUpdate();
+      }
+    }
+  };
 
   render() {
     return html`
       <div class="container">
         <h1>티빙에서 꼭 봐야하는 콘텐츠</h1>
         <swiper-container
-          .slidesPerView=${this.swiperConfig.slidesPerView}
-          .slidesPerGroup=${this.swiperConfig.slidesPerGroup}
-          .spaceBetween=${this.swiperConfig.spaceBetween}
+          class="${this.isBeginning
+            ? 'is-beginning'
+            : this.isEnd
+              ? 'is-end'
+              : 'is-middle'}"
+          .slidesPerView=${3}
+          .slidesPerGroup=${3}
+          .spaceBetween=${8}
+          .observer=${true}
+          .observeParents=${true}
+          .breakpoints=${{
+            768: {
+              slidesPerView: 5,
+              slidesPerGroup: 5,
+              spaceBetween: 8,
+            },
+            1920: {
+              slidesPerView: 7,
+              slidesPerGroup: 7,
+              spaceBetween: 8,
+            },
+          }}
         >
-          ${this.slides.map(
-            (item: any) => html`
-              <swiper-slide>
-                <img src="${item.img}" alt="${item.title}" />
-              </swiper-slide>
-            `
-          )}
+          ${this.data.items
+            .filter((item) => item.device === this.device)
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(
+              (slide) => html`
+                <swiper-slide>
+                  <img
+                    src="${getRecommendImageURL(slide)}"
+                    alt="${slide.title}"
+                  />
+                </swiper-slide>
+              `
+            )}
+          ${this.data.items
+            .filter((item) => item.device === this.device)
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(
+              (slide) => html`
+                <swiper-slide>
+                  <img
+                    src="${getRecommendImageURL(slide)}"
+                    alt="${slide.title}"
+                  />
+                </swiper-slide>
+              `
+            )}
         </swiper-container>
       </div>
     `;

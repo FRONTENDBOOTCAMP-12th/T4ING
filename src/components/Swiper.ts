@@ -54,12 +54,7 @@ export class SwiperElement extends LitElement {
             ${this.slides.map(
               (slide) => html`
                 <div class="swiper-slide">
-                  <img
-                    src="${slide.img}"
-                    alt="${slide.title}"
-                    width="277"
-                    height="400"
-                  />
+                  <img src="${slide.img}" alt="${slide.title}" />
                 </div>
               `
             )}

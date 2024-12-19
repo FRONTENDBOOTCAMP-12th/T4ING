@@ -3,8 +3,8 @@ import { css } from 'lit';
 export default css`
   .swiper {
     display: flex;
-    inline-size: 100%;
-    block-size: 100%;
+    width: 100%;
+    height: 100%;
   }
   .swiper-wrapper {
     display: flex;
@@ -15,8 +15,7 @@ export default css`
     align-items: center;
 
     & img {
-      inline-size: 100%;
-      block-size: auto;
+      aspect-ratio: 4/5;
       object-fit: cover;
     }
   }

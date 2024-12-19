@@ -12,45 +12,57 @@ export class Slide extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`
-      .slide-container { 
+      .slide-container {
         position: relative;
-        width: 100vw;
-        height: 167vw;
-        h2 {
-          font-size: var(--size-8);
-          text-align: center;
-          color: var(--white);
-          line-height: 1.6;
-          weight: bold;
-
-          @
-        }
-        p {
-          font-size: var(--size-5);
-          text-align: center;
-          color: var(--gray200);
-          line-height: 1.6;
-        }
+        width: calc(100vw-40px);
+        margin: 0 auto;
+        aspect-ratio: 4/5;
       }
+      .slide-title {
+        font-size: var(--size-5);
+        text-align: center;
+        color: var(--white);
+        line-height: 1.6;
+      }
+      .slide-description-primary {
+        font-size: var(--size-3);
+        text-align: center;
+        color: var(--gray200);
+        line-height: 1.6;
+      }
+      .slide-description-secondary {
+        font-size: var(--size-3);
+        text-align: center;
+        color: var(--gray200);
+        line-height: 1.6;
+      }
+
       .slider-container {
         max-width: 100%;
         box-sizing: border-box;
       }
-      @media (min-width: 20rem) {
-        .slider-container {
-          min-width: 20rem;
-        }
-      }
 
       @media (min-width: 48rem) {
-        .slider-container {
-          min-width: 48rem;
+        .slide-title {
+          visibility: hidden;
+        }
+        .slide-description-primary {
+          font-size: var(--size-4);
+        }
+        .slide-description-secondary {
+          font-size: var(--size-3);
         }
       }
-
       @media (min-width: 120rem) {
-        .slider-container {
-          max-width: 100%;
+        .slide-title {
+          font-size: var(--size-13);
+          visibility: visible;
+        }
+        .slide-description-primary {
+          font-size: var(--size-7);
+        }
+        .slide-description-secondary {
+          font-size: var(--size-5);
         }
       }
     `,
@@ -116,9 +128,11 @@ export class Slide extends TaingElement {
   render() {
     return html`
       <div class="slide-container">
-        <h2>티빙에만 있는 재미</h2>
-        <p>오리지널 콘텐츠를 만나보세요!</p>
-        <p>차별화된 웰메이드 오리지널 콘텐츠</p>
+        <h2 class="slide-title">티빙에만 있는 재미</h2>
+        <p class="slide-description-primary">오리지널 콘텐츠를 만나보세요!</p>
+        <p class="slide-description-secondary">
+          차별화된 웰메이드 오리지널 콘텐츠
+        </p>
         <div class="slider-container">
           <swiper-element
             .slides="${this.slides}"

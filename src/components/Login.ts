@@ -1,12 +1,16 @@
 import { html, CSSResultGroup } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import loginCSS from '../styles/loginCSS';
 import Swal from 'sweetalert2';
 import { TaingElement } from './Taing';
+import './Form';
+import './Button';
+import './LoginCheckbox';
 
 @customElement('login-element')
 class Login extends TaingElement {
   static styles: CSSResultGroup = [super.styles, loginCSS];
+  @property({ type: Boolean }) autoLogin = false;
 
   get idInput() {
     return this.renderRoot.querySelector<HTMLInputElement>('#idField')!;
@@ -45,7 +49,7 @@ class Login extends TaingElement {
       }
 
       const token = result.token;
-      if (this.autoLoginInput.checked) {
+      if (this.autoLogin) {
         localStorage.setItem('authToken', token);
       } else {
         sessionStorage.setItem('authToken', token);
@@ -78,39 +82,35 @@ class Login extends TaingElement {
     e.preventDefault();
     this.fetchData();
   }
+  handleCheckboxChange(e: any) {
+    this.autoLogin = e.detail.checked;
+  }
 
   render() {
     return html`
-      <div class="login">
+      <div class="login-container">
         <div class="login-wrap">
-          <h1 class="login-title">TVING ID 로그인</h1>
+          <h1 class="login__title">TVING ID 로그인</h1>
           <form>
-            <div class="login__input">
-              <label for="idField"></label>
-              <input type="email" id="idField" placeholder="아이디" />
+            <div class="login__input-wrap">
+              <t-input id="idField">
+                <label slot="label">아이디</label>
+              </t-input>
+              <t-input id="pwField" type="password">
+                <label slot="label">비밀번호</label>
+              </t-input>
             </div>
-            <div class="login__input">
-              <label for="pwField"></label>
-              <input type="password" id="pwField" placeholder="비밀번호" />
-            </div>
-            <div class="login__state-checkbox-wrap">
-              <input
-                type="checkbox"
-                class="login__state-checkbox"
-                id="loginState"
-                name="state"
-              />
-              <label for="loginState" class="login__state-label">
-                <span class="icon-check"></span>자동로그인
-              </label>
-            </div>
-            <button
-              @click=${this.handleLogin}
-              type="submit"
-              class="login__button"
+
+            <login-checkbox
+              id="loginState"
+              .checked=${this.autoLogin}
+              @change=${this.handleCheckboxChange}
             >
+              자동로그인
+            </login-checkbox>
+            <t-button @click=${this.handleLogin} color="primary">
               로그인하기
-            </button>
+            </t-button>
             <div class="login__find-acount-wrap">
               <a href="/">아이디 찾기</a>
               <hr />

@@ -13,17 +13,13 @@ export class Checkbox extends TaingElement {
       .checkbox-container {
         --icon-width: 1rem;
         --icon-height: 1rem;
+        --icon-margin-right: 0.25rem;
         --font-size: 0.7502rem;
-
-        @media (min-width: 48rem) {
-          --icon-width: 1rem;
-          --icon-height: 1rem;
-          --font-size: 0.7502rem;
-        }
 
         @media (min-width: 120rem) {
           --icon-width: 1.625rem;
           --icon-height: 1.625rem;
+          --icon-margin-right: 0.75rem;
           --font-size: 1.333rem;
         }
 
@@ -51,10 +47,10 @@ export class Checkbox extends TaingElement {
 
       .icon-check {
         display: inline-block;
-        margin-right: 0.25rem;
         background-image: url('/assets/images/icon/checkbox.svg');
         background-size: cover;
         background-position: center;
+        margin-right: var(--icon-margin-right);
         inline-size: var(--icon-width);
         block-size: var(--icon-height);
       }

@@ -20,7 +20,7 @@ export class Banner extends TaingElement {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-size: 1920px auto;
+      background-size: 560px auto;
       background-position: 50% 0;
       background-image: url(/assets/images/background_mobile.png);
       text-align: center;
@@ -28,7 +28,12 @@ export class Banner extends TaingElement {
       background-repeat: repeat-x;
 
       @media (min-width: 48rem) {
+        background-size: 768px auto;
+
         background-image: url(/assets/images/background_desktop.png);
+      }
+      @media (min-width: 120rem) {
+        background-size: 1920px auto;
       }
 
       & h2 {

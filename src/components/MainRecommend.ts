@@ -49,9 +49,18 @@ class MainRecommend extends TaingElement {
         }
 
         & h1 {
-          font-size: 1.25rem;
-          font-weight: 700;
+          font-size: 0.75rem;
+          font-weight: 600;
           color: var(--white);
+
+          @media (min-width: 768px) {
+            font-size: 1rem;
+            font-weight: 700;
+          }
+          @media (min-width: 1920px) {
+            font-size: 1.7769rem;
+            font-weight: 700;
+          }
         }
       }
 

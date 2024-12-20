@@ -340,7 +340,7 @@ class MainBanner extends TaingElement {
       <div class="main-banner-container">
         <swiper-container
           .autoplay=${{
-            delay: 2000,
+            delay: 5000,
             disableOnInteraction: false,
           }}
           .loop=${false}

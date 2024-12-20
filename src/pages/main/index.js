@@ -1,4 +1,4 @@
 // import '@/pages/MainPage';
-import '@/components/Layout';
-import '@/components/MainBanner';
-import '@/components/MainRecommend';
+import '@/components/layout/Layout';
+import '@/components/main/MainBanner';
+import '@/components/main/MainRecommend';

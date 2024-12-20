@@ -1,2 +1,2 @@
-import '@/components/Layout';
-import '@/components/Login';
+import '@/components/layout/Layout';
+import '@/components/login/Login';

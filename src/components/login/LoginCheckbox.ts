@@ -1,6 +1,6 @@
 import { css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Checkbox } from './Checkbox';
+import { Checkbox } from '../Checkbox';
 
 @customElement('login-checkbox')
 export class LoginCheckbox extends Checkbox {

@@ -1,1 +1,1 @@
-import '@/components/Layout';
+import '@/components/layout/Layout';

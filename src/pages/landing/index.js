@@ -1,6 +1,6 @@
-import '/src/components/Layout.ts';
-import '/src/components/LandingBanner.ts';
-import '/src/components/LandingSlide.ts';
-import '/src/components/LandingPanorama.ts';
-import '/src/components/LandingWelcome.ts';
+import '/src/components/layout/Layout.ts';
+import '/src/components/landing/LandingBanner.ts';
+import '/src/components/landing/LandingSlide.ts';
+import '/src/components/landing/LandingPanorama.ts';
+import '/src/components/landing/LandingWelcome.ts';
 import '/src/components/Swiper.ts';

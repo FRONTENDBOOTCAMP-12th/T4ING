@@ -1,10 +1,10 @@
 import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import loginCSS from '../styles/loginCSS';
+import { TaingElement } from '../Taing';
+import loginCSS from '../../styles/loginCSS';
 import Swal from 'sweetalert2';
-import { TaingElement } from './Taing';
-import './Form';
-import './Button';
+import '../Form';
+import '../Button';
 import './LoginCheckbox';
 
 @customElement('login-element')

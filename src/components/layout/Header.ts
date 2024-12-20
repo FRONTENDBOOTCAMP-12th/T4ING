@@ -1,9 +1,9 @@
 import { html, css, CSSResultGroup, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
-import { buttonCSS } from '../styles/buttonCSS';
-import './Search';
-import './SvgIcon';
+import { TaingElement } from '../Taing';
+import { buttonCSS } from '../../styles/buttonCSS';
+import '../Search';
+import '../SvgIcon';
 
 @customElement('t-header')
 class Header extends TaingElement {

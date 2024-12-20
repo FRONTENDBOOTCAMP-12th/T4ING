@@ -1,7 +1,8 @@
 import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
-import { LandingItem } from '../@types/landingtype';
+// import { TaingElement } from '@components/Taing';
+import { TaingElement } from '../Taing';
+import { LandingItem } from '../../@types/landingtype';
 
 @customElement('landing-banner')
 export class Banner extends TaingElement {

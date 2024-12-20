@@ -1,8 +1,8 @@
 import Swiper from 'swiper';
-import { TaingElement } from './Taing';
-import { MainData } from '../@types/type';
+import { TaingElement } from '../Taing';
+import { MainData } from '../../@types/type';
 import { register } from 'swiper/element/bundle';
-import { getBannerImageURL } from '../api/getMainPageURL';
+import { getBannerImageURL } from '../../api/getMainPageURL';
 import { customElement, property } from 'lit/decorators.js';
 import { html, css, CSSResultGroup } from 'lit';
 

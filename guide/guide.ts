@@ -2,12 +2,12 @@ import { html, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../src/components/Taing';
 import { buttonCSS } from '../src/styles/buttonCSS';
-import '/src/components/SvgIcon';
-import '/src/components/Form';
-import '/src/components/Checkbox';
-import '/src/components/LoginCheckbox';
-import '/src/components/Button';
-import '/main.ts';
+import '../src/components/login/LoginCheckbox';
+import '../src/components/SvgIcon';
+import '../src/components/Form';
+import '../src/components/Checkbox';
+import '../src/components/Button';
+import '../main.ts';
 
 @customElement('guide-logo')
 class GuideLogo extends TaingElement {

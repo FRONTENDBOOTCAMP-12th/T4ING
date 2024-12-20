@@ -1,7 +1,7 @@
 import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
-import { LandingItem } from '../@types/landingtype';
+import { TaingElement } from '../Taing';
+import { LandingItem } from '../../@types/landingtype';
 
 @customElement('landing-welcome')
 class Welcome extends TaingElement {

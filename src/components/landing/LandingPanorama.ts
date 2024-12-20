@@ -1,6 +1,6 @@
 import { css, CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
+import { TaingElement } from '../Taing';
 
 @customElement('landing-panorama')
 export class Panorama extends TaingElement {

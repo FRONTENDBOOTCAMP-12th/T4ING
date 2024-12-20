@@ -1,6 +1,6 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
+import { TaingElement } from '../Taing';
 import './Header';
 import './Footer';
 

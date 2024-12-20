@@ -1,7 +1,7 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { TaingElement } from './Taing';
-import './Sns';
+import { TaingElement } from '../Taing';
+import '../Sns';
 
 @customElement('t-footer')
 class Footer extends TaingElement {

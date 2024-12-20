@@ -32,8 +32,9 @@ class MainRecommend extends TaingElement {
         width: 100%;
         min-width: 320px;
         height: auto;
-        gap: 8px;
+        gap: 1.2rem;
         padding-inline: 0.5rem;
+        margin-block: 1.2rem;
 
         box-sizing: border-box;
         overflow: clip;
@@ -104,6 +105,7 @@ class MainRecommend extends TaingElement {
         align-items: center;
         inline-size: 100%;
         block-size: auto;
+        transition: transform 0.2s ease-in-out;
 
         & img {
           inline-size: 100%;
@@ -112,8 +114,21 @@ class MainRecommend extends TaingElement {
           border-radius: 0.5rem;
         }
       }
+
+      swiper-slide:hover {
+        transform: translateY(-0.3rem);
+      }
+
+      .dimmed-slide {
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+      }
     `,
   ];
+
+  get swiperInstance() {
+    return (this.renderRoot.querySelector('swiper-container') as any)?.swiper;
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -133,6 +148,7 @@ class MainRecommend extends TaingElement {
       this.device = newDevice;
       console.log('rec-device-changed:', this.device);
     }
+    this.toggleDimSlide();
   };
 
   async fetchData() {
@@ -150,23 +166,26 @@ class MainRecommend extends TaingElement {
     }
   }
 
-  get swiperInstance() {
-    return (this.renderRoot.querySelector('swiper-container') as any)?.swiper;
-  }
-
   addSwiperEvents() {
     const swiper = this.swiperInstance;
     if (swiper) {
-      swiper.on('slideChange', this.updateSwiperState);
+      swiper.on('slideChange', () => {
+        this.updateSwiperState();
+        this.toggleDimSlide();
+      });
       swiper.on('reachBeginning', this.updateSwiperState);
       swiper.on('reachEnd', this.updateSwiperState);
+      swiper.on('swiper:render', this.toggleDimSlide);
     }
   }
 
   removeSwiperEvents() {
     const swiper = this.swiperInstance;
     if (swiper) {
-      swiper.off('slideChange', this.updateSwiperState);
+      swiper.off('slideChange', () => {
+        this.updateSwiperState();
+        this.toggleDimSlide();
+      });
       swiper.off('reachBeginning', this.updateSwiperState);
       swiper.off('reachEnd', this.updateSwiperState);
     }
@@ -178,7 +197,6 @@ class MainRecommend extends TaingElement {
       const isBeginningChanged = this.isBeginning !== swiper.isBeginning;
       const isEndChanged = this.isEnd !== swiper.isEnd;
 
-      // 상태가 변경된 경우에만 업데이트
       if (isBeginningChanged || isEndChanged) {
         this.isBeginning = swiper.isBeginning;
         this.isEnd = swiper.isEnd;
@@ -193,9 +211,47 @@ class MainRecommend extends TaingElement {
         console.log('swiper-state:', this.isBeginning, this.isEnd);
 
         this.requestUpdate();
+
+        this.toggleDimSlide();
       }
     }
   };
+
+  toggleDimSlide() {
+    const swiper = this.swiperInstance;
+    const device = this.device;
+    const slides = swiper.slides;
+    if (!slides) return;
+    if (device === 'mobile' && slides.length > 0) {
+      slides.forEach((slide: HTMLElement, index: number) => {
+        slide.classList.remove('dimmed-slide');
+        if (
+          index === swiper.activeIndex - 1 ||
+          index === swiper.activeIndex + 3
+        )
+          slide.classList.add('dimmed-slide');
+      });
+    } else if (device === 'tablet' && slides.length > 0) {
+      slides.forEach((slide: HTMLElement, index: number) => {
+        slide.classList.remove('dimmed-slide');
+        if (
+          index === swiper.activeIndex - 1 ||
+          index === swiper.activeIndex + 5
+        )
+          slide.classList.add('dimmed-slide');
+      });
+    } else if (device === 'desktop' && slides.length > 0) {
+      slides.forEach((slide: HTMLElement, index: number) => {
+        slide.classList.remove('dimmed-slide');
+        if (
+          index === swiper.activeIndex - 1 ||
+          index === swiper.activeIndex + 7
+        )
+          slide.classList.add('dimmed-slide');
+      });
+    }
+    this.requestUpdate();
+  }
 
   render() {
     return html`

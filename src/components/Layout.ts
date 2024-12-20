@@ -9,6 +9,11 @@ export class Layout extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,
     css`
+      :host {
+        display: flex;
+        flex-flow: column nowrap;
+        height: inherit;
+      }
       .child-wrap {
         --padding-top: 2.375rem;
 

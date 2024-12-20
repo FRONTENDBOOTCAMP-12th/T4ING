@@ -6,7 +6,6 @@ import './Footer';
 
 @customElement('t-layout')
 export class Layout extends TaingElement {
-  @property({ type: Boolean }) hasPadding = false;
   static styles: CSSResultGroup = [
     super.styles,
     css`
@@ -26,14 +25,14 @@ export class Layout extends TaingElement {
         @media (min-width: 120rem) {
           --padding-top: 6.25rem;
         }
+        padding-top: var(--padding-top);
       }
     `,
   ];
-
   render() {
     return html`
       <t-header></t-header>
-      <div class=${this.hasPadding ? 'has-padding' : ''}>
+      <div class=${this.dataset.padding === 'yes' ? 'has-padding' : ''}>
         <slot></slot>
       </div>
       <t-footer></t-footer>

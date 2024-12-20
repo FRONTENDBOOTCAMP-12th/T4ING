@@ -5,7 +5,7 @@ import { buttonCSS } from '../styles/buttonCSS';
 import './Search';
 import './SvgIcon';
 
-@customElement('taing-header')
+@customElement('t-header')
 class Header extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,

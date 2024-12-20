@@ -26,11 +26,11 @@ export class Layout extends TaingElement {
 
   render() {
     return html`
-      <taing-header></taing-header>
+      <t-header></t-header>
       <div class="child-wrap">
         <slot></slot>
       </div>
-      <taing-footer></taing-footer>
+      <t-footer></t-footer>
     `;
   }
 }

@@ -14,7 +14,8 @@ export class Slide extends TaingElement {
     css`
       .slide-container {
         position: relative;
-        width: 100vw;
+        min-width: 20rem;
+        width: 100%;
         height: 170vw;
         max-height: 32rem;
         margin: 0 auto;
@@ -43,6 +44,7 @@ export class Slide extends TaingElement {
         width: calc(100vw-40px);
         max-width: 100%;
         box-sizing: border-box;
+        overflow: hidden;
       }
 
       @media (min-width: 48rem) {
@@ -138,20 +140,24 @@ export class Slide extends TaingElement {
   render() {
     return html`
       <div class="slide-container">
-        <h2 class="slide-title">티빙에만 있는 재미</h2>
-        <p class="slide-description-primary">오리지널 콘텐츠를 만나보세요!</p>
-        <p class="slide-description-secondary">
-          차별화된 웰메이드 오리지널 콘텐츠
-        </p>
+        <hgroup>
+          <h2 class="slide-title">티빙에만 있는 재미</h2>
+          <p class="slide-description-primary">오리지널 콘텐츠를 만나보세요!</p>
+          <p class="slide-description-secondary">
+            차별화된 웰메이드 오리지널 콘텐츠
+          </p>
+        </hgroup>
         <div class="slider-container">
           <swiper-element
             .slides="${this.slides}"
             .options=${{
               autoplay: true,
               speed: 400,
-              slidesPerView: 1,
-              delay: 4000,
-              centered: true,
+              slidesPerView: 'auto',
+              delay: 1000,
+              spaceBetween: 16,
+              centeredSlides: true,
+              loop: true,
             }}
             key="${this.device}"
           >

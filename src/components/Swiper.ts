@@ -42,6 +42,7 @@ export class SwiperElement extends LitElement {
           disableOnInteraction: false,
         },
         loop: true,
+        
         ...this.options,
       }
     );

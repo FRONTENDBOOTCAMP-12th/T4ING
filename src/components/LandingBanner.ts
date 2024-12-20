@@ -11,21 +11,21 @@ export class Banner extends TaingElement {
   static styles = css`
     .banner {
       --banner-color: var(--white);
-
       position: relative;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 70vw;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 1308px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-size: cover;
-      background-position: center;
+      background-size: 1920px auto;
+      background-position: 50% 0;
       background-image: url(/assets/images/background_mobile.png);
       text-align: center;
       color: var(--banner-color);
+      background-repeat: repeat-x;
 
       @media (min-width: 48rem) {
         background-image: url(/assets/images/background_desktop.png);
@@ -71,10 +71,7 @@ export class Banner extends TaingElement {
         <h2>방송, 영화, 해외시리즈까지</h2>
         <h2>재미를 플레이해보세요.</h2>
         <p>간편하게 가입하고 원하실 때 해지할 수 있어요.</p>
-        <a
-          href="http://localhost:5173/src/pages/login/"
-          target="_self"
-          rel="noopener noreferrer"
+        <a href="/src/pages/login/" target="_self" rel="noopener noreferrer"
           ><img src="/assets/images/profile/profile_4.webp" alt="taing logo" />
           새로워진 타잉을 만나보세요!</a
         >

@@ -1,11 +1,12 @@
 import { html, css, CSSResultGroup } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 import './Header';
 import './Footer';
 
 @customElement('t-layout')
 export class Layout extends TaingElement {
+  @property({ type: Boolean }) hasPadding = false;
   static styles: CSSResultGroup = [
     super.styles,
     css`
@@ -14,7 +15,8 @@ export class Layout extends TaingElement {
         flex-flow: column nowrap;
         height: inherit;
       }
-      .child-wrap {
+
+      .has-padding {
         --padding-top: 2.375rem;
 
         @media (min-width: 48rem) {
@@ -24,7 +26,6 @@ export class Layout extends TaingElement {
         @media (min-width: 120rem) {
           --padding-top: 6.25rem;
         }
-        padding-top: var(--padding-top);
       }
     `,
   ];
@@ -32,7 +33,7 @@ export class Layout extends TaingElement {
   render() {
     return html`
       <t-header></t-header>
-      <div class="child-wrap">
+      <div class=${this.hasPadding ? 'has-padding' : ''}>
         <slot></slot>
       </div>
       <t-footer></t-footer>

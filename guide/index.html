@@ -10,55 +10,51 @@
     <script type="module" src="/guide/guide.ts"></script>
   </head>
   <body>
-    <div class="guide-wrap">
-      <h1>
-        <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
-        style guide
-      </h1>
+    <t-layout>
+      <div class="guide-wrap">
+        <h1>
+          <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
+          style guide
+        </h1>
 
-      <h2 class="guide-title">🪄 Header</h2>
-      <taing-header></taing-header>
+        <h2 class="guide-title">🪄 Logo</h2>
+        <guide-logo></guide-logo>
 
-      <h2 class="guide-title">🪄 Buttons</h2>
-      <div class="component-wrap">
-        <guide-buttons></guide-buttons>
+        <h2 class="guide-title">🪄 Badge</h2>
+        <guide-badge></guide-badge>
+
+        <h2 class="guide-title">🪄 Form</h2>
+        <div class="component-wrap">
+          <login-checkbox>label</login-checkbox>
+          <t-checkbox>label</t-checkbox>
+        </div>
+        <t-input>
+          <label slot="label">아이디</label>
+          <strong slot="hint" class="hint"
+            >영문 또는 영문, 숫자 조합 6~12자리</strong
+          >
+        </t-input>
+        <t-input type="password">
+          <label slot="label">비밀번호</label>
+          <strong slot="hint" class="hint"
+            >영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리</strong
+          >
+        </t-input>
+        <t-input type="email">
+          <label slot="label">이메일</label>
+        </t-input>
+
+        <h2 class="guide-title">🪄 Buttons</h2>
+        <div class="component-wrap">
+          <guide-buttons></guide-buttons>
+        </div>
+
+        <div class="component-wrap flex">
+          <t-button></t-button>
+          <t-button type="submit" color="primary">로그인</t-button>
+          <t-button color="secondary">본인인증</t-button>
+        </div>
       </div>
-
-      <div class="component-wrap flex">
-        <t-button></t-button>
-        <t-button type="submit" color="primary">로그인</t-button>
-        <t-button color="secondary">본인인증</t-button>
-      </div>
-
-      <h2 class="guide-title">🪄 Logo</h2>
-      <guide-logo></guide-logo>
-
-      <h2 class="guide-title">🪄 Form</h2>
-      <div class="component-wrap">
-        <login-checkbox>label</login-checkbox>
-        <t-checkbox>label</t-checkbox>
-      </div>
-      <t-input>
-        <label slot="label">아이디</label>
-        <strong slot="hint" class="hint"
-          >영문 또는 영문, 숫자 조합 6~12자리</strong
-        >
-      </t-input>
-      <t-input type="password">
-        <label slot="label">비밀번호</label>
-        <strong slot="hint" class="hint"
-          >영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리</strong
-        >
-      </t-input>
-      <t-input type="email">
-        <label slot="label">이메일</label>
-      </t-input>
-
-      <h2 class="guide-title">🪄 Badge</h2>
-      <guide-badge></guide-badge>
-
-      <h2 class="guide-title">🪄 Footer</h2>
-      <taing-footer></taing-footer>
-    </div>
+    </t-layout>
   </body>
 </html>

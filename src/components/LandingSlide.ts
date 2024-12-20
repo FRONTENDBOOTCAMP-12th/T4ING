@@ -113,7 +113,7 @@ export class Slide extends TaingElement {
       );
       const data = (await response.json()).items;
 
-      this.slides = data
+      let filterSlide = data
         .map((item: any) => {
           let img = item.img || 'default.jpg';
           if (this.device === 'tablet' && !item.img) {
@@ -130,6 +130,12 @@ export class Slide extends TaingElement {
             item.device === this.device ||
             (this.device === 'tablet' && item.device === 'mobile')
         );
+      const minSlides = 20;
+      while (filterSlide.length < minSlides) {
+        filterSlide = [...filterSlide, ...filterSlide];
+      }
+      this.slides = filterSlide.slice(0, minSlides);
+
       await this.requestUpdate();
       console.log(this.slides);
     } catch (error) {
@@ -151,10 +157,12 @@ export class Slide extends TaingElement {
           <swiper-element
             .slides="${this.slides}"
             .options=${{
-              autoplay: true,
-              speed: 400,
+              autoplay: {
+                delay: 1000,
+                disableOnInteraction: false,
+              },
+              speed: 500,
               slidesPerView: 'auto',
-              delay: 1000,
               spaceBetween: 16,
               centeredSlides: true,
               loop: true,

@@ -24,18 +24,18 @@ export class Panorama extends TaingElement {
         margin-bottom: 2rem;
       }
       .p-title {
-        font-size: var(--size-5);
+        font-size: var(--text-size-m);
         margin-bottom: 0.625rem;
         line-height: 1.6;
         weight: bold;
       }
       .p-description-primary {
-        font-size: var(--size-3);
+        font-size: var(--text-size-s);
         margin-bottom: 1.25rem;
         line-height: 1.6;
       }
       .p-description-secondary {
-        font-size: var(--size-3);
+        font-size: var(--text-size-s);
         margin-bottom: 1.25rem;
         line-height: 1.6;
         visibility: hidden;
@@ -170,7 +170,7 @@ export class Panorama extends TaingElement {
     if (slideCount === 0) return;
 
     const totalWidth = (slideCount - 1) * 10;
-    const animationDuration = slideCount * 10;
+    const animationDuration = slideCount * 1;
 
     const styleElement = document.createElement('style');
     styleElement.textContent = `

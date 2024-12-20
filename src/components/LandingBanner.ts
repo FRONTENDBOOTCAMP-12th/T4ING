@@ -33,21 +33,21 @@ export class Banner extends TaingElement {
 
       & h2 {
         line-height: 1.4;
-        font-size: 1rem;
+        font-size: var(--text-size-l);
         margin: 0 0;
         color: var(--banner-color);
       }
 
       & p {
         line-height: 1.6;
-        font-size: 0.75rem;
+        font-size: var(--text-size-s);
         margin: 0.5rem 0;
         color: var(--gray400);
       }
       & a {
-        font-size: 1rem;
+        font-size: var(--text-size-m);
         text-decoration: none;
-        background-color: red;
+        background-color: var(--red-2);
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         color: var(--banner-color);

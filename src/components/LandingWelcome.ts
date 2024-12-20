@@ -27,8 +27,8 @@ class Welcome extends TaingElement {
       margin-top: 5rem;
 
       @media (min-width: 48rem) {
-        height: 50vw;
-        max-height: 57rem;
+        height: 35vw;
+        max-height: 7rem;
       }
       & p {
         line-height: 1.4;
@@ -41,7 +41,7 @@ class Welcome extends TaingElement {
       font-size: 1rem;
       text-decoration: none;
       color: var(--white);
-      background-color: red;
+      background-color: var(--red-2);
       padding: 0.5rem 1rem;
       border-radius: 0.5rem;
       transition: background-color 0.3s ease;

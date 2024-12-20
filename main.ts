@@ -1,2 +1,1 @@
-import './src/components/Header';
-import './src/components/Footer';
+import './src/components/Layout';

@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 import './Sns';
 
-@customElement('taing-footer')
+@customElement('t-footer')
 class Footer extends TaingElement {
   static styles: CSSResultGroup = [
     super.styles,

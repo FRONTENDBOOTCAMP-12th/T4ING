@@ -15,25 +15,26 @@ export class Banner extends TaingElement {
       top: 0px;
       left: 0px;
       width: 100%;
-      height: 1308px;
+      height: 380px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-size: 560px auto;
+      background-size: 768px auto;
       background-position: 50% 0;
       background-image: url(/assets/images/background_mobile.png);
       text-align: center;
       color: var(--banner-color);
+      transition: 0.3s ease;
       background-repeat: repeat-x;
 
       @media (min-width: 48rem) {
-        background-size: 768px auto;
-
+        height: 534px;
+        background-size: 1920px auto;
         background-image: url(/assets/images/background_desktop.png);
       }
       @media (min-width: 120rem) {
-        background-size: 1920px auto;
+        height: 1302px;
       }
 
       & h2 {

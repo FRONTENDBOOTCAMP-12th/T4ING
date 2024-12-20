@@ -1,3 +1,2 @@
+import '@/components/Layout';
 import '@/components/Login';
-import '@/components/Header';
-import '@/components/Footer';

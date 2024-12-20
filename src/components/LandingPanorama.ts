@@ -6,6 +6,7 @@ import { TaingElement } from './Taing';
 export class Panorama extends TaingElement {
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
   @property({ type: Number }) currentIndex: number = 0;
+  @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
   private resizeTimeout: number | null = null;
 
@@ -14,7 +15,7 @@ export class Panorama extends TaingElement {
     css`
       .p-container {
         position: relative;
-        width: 100vw;
+        width: 100%;
         height: 110vw;
         max-height: 25rem;
         text-align: center;
@@ -42,7 +43,7 @@ export class Panorama extends TaingElement {
       .slider {
         position: relative;
         overflow: hidden;
-        width: 100vw;
+        width: 100%;
         margin: auto;
         white-space: nowrap;
         .slides-right {
@@ -67,6 +68,10 @@ export class Panorama extends TaingElement {
         display: inline;
         width: 11.25rem;
         height: 6.375rem;
+        @media (min-width: 120rem) {
+          width: 22rem;
+          height: 12.5rem;
+        }
       }
 
       @media (min-width: 48rem) {
@@ -101,47 +106,36 @@ export class Panorama extends TaingElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.handleResize();
+    this.device = super.getDevice;
+    this.apiUrl = import.meta.env.VITE_PB_API || '';
     this.fetchSlides();
-    window.addEventListener('resize', this.debounceResize);
+    window.addEventListener('resize', this.handleResize);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    window.removeEventListener('resize', this.debounceResize);
+    window.removeEventListener('resize', this.handleResize);
   }
 
-  debounceResize = () => {
-    if (this.resizeTimeout) {
-      clearTimeout(this.resizeTimeout);
-    }
-    this.resizeTimeout = window.setTimeout(() => {
-      this.handleResize();
-    }, 100);
-  };
+  async handleResize() {
+    const newDevice = super.getDevice;
 
-  handleResize = () => {
-    if (window.innerWidth <= 320) {
-      this.device = 'mobile';
-    } else if (window.innerWidth <= 768) {
-      this.device = 'tablet';
-    } else {
-      this.device = 'desktop';
+    if (this.device !== newDevice) {
+      this.device = newDevice;
     }
-    this.fetchSlides();
-  };
+  }
 
   async fetchSlides() {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_PB_API}/collections/landing_float/records`
+        `${this.apiUrl}/collections/landing_float/records`
       );
       const data = (await response.json()).items;
 
       console.log('Data from API:', data);
       console.log('Current device:', this.device);
 
-      this.slides = data
+      let filterSlide = data
         .map((item: any) => {
           let img = item.img || 'default.jpg';
           if (this.device === 'tablet' && !item.img) {
@@ -149,9 +143,7 @@ export class Panorama extends TaingElement {
           }
           return {
             title: item.title || 'Unknown',
-            img: `${import.meta.env.VITE_PB_API}/files/landing_float/${
-              item.id
-            }/${img}`,
+            img: `${this.apiUrl}/files/landing_float/${item.id}/${img}`,
             device: item.device,
           };
         })
@@ -160,7 +152,12 @@ export class Panorama extends TaingElement {
             item.device === this.device ||
             (this.device === 'tablet' && item.device === 'mobile')
         );
-      console.log('Filtered slides:', this.slides);
+
+      const minSlides = 20;
+      while (filterSlide.length < minSlides) {
+        filterSlide = [...filterSlide, ...filterSlide];
+      }
+      this.slides = filterSlide.slice(0, minSlides);
 
       this.updateAnimation();
     } catch (error) {

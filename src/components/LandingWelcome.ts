@@ -13,7 +13,7 @@ class Welcome extends TaingElement {
       position: relative;
       top: 0;
       left: 0;
-      width: 100vw;
+      width: 100%;
       height: 70vw;
       max-height: 23rem;
       display: flex;
@@ -62,7 +62,7 @@ class Welcome extends TaingElement {
         <p>지금 시작해보세요</p>
         <a
           class="landing-link"
-          href="http://localhost:5173/src/pages/login/"
+          href="/src/pages/login/"
           target="_self"
           rel="noopener noreferrer"
           ><img

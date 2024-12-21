@@ -41,6 +41,14 @@ export class TaingElement extends LitElement {
     `,
   ];
 
+  get authToken() {
+    return (
+      sessionStorage.getItem('authToken') ||
+      localStorage.getItem('authToken') ||
+      false
+    );
+  }
+
   get getDevice() {
     if (window.matchMedia('(min-width: 1920px)').matches) {
       return 'desktop';

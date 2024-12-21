@@ -87,16 +87,20 @@ class Header extends TaingElement {
 
   @property({ type: Boolean }) isActiveSearch = false;
 
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  search() {
+    this.isActiveSearch = !this.isActiveSearch;
+  }
+
   navMenu = [
     { navName: '실시간', url: '/', className: 'tv' },
     { navName: 'TV프로그램', url: '/' },
     { navName: '영화', url: '/' },
     { navName: 'Paramount+', url: '/', className: 'paramount', iconOnly: true },
   ];
-
-  search() {
-    this.isActiveSearch = !this.isActiveSearch;
-  }
 
   render() {
     return html`
@@ -106,60 +110,67 @@ class Header extends TaingElement {
             <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
           </a>
         </h1>
-        <nav class="header__gnb">
-          ${this.navMenu.map(
-            ({ navName, url, className, iconOnly }) =>
-              html`<a href=${url} class="header__gnb-item ${className}">
-                ${className === 'tv'
-                  ? html`<svg-icon
-                      svg-id="live"
-                      .size=${[, [20], [34]]}
-                    ></svg-icon>`
-                  : nothing}
-                ${className === 'paramount'
-                  ? html`<svg-icon
-                      svg-id="paramount"
-                      .size=${[, [65, 20], [112, 34]]}
-                    ></svg-icon>`
-                  : nothing}
-                ${iconOnly ? nothing : navName}
-              </a>`
-          )}
-        </nav>
-        <aside>
-          ${!this.isActiveSearch
-            ? html`<button
-                type="button"
-                @click=${this.search}
-                class="btn-icon size-xs"
-              >
-                <svg-icon
-                  svg-id="search"
-                  .size=${[[18], [24], [40]]}
-                  centered="true"
-                ></svg-icon>
-                <span class="sr-only">검색</span>
-              </button>`
-            : html`<button
-                type="button"
-                @click=${this.search}
-                class="btn-icon size-xs"
-              >
-                <svg-icon
-                  svg-id="close"
-                  .size=${[[22], [28], [50]]}
-                  centered="true"
-                ></svg-icon>
-                <span class="sr-only">닫기</span>
-              </button>`}
-          <a
-            href="/"
-            class="btn-icon size-xs header__user"
-            aria-label="프로필 변경"
-          >
-            <img src="/assets/images/profile/profile_4.webp" alt="user name" />
-          </a>
-        </aside>
+        ${super.authToken
+          ? html`
+              <nav class="header__gnb">
+                ${this.navMenu.map(
+                  ({ navName, url, className, iconOnly }) =>
+                    html`<a href=${url} class="header__gnb-item ${className}">
+                      ${className === 'tv'
+                        ? html`<svg-icon
+                            svg-id="live"
+                            .size=${[, [20], [34]]}
+                          ></svg-icon>`
+                        : nothing}
+                      ${className === 'paramount'
+                        ? html`<svg-icon
+                            svg-id="paramount"
+                            .size=${[, [65, 20], [112, 34]]}
+                          ></svg-icon>`
+                        : nothing}
+                      ${iconOnly ? nothing : navName}
+                    </a>`
+                )}
+              </nav>
+              <aside>
+                ${!this.isActiveSearch
+                  ? html`<button
+                      type="button"
+                      @click=${this.search}
+                      class="btn-icon size-xs"
+                    >
+                      <svg-icon
+                        svg-id="search"
+                        .size=${[[18], [24], [40]]}
+                        centered="true"
+                      ></svg-icon>
+                      <span class="sr-only">검색</span>
+                    </button>`
+                  : html`<button
+                      type="button"
+                      @click=${this.search}
+                      class="btn-icon size-xs"
+                    >
+                      <svg-icon
+                        svg-id="close"
+                        .size=${[[22], [28], [50]]}
+                        centered="true"
+                      ></svg-icon>
+                      <span class="sr-only">닫기</span>
+                    </button>`}
+                <a
+                  href="/"
+                  class="btn-icon size-xs header__user"
+                  aria-label="프로필 변경"
+                >
+                  <img
+                    src="/assets/images/profile/profile_4.webp"
+                    alt="user name"
+                  />
+                </a>
+              </aside>
+            `
+          : nothing}
       </header>
       <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
     `;

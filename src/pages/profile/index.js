@@ -1,2 +1,2 @@
 import '@layout/Layout';
-import '@components/profile/profile';
+import '@components/profile/Profile';

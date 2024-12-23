@@ -49,10 +49,17 @@ class Login extends TaingElement {
       }
 
       const token = result.token;
+      const userId = result.record.id;
+
+      const loginUser = {
+        userId,
+        token,
+      };
+
       if (this.autoLogin) {
-        localStorage.setItem('authToken', token);
+        localStorage.setItem('authToken', JSON.stringify(loginUser));
       } else {
-        sessionStorage.setItem('authToken', token);
+        sessionStorage.setItem('authToken', JSON.stringify(loginUser));
       }
 
       Swal.fire({
@@ -62,7 +69,7 @@ class Login extends TaingElement {
         confirmButtonText: '닫기',
       }).then(() => {
         setTimeout(() => {
-          location.href = '/src/pages/main/';
+          location.href = '/src/pages/profile/';
         }, 300);
       });
     } catch {

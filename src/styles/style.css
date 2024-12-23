@@ -3,8 +3,6 @@
 @import './base.css';
 
 :root {
-  height: 100%;
-  background: var(--black);
   /* text */
   --base-font-family: 'Pretendard';
   --base-font-color: var(--gray200);
@@ -13,16 +11,12 @@
   --round-xs: var(--size-1);
 
   min-inline-size: 20rem;
+  height: 100%;
+  background: var(--black);
   font-family: var(--base-font-family), sans-serif;
   color: var(--base-font-color);
 }
 
 body {
-  height: inherit;
-}
-
-.taing-wrap {
-  display: flex;
-  flex-flow: column nowrap;
   height: inherit;
 }

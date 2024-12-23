@@ -67,3 +67,14 @@ export enum Device {
   Mobile = 'mobile',
   Tablet = 'tablet',
 }
+
+export interface Profile {
+  account: string;
+  id: string;
+  name: string;
+  avatar: string;
+  collectionId: string;
+  collectionName: string;
+  created: Date;
+  updated: Date;
+}

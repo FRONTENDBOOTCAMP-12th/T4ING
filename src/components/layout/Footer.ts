@@ -62,6 +62,14 @@ class Footer extends TaingElement {
         .footer__corp-menu {
           padding-block: var(--size-2);
           border-block-start: 1px solid var(--dark-bg-2);
+
+          a {
+            transition: 0.3s;
+
+            &:hover {
+              color: var(--gray300);
+            }
+          }
         }
 
         .footer__info {
@@ -74,6 +82,11 @@ class Footer extends TaingElement {
 
           a {
             text-decoration: underline;
+            transition: 0.3s;
+
+            &:hover {
+              color: var(--gray300);
+            }
           }
         }
 

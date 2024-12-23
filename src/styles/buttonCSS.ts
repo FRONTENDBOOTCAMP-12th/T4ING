@@ -3,7 +3,17 @@ import { css } from 'lit';
 export const buttonCSS = {
   't-button': css`
     :host {
+      --min-inline-size: 18rem;
       display: block;
+      inline-size: var(--min-inline-size);
+      margin-inline: auto;
+
+      @media (min-width: 48rem) {
+        --min-inline-size: 26rem;
+      }
+      @media (min-width: 120rem) {
+        --min-inline-size: 45.75rem;
+      }
     }
 
     button {
@@ -43,15 +53,15 @@ export const buttonCSS = {
     }
 
     .btn {
-      --min-inline-size: 18rem;
-      --padding: var(--size-3);
+      --padding: 0.6875rem;
       --background-color: var(--gray700);
       --font-size: var(--text-size-s);
       --line-height: 1.5;
       --color: var(--gray400);
       --hoaver-color: var(--gray800);
-      inline-size: var(--min-inline-size);
+      inline-size: 100%;
       padding: var(--padding);
+      border: 1px solid var(--background-color);
       background-color: var(--background-color);
       font-size: var(--font-size);
       font-weight: 600;
@@ -82,15 +92,25 @@ export const buttonCSS = {
         }
       }
 
+      &.line {
+        --border-color: var(--gray600);
+        --background-color: transparent;
+        --color: var(--gray300);
+        border: 1px solid var(--border-color);
+
+        &:hover {
+          --border-color: currentColor;
+          --color: var(--white);
+        }
+      }
+
       @media (min-width: 48rem) {
-        --min-inline-size: 26rem;
-        --padding: 0.8125rem;
+        --padding: var(--size-3);
         --font-size: var(--text-size-m);
         --line-height: 1.5;
       }
       @media (min-width: 120rem) {
-        --min-inline-size: 45.75rem;
-        --padding: 1.375rem;
+        --padding: 1.3125rem;
         --font-size: var(--text-size-xl);
       }
     }

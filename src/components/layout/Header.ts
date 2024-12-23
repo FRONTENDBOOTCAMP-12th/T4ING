@@ -46,6 +46,14 @@ class Header extends TaingElement {
           margin-block-end: auto;
         }
 
+        .header__gnb-item {
+          transition: 0.3s;
+
+          &:hover {
+            color: var(--white);
+          }
+        }
+
         aside {
           display: flex;
           column-gap: var(--column-gap);
@@ -103,6 +111,8 @@ class Header extends TaingElement {
   ];
 
   render() {
+    const page = location.pathname.split('/').filter((str) => str !== '')[2];
+
     return html`
       <header id="header" class="header">
         <h1>
@@ -110,7 +120,7 @@ class Header extends TaingElement {
             <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
           </a>
         </h1>
-        ${super.authToken
+        ${super.authToken && page === 'main'
           ? html`
               <nav class="header__gnb">
                 ${this.navMenu.map(
@@ -159,9 +169,8 @@ class Header extends TaingElement {
                       <span class="sr-only">닫기</span>
                     </button>`}
                 <a
-                  href="/"
+                  href="/src/pages/user/"
                   class="btn-icon size-xs header__user"
-                  aria-label="프로필 변경"
                 >
                   <img
                     src="/assets/images/profile/profile_4.webp"

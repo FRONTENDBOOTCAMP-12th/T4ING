@@ -2,6 +2,7 @@ import { html, css, CSSResultGroup, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { buttonCSS } from '../../styles/buttonCSS';
+import { debounce } from '../../../lib/debounce';
 import '../Search';
 import '../SvgIcon';
 
@@ -18,6 +19,16 @@ class Header extends TaingElement {
         inline-size: 100%;
         z-index: 1000;
       }
+
+      :host(.bg) {
+        background: var(--header-bg);
+        backdrop-filter: var(--header-filter);
+        transition: 0.6s ease-out;
+      }
+      :host(.open-search) {
+        background: var(--dark-bg-2);
+      }
+
       .header {
         --header-padding: 0.625rem 1rem;
         --header-height: 2.375rem;
@@ -97,10 +108,34 @@ class Header extends TaingElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    window.addEventListener('scroll', this.debounceScroll.bind(this));
+  }
+
+  get header() {
+    return this.shadowRoot?.querySelector<HTMLElement>('.header')!;
   }
 
   search() {
     this.isActiveSearch = !this.isActiveSearch;
+
+    if (this.isActiveSearch) {
+      this.classList.add('open-search');
+    } else {
+      this.classList.remove('open-search');
+    }
+  }
+
+  debounceScroll = debounce(this.handleScroll, 200);
+
+  handleScroll() {
+    const scrollY = window.scrollY;
+
+    if (scrollY) {
+      this.classList.add('bg');
+    } else {
+      this.classList.remove('bg');
+    }
   }
 
   navMenu = [

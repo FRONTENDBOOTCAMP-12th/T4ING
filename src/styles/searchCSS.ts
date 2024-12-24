@@ -18,9 +18,9 @@ export const searchCSS = {
       inset-block-start: 100%;
       inset-inline: 0 0;
       padding: var(--inner-padding);
-      background: var(--gray900);
+      background: var(--dark-bg-2);
       z-index: 1;
-      transition: padding 0.3s;
+      transition: 0.3s;
 
       @media (min-width: 48rem) {
         --inner-padding: var(--size-7) min(7.6875rem, 16.015625vw)

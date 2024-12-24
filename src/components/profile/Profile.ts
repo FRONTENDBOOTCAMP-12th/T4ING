@@ -1,7 +1,9 @@
 import { CSSResultGroup, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { Profile } from '../../@types/type';
+import { UserProfile } from '../../@types/type';
+import { requestUrl, getPbImageURL } from './../../../lib/request';
+import gsap from 'gsap';
 import '../Button';
 import '../SvgIcon';
 
@@ -107,7 +109,7 @@ class Profile extends TaingElement {
     `,
   ];
 
-  @property({ type: Object }) data: Profile[] = [];
+  @property({ type: Array }) data: UserProfile[] = [];
   @property({ type: Boolean }) isEdit = false;
 
   connectedCallback() {
@@ -123,13 +125,9 @@ class Profile extends TaingElement {
   async dataFetch() {
     try {
       const response = await fetch(
-        super.requestUrl(
-          'users_profile',
-          `?filter=account='${super.getUserId}'`
-        )
+        requestUrl('users_profile', `?filter=account='${super.getUserId}'`)
       );
       const data = await response.json();
-      const nameArray = ['첫째', '둘째', '셋째', '넷째'];
 
       if (response.ok) {
         this.data = Array(4)
@@ -137,10 +135,47 @@ class Profile extends TaingElement {
           .map(
             (_, i) =>
               data.items[i] || {
-                name: nameArray[i] + ' 타잉',
+                name: '타잉',
                 src: '/assets/images/profile/default.webp',
               }
           );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  updated(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.updated(changedProperties);
+    const item = this.renderRoot.querySelectorAll('.profile-list__item');
+
+    if (item.length && !this.isEdit) {
+      gsap.from(item, {
+        y: 20,
+        opacity: 0,
+        stagger: 0.15,
+      });
+    }
+  }
+
+  async handleSelectProfile(e: Event) {
+    e.preventDefault();
+
+    const target = e.target as HTMLAnchorElement;
+    const id = target.closest('li')?.id || 'default';
+
+    try {
+      const response = await fetch(requestUrl('users', `/${this.getUserId}`), {
+        method: 'PATCH',
+        headers: {
+          ...this.headers,
+          Authorization: this.getToken,
+        },
+        body: JSON.stringify({ profile: id }),
+      });
+
+      if (response.ok) {
+        location.href = '/src/pages/main/';
       }
     } catch (err) {
       console.error(err);
@@ -164,7 +199,7 @@ class Profile extends TaingElement {
                     <figure class="profile-list__img">
                       <img
                         src="${profile.avatar
-                          ? super.getPbImageURL(profile)
+                          ? getPbImageURL(profile)
                           : profile.src}"
                         alt="${profile.name}"
                       />
@@ -177,6 +212,7 @@ class Profile extends TaingElement {
                       : html`<a
                           href="/src/pages/main/"
                           class="profile-list__btn"
+                          @click=${this.handleSelectProfile}
                         >
                           <svg-icon
                             id="lock"
@@ -195,12 +231,14 @@ class Profile extends TaingElement {
                   @click=${this.handleEdit}
                   >완료</t-button
                 >`
-              : html`<t-button
-                  color="line"
-                  size="size-s"
-                  @click=${this.handleEdit}
-                  ><span>프로필 편집</span></t-button
-                >`}
+              : this.data.length
+                ? html`<t-button
+                    color="line"
+                    size="size-s"
+                    @click=${this.handleEdit}
+                    ><span>프로필 편집</span></t-button
+                  >`
+                : ''}
           </section>`
         : (location.href = '/src/pages/login/')}
     `;

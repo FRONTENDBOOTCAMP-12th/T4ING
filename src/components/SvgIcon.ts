@@ -8,7 +8,7 @@ class SvgIcon extends TaingElement {
     super.styles,
     css`
       :host {
-        position: relative;
+        // position: relative;
         vertical-align: middle;
       }
 

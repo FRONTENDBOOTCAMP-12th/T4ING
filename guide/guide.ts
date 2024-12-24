@@ -156,31 +156,34 @@ class Guide extends TaingElement {
         </div>
 
         <h2 class="guide-title">🪄 Modal</h2>
-        <!--t-modal
+        <t-modal
           popup
           class="popup"
           .cancelFn=${() => {
-          const modal = this.shadowRoot?.querySelector('.popup') as HTMLElement;
-
-          if (modal) {
-            modal.hidden = true;
-          }
-        }}
-        ></t-modal-->
-        <t-modal
-          class="modal-confirm"
-          .confirmFn=${() => console.log('컨펌 콜백')}
-          .cancelFn=${() => {
             const modal = this.shadowRoot?.querySelector(
-              '.modal-confirm'
+              '.popup'
             ) as HTMLElement;
 
             if (modal) {
               modal.hidden = true;
             }
           }}
+        ></t-modal>
+
+        <!--t-modal
+          class="modal-confirm"
+          .confirmFn=${() => console.log('컨펌 콜백')}
+          .cancelFn=${() => {
+          const modal = this.shadowRoot?.querySelector(
+            '.modal-confirm'
+          ) as HTMLElement;
+
+          if (modal) {
+            modal.hidden = true;
+          }
+        }}
           >로그아웃 하시겠습니까?</t-modal
-        >
+        -->
       </div>
     `;
   }

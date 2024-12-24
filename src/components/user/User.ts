@@ -1,6 +1,7 @@
 import { css, CSSResultGroup, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
+import '../Modal';
 
 @customElement('t-user')
 class User extends TaingElement {
@@ -48,15 +49,70 @@ class User extends TaingElement {
       }
     `,
   ];
+
+  handleModalOpen(target: string) {
+    const modal = this.shadowRoot?.querySelector(target) as HTMLElement;
+
+    modal.hidden = false;
+  }
+
   render() {
     return html`
       <ul class="user-menu">
         <li>
           <a href="/src/pages/profile/" class="user-menu__btn">프로필 편집</a>
         </li>
-        <li><button type="button" class="user-menu__btn">로그아웃</button></li>
-        <li><button type="button" class="user-menu__btn">회원 탈퇴</button></li>
+        <li>
+          <button
+            type="button"
+            class="user-menu__btn"
+            @click=${this.handleModalOpen.bind(this, '.modal-logout')}
+          >
+            로그아웃
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="user-menu__btn"
+            @click=${this.handleModalOpen.bind(this, '.modal-withdraw')}
+          >
+            회원 탈퇴
+          </button>
+        </li>
       </ul>
+
+      <t-modal
+        hidden
+        class="modal-logout"
+        .confirmFn=${() => console.log('컨펌 콜백')}
+        .cancelFn=${() => {
+          const modal = this.shadowRoot?.querySelector(
+            '.modal-logout'
+          ) as HTMLElement;
+
+          if (modal) {
+            modal.hidden = true;
+          }
+        }}
+        >로그아웃 하시겠습니까?</t-modal
+      >
+
+      <t-modal
+        hidden
+        class="modal-withdraw"
+        .confirmFn=${() => console.log('컨펌 콜백')}
+        .cancelFn=${() => {
+          const modal = this.shadowRoot?.querySelector(
+            '.modal-withdraw'
+          ) as HTMLElement;
+
+          if (modal) {
+            modal.hidden = true;
+          }
+        }}
+        >회원 탈퇴 하시겠습니까?</t-modal
+      >
     `;
   }
 }

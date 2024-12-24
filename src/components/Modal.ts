@@ -101,12 +101,6 @@ class Modal extends TaingElement {
   @property({ attribute: false }) confirmFn?: () => void;
   @property({ attribute: false }) cancelFn?: () => void;
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    this.bodyEl.classList.add('fixed');
-  }
-
   bodyEl = document.querySelector<HTMLElement>('html')!;
 
   handleConfirm() {
@@ -124,6 +118,8 @@ class Modal extends TaingElement {
   }
 
   render() {
+    this.bodyEl.classList.add('fixed');
+
     return html`
       <div class="modal">
         ${this.popup

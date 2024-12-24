@@ -106,8 +106,6 @@ class MainBanner extends TaingElement {
         border: 0;
         background-color: transparent;
 
-        order: -1;
-
         inline-size: 100%;
         block-size: 100%;
 
@@ -150,8 +148,7 @@ class MainBanner extends TaingElement {
 
       ::part(hidden) {
         visibility: hidden;
-        display: none; /* 버튼을 아예 제거 */
-        /* visibility: hidden;  // 공간을 유지하려면 이 옵션을 사용 */
+        display: none;
       }
 
       ::part(button-next-icon),
@@ -269,7 +266,7 @@ class MainBanner extends TaingElement {
     const button = document.createElement('button');
     button.classList.add('banner-autoplay-btn');
     button.part.add('autoplay-play');
-    pagination.append(button);
+    pagination.prepend(button);
 
     button.addEventListener('click', this.toggleAutoplay.bind(this));
 

@@ -68,13 +68,14 @@ export enum Device {
   Tablet = 'tablet',
 }
 
-export interface Profile {
+export interface UserProfile {
   account: string;
+  avatar: string;
   id: string;
   name: string;
-  avatar: string;
   collectionId: string;
   collectionName: string;
   created: Date;
   updated: Date;
+  [key: string]: string;
 }

@@ -1,7 +1,9 @@
 import { CSSResultGroup, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { Profile } from '../../@types/type';
+import { UserProfile } from '../../@types/type';
+import { requestUrl, getPbImageURL } from './../../../lib/request';
+import gsap from 'gsap';
 import '../Button';
 import '../SvgIcon';
 
@@ -14,7 +16,8 @@ class Profile extends TaingElement {
         --margin: var(--size-8) var(--size-8);
         --padding: 4.5rem 2.125rem 0;
         --grid-columns: repeat(2, 114px);
-        --gap: var(--size-6);
+        --gap: calc(var(--size-6) + var(--nickname-height)) var(--size-6);
+        --nickname-height: var(--size-5);
         --btn-inline-size: 8.4375rem;
         --caption-margin: var(--size-3);
         --caption-font-size: var(--text-size-s);
@@ -31,13 +34,28 @@ class Profile extends TaingElement {
 
         .profile-list__item {
           position: relative;
+        }
 
-          figcaption {
-            margin-block-start: var(--caption-margin);
-            font-size: var(--caption-font-size);
-            font-weight: 400;
-            line-height: 1.6;
-            transition: 0.3s;
+        .profile-list__nickname {
+          position: absolute;
+          inset-inline-start: 0;
+          inset-block-start: 100%;
+          inline-size: 100%;
+          margin-block-start: var(--caption-margin);
+          padding: 0;
+          border: 0;
+          background: initial;
+          font-size: var(--caption-font-size);
+          font-weight: 400;
+          line-height: 1.6;
+          color: inherit;
+          text-align: center;
+          transition: 0.3s;
+        }
+
+        .profile-list__img {
+          img {
+            border-radius: var(--round-xs);
           }
         }
 
@@ -48,9 +66,26 @@ class Profile extends TaingElement {
           border: none;
           background-color: initial;
           cursor: pointer;
+
+          &.select {
+            &:before {
+              position: absolute;
+              inset: 0;
+              background-color: #00000050;
+              content: '';
+            }
+          }
+
+          svg-icon {
+            position: absolute;
+            inset-inline-start: 50%;
+            inset-block-start: 50%;
+            translate: -50% -50%;
+          }
         }
 
         t-button {
+          padding-block-start: var(--nickname-height);
           max-width: var(--btn-inline-size);
         }
 
@@ -59,6 +94,7 @@ class Profile extends TaingElement {
           --padding: 4.625rem 2.5rem 0;
           --grid-columns: repeat(4, 132px);
           --gap: var(--size-8);
+
           --btn-inline-size: 9.75rem;
         }
         @media (min-width: 120rem) {
@@ -66,6 +102,7 @@ class Profile extends TaingElement {
           --padding-block: 8.125rem 4.25rem 0;
           --grid-columns: repeat(4, 234px);
           --gap: 3.25rem;
+          --nickname-height: var(--size-11);
           --btn-inline-size: 17rem;
           --caption-margin: var(--size-4);
           --caption-font-size: var(--text-size-xl);
@@ -107,7 +144,7 @@ class Profile extends TaingElement {
     `,
   ];
 
-  @property({ type: Object }) data: Profile[] = [];
+  @property({ type: Array }) data: UserProfile[] = [];
   @property({ type: Boolean }) isEdit = false;
 
   connectedCallback() {
@@ -123,13 +160,9 @@ class Profile extends TaingElement {
   async dataFetch() {
     try {
       const response = await fetch(
-        super.requestUrl(
-          'users_profile',
-          `?filter=account='${super.getUserId}'`
-        )
+        requestUrl('users_profile', `?filter=account='${super.getUserId}'`)
       );
       const data = await response.json();
-      const nameArray = ['첫째', '둘째', '셋째', '넷째'];
 
       if (response.ok) {
         this.data = Array(4)
@@ -137,10 +170,47 @@ class Profile extends TaingElement {
           .map(
             (_, i) =>
               data.items[i] || {
-                name: nameArray[i] + ' 타잉',
+                name: '타잉',
                 src: '/assets/images/profile/default.webp',
               }
           );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  updated(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.updated(changedProperties);
+    const item = this.renderRoot.querySelectorAll('.profile-list__item');
+
+    if (item.length && !this.isEdit) {
+      gsap.from(item, {
+        y: 20,
+        opacity: 0,
+        stagger: 0.15,
+      });
+    }
+  }
+
+  async handleSelectProfile(e: Event) {
+    e.preventDefault();
+
+    const target = e.target as HTMLAnchorElement;
+    const id = target.closest('li')?.id || 'default';
+
+    try {
+      const response = await fetch(requestUrl('users', `/${this.getUserId}`), {
+        method: 'PATCH',
+        headers: {
+          ...this.headers,
+          Authorization: this.getToken,
+        },
+        body: JSON.stringify({ profile: id }),
+      });
+
+      if (response.ok) {
+        location.href = '/src/pages/main/';
       }
     } catch (err) {
       console.error(err);
@@ -157,50 +227,70 @@ class Profile extends TaingElement {
                 ${this.isEdit ? '편집' : '시청'}할 프로필을 선택해주세요.
               </p>
             </hgroup>
-            <ul class="profile-list">
-              ${this.data.map((profile) => {
-                return html`
-                  <li class="profile-list__item" id=${profile.id || ''}>
-                    <figure class="profile-list__img">
-                      <img
-                        src="${profile.avatar
-                          ? super.getPbImageURL(profile)
-                          : profile.src}"
-                        alt="${profile.name}"
-                      />
-                      <figcaption>${profile.name}</figcaption>
-                    </figure>
-                    ${this.isEdit
-                      ? html`<button type="button" class="profile-list__btn">
-                          <span class="sr-only">프로필 편집</span>
-                        </button>`
-                      : html`<a
-                          href="/src/pages/main/"
-                          class="profile-list__btn"
-                        >
-                          <svg-icon
-                            id="lock"
-                            .size=${[[50], , [60]]}
-                          ></svg-icon>
-                          <span class="sr-only">프로필 선택</span>
-                        </a>`}
-                  </li>
-                `;
-              })}
-            </ul>
-            ${this.isEdit
-              ? html`<t-button
-                  color="secondary"
-                  size="size-s"
-                  @click=${this.handleEdit}
-                  >완료</t-button
-                >`
-              : html`<t-button
-                  color="line"
-                  size="size-s"
-                  @click=${this.handleEdit}
-                  ><span>프로필 편집</span></t-button
-                >`}
+
+            <form>
+              <ul class="profile-list">
+                ${this.data.map((profile) => {
+                  return html`
+                    <li class="profile-list__item" id=${profile.id || ''}>
+                      <figure class="profile-list__img">
+                        <img
+                          src="${profile.avatar
+                            ? getPbImageURL(profile)
+                            : profile.src}"
+                          alt="${profile.name}"
+                        />
+                        ${this.isEdit
+                          ? html`<input
+                              type="text"
+                              class="profile-list__nickname"
+                              value=${profile.name}
+                              maxlength="8"
+                            />`
+                          : html`<figcaption class="profile-list__nickname">
+                              ${profile.name}
+                            </figcaption>`}
+                      </figure>
+                      ${this.isEdit
+                        ? html`<button type="button" class="profile-list__btn">
+                            <svg-icon
+                              svg-id="edit"
+                              .size=${[[50], , [60]]}
+                            ></svg-icon>
+                            <span class="sr-only">프로필 편집</span>
+                          </button>`
+                        : html`<a
+                            href="/src/pages/main/"
+                            class="profile-list__btn select"
+                            @click=${this.handleSelectProfile}
+                          >
+                            <svg-icon
+                              svg-id="lock"
+                              .size=${[[50], , [60]]}
+                            ></svg-icon>
+                            <span class="sr-only">프로필 선택</span>
+                          </a>`}
+                    </li>
+                  `;
+                })}
+              </ul>
+              ${this.isEdit
+                ? html`<t-button
+                    type="submit"
+                    color="secondary"
+                    size="size-s"
+                    @click=${this.handleEdit}
+                    >완료</t-button
+                  >`
+                : this.data.length
+                  ? html`<t-button
+                      color="line"
+                      size="size-s"
+                      @click=${this.handleEdit}
+                      ><span>프로필 편집</span></t-button
+                    >`
+                  : ''}
+            </form>
           </section>`
         : (location.href = '/src/pages/login/')}
     `;

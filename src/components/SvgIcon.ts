@@ -8,7 +8,7 @@ class SvgIcon extends TaingElement {
     super.styles,
     css`
       :host {
-        position: relative;
+        // position: relative;
         vertical-align: middle;
       }
 
@@ -30,7 +30,7 @@ class SvgIcon extends TaingElement {
   @state() device = '';
 
   svgId: string | null = '';
-  size: number[] | undefined = [];
+  size: Array<string | undefined> | undefined = [];
   centered: boolean = false;
   svgDevice: string = '';
 

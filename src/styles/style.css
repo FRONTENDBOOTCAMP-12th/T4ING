@@ -6,6 +6,8 @@
   /* text */
   --base-font-family: 'Pretendard';
   --base-font-color: var(--gray200);
+  --header-bg: #19191970;
+  --header-filter: blur(0.625rem);
 
   /* rounded */
   --round-xs: var(--size-1);

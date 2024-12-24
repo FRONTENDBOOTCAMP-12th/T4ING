@@ -1,5 +1,4 @@
-import { LitElement, css, CSSResultGroup, unsafeCSS, nothing } from 'lit';
-import { Item } from '../@types/type';
+import { LitElement, css, CSSResultGroup, unsafeCSS } from 'lit';
 import resetCSS from '@/styles/reset.css?inline';
 
 export class TaingElement extends LitElement {
@@ -45,6 +44,10 @@ export class TaingElement extends LitElement {
   static PB_URL = import.meta.env.VITE_PB_URL;
   static PB_API = `${this.PB_URL}api`;
 
+  headers = {
+    'Content-Type': 'application/json',
+  };
+
   get authToken() {
     return (
       sessionStorage.getItem('authToken') ||
@@ -53,10 +56,16 @@ export class TaingElement extends LitElement {
     );
   }
 
+  get getToken() {
+    return this.authToken
+      ? JSON.parse(this.authToken).token || JSON.parse(this.authToken).token
+      : undefined;
+  }
+
   get getUserId() {
     return this.authToken
       ? JSON.parse(this.authToken).userId || JSON.parse(this.authToken).userId
-      : false;
+      : undefined;
   }
 
   get getDevice() {
@@ -69,13 +78,5 @@ export class TaingElement extends LitElement {
     } else {
       return 'mobile';
     }
-  }
-
-  requestUrl(collection: string = 'users', param: string = '') {
-    return `${TaingElement.PB_API}/collections/${collection}/records${param}`;
-  }
-
-  getPbImageURL(item: Item, fileName = 'avatar') {
-    return `${TaingElement.PB_API}/files/${item.collectionId}/${item.id}/${item[fileName]}`;
   }
 }

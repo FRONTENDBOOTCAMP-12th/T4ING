@@ -1,2 +1,2 @@
 import '@layout/Layout';
-import '@components/User/User';
+import '@components/user/User';

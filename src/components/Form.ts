@@ -8,8 +8,12 @@ import './SvgIcon';
 @customElement('t-input')
 class Input extends TaingElement {
   @property({ type: String }) id = '';
-  @property({ type: String }) type: 'text' | 'password' | 'number' | 'search' =
-    'text';
+  @property({ type: String }) type:
+    | 'text'
+    | 'password'
+    | 'number'
+    | 'search'
+    | 'email' = 'text';
   @property({ type: String }) value = '';
   @state() isPassword: boolean = false;
 

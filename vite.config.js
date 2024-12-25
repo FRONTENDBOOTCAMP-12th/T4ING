@@ -8,9 +8,10 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         loginMain: resolve(__dirname, 'src/pages/main/index.html'),
-        login: resolve(__dirname, 'src/pages/login/index.html'),
         landing: resolve(__dirname, 'src/pages/landing/index.html'),
+        login: resolve(__dirname, 'src/pages/login/index.html'),
         profile: resolve(__dirname, 'src/pages/profile/index.html'),
+        user: resolve(__dirname, 'src/pages/user/index.html'),
         guide: resolve(__dirname, 'guide/index.html'),
       },
       output: {

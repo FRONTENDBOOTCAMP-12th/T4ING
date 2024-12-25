@@ -79,8 +79,8 @@ class Login extends TaingElement {
         icon: 'error',
         confirmButtonText: '닫기',
       }).then(() => {
-        this.idInput.value = '';
-        this.pwInput.value = '';
+        this.idInput.handleResetValue();
+        this.pwInput.handleResetValue();
       });
     }
   }

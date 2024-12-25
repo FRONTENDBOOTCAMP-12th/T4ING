@@ -28,7 +28,7 @@ export class SwiperElement extends LitElement {
         spaceBetween: 10,
         slidesPerGroup: 1,
         centeredSlides: true,
-
+        effect: 'cards',
         navigation: {
           nextEl: this.renderRoot.querySelector(
             '.swiper-button-next'

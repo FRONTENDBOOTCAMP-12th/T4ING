@@ -5,7 +5,7 @@ import { TaingElement } from '../Taing';
 @customElement('landing-panorama')
 export class Panorama extends TaingElement {
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
-  @property({ type: Number }) currentIndex: number = 0;
+  // @property({ type: Number }) currentIndex: number = 0;
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
   private resizeTimeout: number | null = null;
@@ -27,7 +27,6 @@ export class Panorama extends TaingElement {
         font-size: var(--text-size-m);
         margin-bottom: 0.625rem;
         line-height: 1.6;
-        weight: bold;
       }
       .p-description-primary {
         font-size: var(--text-size-s);
@@ -65,7 +64,7 @@ export class Panorama extends TaingElement {
       }
 
       img {
-        display: inline;
+        display: inline-block;
         width: 11.25rem;
         height: 6.375rem;
         @media (min-width: 120rem) {

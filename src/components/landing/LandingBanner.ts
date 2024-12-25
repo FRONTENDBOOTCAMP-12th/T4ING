@@ -12,7 +12,7 @@ export class Banner extends TaingElement {
     .container {
       position: relative;
       width: 100%;
-      height: 100vh;
+      height: 70vh;
       overflow: hidden;
     }
 
@@ -41,24 +41,38 @@ export class Banner extends TaingElement {
       flex-direction: column;
     }
 
-    .slides.up {
-      animation: scroll-up 10s linear infinite;
+    @keyframes scroll-up {
+      from {
+        transform: translateY(50%);
+      }
+      to {
+        transform: translateY(-50%);
+      }
     }
-
-    .slides.down {
-      animation: scroll-down 10s linear infinite;
+    @keyframes scroll-down {
+      from {
+        transform: translateY(-50%);
+      }
+      to {
+        transform: translateY(50%);
+      }
+    }
+    .slides-up {
+      animation: scroll-up var(--animation-duration, 5s) linear infinite;
+    }
+    .slides-down {
+      animation: scroll-down var(--animation-duration, 10s) linear infinite;
     }
 
     .slide {
       text-align: center;
       margin: 1rem 0;
-    }
-
-    .slide img {
-      width: 80%;
-      max-width: 600px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      img {
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
     }
 
     .banner {
@@ -169,38 +183,8 @@ export class Banner extends TaingElement {
     const slideCount = this.slides.length;
     if (slideCount === 0) return;
 
-    const totalWidth = (slideCount - 1) * 10;
     const animationDuration = slideCount * 1;
-
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      @keyframes scroll-up {
-      from {
-        transform: translateY(50%);
-      }
-      to {
-        transform: translateY(-50%);
-      }
-    }
-      @keyframes scroll-down {
-      from {
-        transform: translateY(-50%);
-      }
-      to {
-        transform: translateY(50%);
-      }
-    }
-        .slides-up{
-        animation:scroll-up ${animationDuration}s linear infinite}
-        .slides-down{
-        animation:scroll-down ${animationDuration}s linear infinite}
-    `;
-
-    const existingStyle = this.shadowRoot?.querySelector('style');
-    if (existingStyle) {
-      this.shadowRoot?.removeChild(existingStyle);
-    }
-    this.shadowRoot?.appendChild(styleElement);
+    this.style.setProperty('--animation-duration', `${animationDuration}s`);
   }
 
   render() {

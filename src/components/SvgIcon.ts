@@ -30,7 +30,7 @@ class SvgIcon extends TaingElement {
   @state() device = '';
 
   svgId: string | null = '';
-  size: Array<string | undefined> | undefined = [];
+  size: Array<number[] | undefined> = [];
   centered: boolean = false;
   svgDevice: string = '';
 
@@ -48,10 +48,8 @@ class SvgIcon extends TaingElement {
   setIconSize() {
     const index =
       this.device === 'mobile' ? 0 : this.device === 'tablet' ? 1 : 2;
-
-    [this.width, this.height] = this.size[index]
-      ? this.size[index]
-      : this.size[0];
+    const size = this.size[index] ?? this.size[0] ?? [18, 18];
+    [this.width, this.height] = size;
     this.height ||= this.width;
     this.svgDevice = this.size[index] ? this.device : 'mobile';
   }

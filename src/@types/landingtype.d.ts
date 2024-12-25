@@ -18,4 +18,5 @@ export interface LandingItem {
   img?: string;
   title?: string;
   updated?: Date;
+  description?: string;
 }

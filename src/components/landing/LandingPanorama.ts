@@ -144,6 +144,8 @@ export class Panorama extends TaingElement {
             title: item.title || 'Unknown',
             img: `${this.apiUrl}/files/landing_float/${item.id}/${img}`,
             device: item.device,
+            description: item.description || '상세 설명이 없습니다.',
+            detailUrl: `details.html?id=${item.id}`,
           };
         })
         .filter(
@@ -202,6 +204,11 @@ export class Panorama extends TaingElement {
     this.shadowRoot?.appendChild(styleElement);
   }
 
+  onSlideClick(e: Event) {
+    const target = e.currentTarget as HTMLAnchorElement;
+    const href = target.href;
+  }
+
   render() {
     return html`
       <div class="p-container">
@@ -215,18 +222,42 @@ export class Panorama extends TaingElement {
           <div class="slides-right">
             ${this.slides.map(
               (slide: any) =>
-                html` <div class="slide">
-                  <img src="${slide.img}" alt="${slide.title}" />
-                </div>`
+                html`<a
+                    href="${slide.detailUrl}"
+                    class="slide-link"
+                    @click="${this.onSlideClick}"
+                  >
+                    <div class="slide-card">
+                      <img src="${slide.img}" alt="${slide.title}" />
+                      <div class="slide-info">
+                        <h3>${slide.title}</h3>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="slide">
+                    <img src="${slide.img}" alt="${slide.title}" />
+                  </div>`
             )}
           </div>
 
           <div class="slides-left">
             ${this.slides.map(
               (slide: any) =>
-                html` <div class="slide">
-                  <img src="${slide.img}" alt="${slide.title}" />
-                </div>`
+                html`<a
+                    href="${slide.detailUrl}"
+                    class="slide-link"
+                    @click="${this.onSlideClick}"
+                  >
+                    <div class="slide-card">
+                      <img src="${slide.img}" alt="${slide.title}" />
+                      <div class="slide-info">
+                        <h3>${slide.title}</h3>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="slide">
+                    <img src="${slide.img}" alt="${slide.title}" />
+                  </div>`
             )}
           </div>
         </div>

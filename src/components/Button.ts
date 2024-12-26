@@ -38,9 +38,23 @@ class Button extends TaingElement {
           btn: true,
           [this.color || '']: !!this.color,
         })}
+        @click=${this.handleClick}
       >
         <slot>확인</slot>
       </button>
     `;
+  }
+
+  handleClick() {
+    if (this.buttonType === 'submit') {
+      const form = this.closest('form');
+      if (form) {
+        const submitEvent = new Event('submit', {
+          bubbles: true,
+          cancelable: true,
+        });
+        form.dispatchEvent(submitEvent);
+      }
+    }
   }
 }

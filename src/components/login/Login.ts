@@ -4,6 +4,7 @@ import { TaingElement } from '../Taing';
 import loginCSS from '../../styles/loginCSS';
 import Swal from 'sweetalert2';
 import { isValidId, isValidPw } from '../../utils/validationUtils';
+import { debounce } from '../../utils/debounce';
 import '../Form';
 import '../Button';
 import './LoginCheckbox';
@@ -31,14 +32,17 @@ class Login extends TaingElement {
     }/collections/users/auth-with-password`;
     const id = this.idInput.value;
     const pw = this.pwInput.value;
-    if (!isValidId(id)) {
-      throw new Error('아이디 형식이 올바르지 않습니다');
-    }
-    if (!isValidPw(pw)) {
-      throw new Error('비밀번호 형식이 올바르지 않습니다.');
-    }
+    let errorMessage = '';
 
     try {
+      if (!isValidId(id)) {
+        errorMessage = '아이디 형식이 올바르지 않습니다';
+        throw new Error();
+      }
+      if (!isValidPw(pw)) {
+        errorMessage = '비밀번호 형식이 올바르지 않습니다.';
+        throw new Error();
+      }
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -50,7 +54,8 @@ class Login extends TaingElement {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.');
+        errorMessage = '아이디 또는 비밀번호가 올바르지 않습니다.';
+        throw new Error();
       }
 
       const token = result.token;
@@ -60,23 +65,28 @@ class Login extends TaingElement {
       } else {
         sessionStorage.setItem('authToken', token);
       }
-
-      Swal.fire({
-        title: '로그인 성공!',
-        text: '메인 페이지로 이동합니다.',
-        icon: 'success',
-        confirmButtonText: '닫기',
-      }).then(() => {
-        setTimeout(() => {
-          location.href = '/src/pages/profile/';
-        }, 300);
-      });
+      location.href = '/src/pages/profile/';
     } catch {
       Swal.fire({
-        title: '로그인 실패',
-        text: '아이디 또는 비밀번호가 올바르지 않습니다.',
-        icon: 'error',
-        confirmButtonText: '닫기',
+        html: `
+          <div style="position: relative; inline-size: 100%; block-size: 10rem;">
+            <p>${errorMessage}</p>
+            <button id="custom-button" style="position:absolute; left:0; bottom:0; inline-size:100%; color: white; padding: 10px; border-top: 1px; border-radius: 5px;">
+              확인
+            </button>
+          </div>
+        `,
+        showConfirmButton: false, // 기본 버튼 숨기기
+        background: 'var(--dark-bg-2)',
+        padding: '0',
+        willOpen: () => {
+          const customButton = document.getElementById('custom-button');
+          if (customButton) {
+            customButton.addEventListener('click', () => {
+              Swal.close(); // 모달 닫기
+            });
+          }
+        },
       }).then(() => {
         this.idInput.handleResetValue();
         this.pwInput.handleResetValue();
@@ -84,12 +94,22 @@ class Login extends TaingElement {
     }
   }
 
-  handleLogin(e: Event) {
+  handleSubmit(e: Event) {
     e.preventDefault();
     this.fetchData();
   }
+
+  debouncedSubmit = debounce((e: Event) => this.handleSubmit(e), 200);
+
   handleCheckboxChange(e: any) {
     this.autoLogin = e.detail.checked;
+  }
+
+  handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.debouncedSubmit(e);
+    }
   }
 
   render() {
@@ -97,7 +117,7 @@ class Login extends TaingElement {
       <div class="login-container">
         <div class="login-wrap">
           <h1 class="login__title">TVING ID 로그인</h1>
-          <form>
+          <form @keydown=${this.handleKeyDown} @submit=${this.debouncedSubmit}>
             <div class="login__input-wrap">
               <t-input id="idField">
                 <label slot="label">아이디</label>
@@ -114,7 +134,7 @@ class Login extends TaingElement {
             >
               자동로그인
             </login-checkbox>
-            <t-button @click=${this.handleLogin} color="primary">
+            <t-button buttonType="submit" color="primary">
               로그인하기
             </t-button>
             <div class="login__find-acount-wrap">

@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { Panorama } from './../components/landing/LandingPanorama';
 
 export const searchCSS = {
   'taing-search': css`
@@ -18,7 +19,7 @@ export const searchCSS = {
       inset-block-start: 100%;
       inset-inline: 0 0;
       padding: var(--inner-padding);
-      background: var(--dark-bg-2);
+      background: var(--header-search-bg);
       z-index: 1;
       transition: 0.3s;
 
@@ -35,7 +36,6 @@ export const searchCSS = {
       --border-size: 0.125rem;
       --font-size: var(--text-size-m);
       --line-height: 1.0625rem;
-      display: flex;
       position: relative;
 
       .search__input {
@@ -55,8 +55,12 @@ export const searchCSS = {
         & + button {
           position: absolute;
           inset-inline-end: 0;
+          inset-block: 0 var(--border-size);
           border: none;
+          background-color: initial;
+          aspect-ratio: 1/1;
           appearance: none;
+          cursor: pointer;
 
           &:focus-visible {
             outline-offset: 5px;
@@ -72,6 +76,121 @@ export const searchCSS = {
       @media (min-width: 120rem) {
         --font-size: var(--text-size-2xl);
         --line-height: 3.5rem;
+      }
+    }
+
+    .search-keyword {
+      --padding: 3rem 3.25rem;
+      --title-padding-bottom: var(--size-5);
+      --title-font-size: var(--text-size-m);
+      --btn-del-size: 1.125rem;
+      display: flex;
+      position: relative;
+      column-gap: 4.375rem;
+      margin-block: var(--padding);
+
+      .search-keyword__item {
+        color: var(--gray300);
+      }
+
+      .search-keyword__title {
+        padding-block-end: var(--title-padding-bottom);
+        font-size: var(--title-font-size);
+        font-weight: 600;
+        line-height: 1.6;
+      }
+
+      .search-keyword__item {
+        flex: 1;
+      }
+
+      .keyword-list {
+        display: inline-flex;
+        flex-flow: column nowrap;
+        row-gap: var(--size-2);
+        overflow-y: auto;
+        max-block-size: 16.25rem;
+
+        &::-webkit-scrollbar {
+          background-color: transparent;
+          width: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--gray500);
+          border-radius: var(--size-4);
+        }
+        &::-webkit-scrollbar-thumb:hover {
+          background-color: #a0a0a5;
+        }
+        &::-webkit-scrollbar-track {
+          border-radius: 10px;
+          background-color: transparent;
+        }
+        &::-webkit-scrollbar-track:hover {
+          background-color: transparent;
+        }
+        &::-webkit-scrollbar-button {
+          display: none;
+        }
+
+        li {
+          display: flex;
+          column-gap: var(--size-4);
+        }
+      }
+
+      .trending-keyword-list {
+        display: flex;
+        flex-flow: column nowrap;
+        row-gap: var(--size-2);
+        counter-reset: number;
+
+        li {
+          a {
+            display: inline-flex;
+            font-weight: 600;
+            line-height: 1.6;
+
+            &:before {
+              min-inline-size: var(--size-5);
+              color: var(--red-1);
+              counter-increment: number;
+              content: counter(number);
+            }
+          }
+        }
+      }
+
+      .btn-del {
+        position: relative;
+        inline-size: var(--btn-del-size);
+        border: 0;
+        background-color: initial;
+        cursor: pointer;
+        aspect-ratio: 1/1;
+      }
+
+      .btn-clear {
+        position: relative;
+        border: 0;
+        background-color: initial;
+        color: var(--gray600);
+        appearance: none;
+        cursor: pointer;
+      }
+
+      @media (min-width: 48rem) {
+        .search-keyword {
+          &:before {
+            position: absolute;
+            inset-block: 0;
+            inset-inline-start: 50%;
+            inline-size: 1px;
+            background: var(--gray800);
+            content: '';
+          }
+      }
+      @media (min-width: 120rem) {
       }
     }
   `,

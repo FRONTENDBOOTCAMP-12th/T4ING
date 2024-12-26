@@ -77,12 +77,12 @@ class Footer extends TaingElement {
             li {
               display: flex;
               column-gap: var(--size-2);
+              transition: 0.3s;
             }
           }
 
           a {
             text-decoration: underline;
-            transition: 0.3s;
 
             &:hover {
               color: var(--gray300);

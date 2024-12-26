@@ -1,8 +1,9 @@
-import { CSSResultGroup, html, css, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { CSSResultGroup, html, css } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { UserProfile } from '../../@types/type';
-import { requestUrl, getPbImageURL } from './../../../lib/request';
+import { requestUrl, getPbImageURL } from '../../utils/request';
+import { checkLogin, getUserId, getTokenHeader } from '../../utils/authUtils';
 import gsap from 'gsap';
 import '../Button';
 import '../SvgIcon';
@@ -145,11 +146,12 @@ class Profile extends TaingElement {
   ];
 
   @property({ type: Array }) data: UserProfile[] = [];
-  @property({ type: Boolean }) isEdit = false;
+  @state() isEdit = false;
 
   connectedCallback() {
     super.connectedCallback();
 
+    checkLogin();
     this.dataFetch();
   }
 
@@ -157,10 +159,24 @@ class Profile extends TaingElement {
     this.isEdit = !this.isEdit;
   }
 
+  updated(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.updated(changedProperties);
+    const item = this.renderRoot.querySelectorAll('.profile-list__item');
+    const tButton = this.renderRoot.querySelector('t-button');
+
+    if (item.length && !this.isEdit) {
+      gsap.from([item, tButton], {
+        y: 20,
+        opacity: 0,
+        stagger: 0.15,
+      });
+    }
+  }
+
   async dataFetch() {
     try {
       const response = await fetch(
-        requestUrl('users_profile', `?filter=account='${super.getUserId}'`)
+        requestUrl('users_profile', `?filter=account='${getUserId()}'`)
       );
       const data = await response.json();
 
@@ -180,32 +196,18 @@ class Profile extends TaingElement {
     }
   }
 
-  updated(changedProperties: Map<string | number | symbol, unknown>): void {
-    super.updated(changedProperties);
-    const item = this.renderRoot.querySelectorAll('.profile-list__item');
-
-    if (item.length && !this.isEdit) {
-      gsap.from(item, {
-        y: 20,
-        opacity: 0,
-        stagger: 0.15,
-      });
-    }
-  }
-
   async handleSelectProfile(e: Event) {
     e.preventDefault();
 
     const target = e.target as HTMLAnchorElement;
     const id = target.closest('li')?.id || 'default';
 
+    console.log(getTokenHeader());
     try {
-      const response = await fetch(requestUrl('users', `/${this.getUserId}`), {
+      console.log(getUserId());
+      const response = await fetch(requestUrl('users', `/${getUserId()}`), {
         method: 'PATCH',
-        headers: {
-          ...this.headers,
-          Authorization: this.getToken,
-        },
+        headers: getTokenHeader(),
         body: JSON.stringify({ profile: id }),
       });
 
@@ -218,81 +220,77 @@ class Profile extends TaingElement {
   }
 
   render() {
-    return html`
-      ${super.authToken
-        ? html`<section class="section-profile">
-            <hgroup class="section-title">
-              <h2 class="section-title__h">프로필 선택</h2>
-              <p class="section-title__desc">
-                ${this.isEdit ? '편집' : '시청'}할 프로필을 선택해주세요.
-              </p>
-            </hgroup>
+    return html`<section class="section-profile">
+      <hgroup class="section-title">
+        <h2 class="section-title__h">프로필 선택</h2>
+        <p class="section-title__desc">
+          ${this.isEdit ? '편집' : '시청'}할 프로필을 선택해주세요.
+        </p>
+      </hgroup>
 
-            <form>
-              <ul class="profile-list">
-                ${this.data.map((profile) => {
-                  return html`
-                    <li class="profile-list__item" id=${profile.id || ''}>
-                      <figure class="profile-list__img">
-                        <img
-                          src="${profile.avatar
-                            ? getPbImageURL(profile)
-                            : profile.src}"
-                          alt="${profile.name}"
-                        />
-                        ${this.isEdit
-                          ? html`<input
-                              type="text"
-                              class="profile-list__nickname"
-                              value=${profile.name}
-                              maxlength="8"
-                            />`
-                          : html`<figcaption class="profile-list__nickname">
-                              ${profile.name}
-                            </figcaption>`}
-                      </figure>
-                      ${this.isEdit
-                        ? html`<button type="button" class="profile-list__btn">
-                            <svg-icon
-                              svg-id="edit"
-                              .size=${[[50], , [60]]}
-                            ></svg-icon>
-                            <span class="sr-only">프로필 편집</span>
-                          </button>`
-                        : html`<a
-                            href="/src/pages/main/"
-                            class="profile-list__btn select"
-                            @click=${this.handleSelectProfile}
-                          >
-                            <svg-icon
-                              svg-id="lock"
-                              .size=${[[50], , [60]]}
-                            ></svg-icon>
-                            <span class="sr-only">프로필 선택</span>
-                          </a>`}
-                    </li>
-                  `;
-                })}
-              </ul>
-              ${this.isEdit
-                ? html`<t-button
-                    type="submit"
-                    color="secondary"
-                    size="size-s"
-                    @click=${this.handleEdit}
-                    >완료</t-button
-                  >`
-                : this.data.length
-                  ? html`<t-button
-                      color="line"
-                      size="size-s"
-                      @click=${this.handleEdit}
-                      ><span>프로필 편집</span></t-button
-                    >`
-                  : ''}
-            </form>
-          </section>`
-        : (location.href = '/src/pages/login/')}
-    `;
+      <form>
+        <ul class="profile-list">
+          ${this.data.map((profile) => {
+            return html`
+              <li class="profile-list__item" id=${profile.id || ''}>
+                <figure class="profile-list__img">
+                  <img
+                    src="${profile.avatar
+                      ? getPbImageURL(profile)
+                      : profile.src}"
+                    alt="${profile.name}"
+                  />
+                  ${this.isEdit
+                    ? html`<input
+                        type="text"
+                        class="profile-list__nickname"
+                        value=${profile.name}
+                        maxlength="8"
+                      />`
+                    : html`<figcaption class="profile-list__nickname">
+                        ${profile.name}
+                      </figcaption>`}
+                </figure>
+                ${this.isEdit
+                  ? html`<button type="button" class="profile-list__btn">
+                      <svg-icon
+                        svg-id="edit"
+                        .size=${[[50], , [60]]}
+                      ></svg-icon>
+                      <span class="sr-only">프로필 편집</span>
+                    </button>`
+                  : html`<a
+                      href="/src/pages/main/"
+                      class="profile-list__btn select"
+                      @click=${this.handleSelectProfile}
+                    >
+                      <svg-icon
+                        svg-id="lock"
+                        .size=${[[50], , [60]]}
+                      ></svg-icon>
+                      <span class="sr-only">프로필 선택</span>
+                    </a>`}
+              </li>
+            `;
+          })}
+        </ul>
+        ${this.isEdit
+          ? html`<t-button
+              type="submit"
+              color="secondary"
+              size="size-s"
+              @click=${this.handleEdit}
+              >완료</t-button
+            >`
+          : this.data.length
+            ? html`<t-button
+                color="line"
+                size="size-s"
+                @click=${this.handleEdit}
+                ><span>프로필 편집</span></t-button
+              >`
+            : ''}
+      </form>
+    </section>`;
   }
 }

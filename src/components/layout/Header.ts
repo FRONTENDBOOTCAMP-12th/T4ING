@@ -1,9 +1,11 @@
 import { html, css, CSSResultGroup, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { buttonCSS } from '../../styles/buttonCSS';
-import { debounce } from '../../../lib/debounce';
-import '../Search';
+import { debounce } from '../../utils/debounce';
+import { isLogin } from '../../utils/authUtils';
+
+import '../search/Search';
 import '../SvgIcon';
 
 @customElement('t-header')
@@ -26,7 +28,7 @@ class Header extends TaingElement {
         transition: 0.6s ease-out;
       }
       :host(.open-search) {
-        background: var(--dark-bg-2);
+        background: var(--header-search-bg);
       }
 
       .header {
@@ -104,7 +106,10 @@ class Header extends TaingElement {
     `,
   ];
 
-  @property({ type: Boolean }) isActiveSearch = false;
+  @state() isActiveSearch = false;
+  @property({ type: String }) userImgPath =
+    '/assets/images/profile/default.webp';
+  @property({ type: String }) userName = '타잉';
 
   connectedCallback() {
     super.connectedCallback();
@@ -113,7 +118,7 @@ class Header extends TaingElement {
   }
 
   get header() {
-    return this.shadowRoot?.querySelector<HTMLElement>('.header')!;
+    return this.renderRoot.querySelector<HTMLElement>('.header')!;
   }
 
   search() {
@@ -126,7 +131,7 @@ class Header extends TaingElement {
     }
   }
 
-  debounceScroll = debounce(this.handleScroll, 200);
+  debounceScroll = debounce(this.handleScroll, 150);
 
   handleScroll() {
     const scrollY = window.scrollY;
@@ -155,7 +160,7 @@ class Header extends TaingElement {
             <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
           </a>
         </h1>
-        ${super.authToken && page === 'main'
+        ${isLogin() && page === 'main'
           ? html`
               <nav class="header__gnb">
                 ${this.navMenu.map(
@@ -207,10 +212,8 @@ class Header extends TaingElement {
                   href="/src/pages/user/"
                   class="btn-icon size-xs header__user"
                 >
-                  <img
-                    src="/assets/images/profile/profile_4.webp"
-                    alt="user name"
-                  />
+                  <img src=${this.userImgPath} alt=${this.userName} />
+                  <span class="sr-only">사용자 메뉴</span>
                 </a>
               </aside>
             `

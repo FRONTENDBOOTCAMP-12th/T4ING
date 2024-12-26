@@ -1,4 +1,4 @@
-import { UserProfile } from '../src/@types/type';
+import { UserProfile } from '../@types/type';
 
 export function requestUrl(collection: string = 'users', param: string = '') {
   return `${

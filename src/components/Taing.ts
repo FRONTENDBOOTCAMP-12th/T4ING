@@ -48,26 +48,6 @@ export class TaingElement extends LitElement {
     'Content-Type': 'application/json',
   };
 
-  get authToken() {
-    return (
-      sessionStorage.getItem('authToken') ||
-      localStorage.getItem('authToken') ||
-      false
-    );
-  }
-
-  get getToken() {
-    return this.authToken
-      ? JSON.parse(this.authToken).token || JSON.parse(this.authToken).token
-      : undefined;
-  }
-
-  get getUserId() {
-    return this.authToken
-      ? JSON.parse(this.authToken).userId || JSON.parse(this.authToken).userId
-      : undefined;
-  }
-
   get getDevice() {
     if (window.matchMedia('(min-width: 1920px)').matches) {
       return 'desktop';

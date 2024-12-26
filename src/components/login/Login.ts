@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import loginCSS from '../../styles/loginCSS';
 import Swal from 'sweetalert2';
+import { isValidId, isValidPw } from '../../utils/validationUtils';
 import '../Form';
 import '../Button';
 import './LoginCheckbox';
@@ -28,12 +29,16 @@ class Login extends TaingElement {
     const apiUrl = `${
       import.meta.env.VITE_PB_API
     }/collections/users/auth-with-password`;
-    try {
-      // const id = '123@naver.com;
-      // const pw = '12345678';
-      const id = this.idInput.value;
-      const pw = this.pwInput.value;
+    const id = this.idInput.value;
+    const pw = this.pwInput.value;
+    if (!isValidId(id)) {
+      throw new Error('아이디 형식이 올바르지 않습니다');
+    }
+    if (!isValidPw(pw)) {
+      throw new Error('비밀번호 형식이 올바르지 않습니다.');
+    }
 
+    try {
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -49,17 +54,11 @@ class Login extends TaingElement {
       }
 
       const token = result.token;
-      const userId = result.record.id;
-
-      const loginUser = {
-        userId,
-        token,
-      };
 
       if (this.autoLogin) {
-        localStorage.setItem('authToken', JSON.stringify(loginUser));
+        localStorage.setItem('authToken', token);
       } else {
-        sessionStorage.setItem('authToken', JSON.stringify(loginUser));
+        sessionStorage.setItem('authToken', token);
       }
 
       Swal.fire({

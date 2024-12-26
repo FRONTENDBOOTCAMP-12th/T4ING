@@ -2,20 +2,6 @@ import { css } from 'lit';
 
 export const buttonCSS = {
   't-button': css`
-    :host {
-      --min-inline-size: 18rem;
-      display: block;
-      inline-size: var(--min-inline-size);
-      margin-inline: auto;
-
-      @media (min-width: 48rem) {
-        --min-inline-size: 26rem;
-      }
-      @media (min-width: 120rem) {
-        --min-inline-size: 45.75rem;
-      }
-    }
-
     button {
       border: none;
       background-color: initial;

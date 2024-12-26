@@ -51,7 +51,7 @@ class User extends TaingElement {
   ];
 
   handleModalOpen(target: string) {
-    const modal = this.shadowRoot?.querySelector(target) as HTMLElement;
+    const modal = this.renderRoot.querySelector(target) as HTMLElement;
 
     modal.hidden = false;
   }
@@ -87,7 +87,7 @@ class User extends TaingElement {
         class="modal-logout"
         .confirmFn=${() => console.log('컨펌 콜백')}
         .cancelFn=${() => {
-          const modal = this.shadowRoot?.querySelector(
+          const modal = this.renderRoot.querySelector(
             '.modal-logout'
           ) as HTMLElement;
 
@@ -103,7 +103,7 @@ class User extends TaingElement {
         class="modal-withdraw"
         .confirmFn=${() => console.log('컨펌 콜백')}
         .cancelFn=${() => {
-          const modal = this.shadowRoot?.querySelector(
+          const modal = this.renderRoot.querySelector(
             '.modal-withdraw'
           ) as HTMLElement;
 

@@ -2,7 +2,9 @@ import { html, css, CSSResultGroup, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { buttonCSS } from '../../styles/buttonCSS';
-import { debounce } from '../../../lib/debounce';
+import { debounce } from '../../utils/debounce';
+import { isLogin } from '../../utils/authUtils';
+
 import '../search/Search';
 import '../SvgIcon';
 
@@ -158,7 +160,7 @@ class Header extends TaingElement {
             <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
           </a>
         </h1>
-        ${super.authToken && page === 'main'
+        ${isLogin() && page === 'main'
           ? html`
               <nav class="header__gnb">
                 ${this.navMenu.map(

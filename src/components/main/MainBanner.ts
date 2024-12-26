@@ -1,14 +1,20 @@
-import Swiper from 'swiper';
+import { BannerDescription } from '../../@types/type';
+import { Swiper } from 'swiper';
 import { TaingElement } from '../Taing';
 import { MainData } from '../../@types/type';
 import { register } from 'swiper/element/bundle';
 import { getBannerImageURL } from '../../api/getMainPageURL';
 import { customElement, property } from 'lit/decorators.js';
-import { html, css, CSSResultGroup } from 'lit';
+import { html, CSSResultGroup } from 'lit';
+import bannerCSS from '../../styles/mainBannerCSS';
 
 register();
 
-@customElement('t-main-banner')
+interface SwiperContainerElement extends HTMLElement {
+  swiper: Swiper;
+}
+
+@customElement('main-banner')
 class MainBanner extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
@@ -19,316 +25,123 @@ class MainBanner extends TaingElement {
   };
   @property({ type: String }) device = super.getDevice;
   @property({ type: Boolean }) isPlaying = true;
+  @property({ type: Boolean }) isBeginning = true;
+  @property({ type: Boolean }) isEnd = false;
+  @property({ type: Number }) currunetBannerIndex = 0;
 
-  static styles: CSSResultGroup = [
-    super.styles,
-    css`
-      .main-banner-container {
-        position: relative;
-        background-color: transparent;
-        min-width: 320px;
-        inline-size: 100%;
-        block-size: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--white);
-
-        margin-block: 0.5rem;
-      }
-
-      swiper-container {
-        block-size: 100%;
-        inline-size: 100%;
-        background-color: var(--gray800);
-      }
-
-      img {
-        inline-size: 100%;
-        block-size: auto;
-        padding: 0;
-        object-fit: cover;
-      }
-
-      ::part(pagination) {
-        inline-size: fit-content;
-        position: absolute;
-        bottom: 10%;
-        left: 5%;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        inline-size: fit-content;
-        gap: 0.375rem;
-
-        @media (min-width: 768px) {
-          gap: 0.5rem;
-        }
-        @media (min-width: 1920px) {
-          gap: 0.75rem;
-        }
-      }
-
-      ::part(bullet),
-      ::part(bullet-active) {
-        inline-size: 100%;
-        block-size: 100%;
-        min-width: 6px;
-        min-height: 6px;
-
-        background-size: contain;
-        margin: 0;
-
-        @media (min-width: 768px) {
-          min-width: 8px;
-          min-height: 8px;
-        }
-        @media (min-width: 1920px) {
-          min-width: 12px;
-          min-height: 12px;
-        }
-      }
-
-      ::part(bullet) {
-        background: url('/assets/images/icon/swiper_pagination_bullet.svg')
-          no-repeat center center;
-      }
-
-      ::part(bullet-active) {
-        background: url('/assets/images/icon/swiper_pagination_bullet_active.svg')
-          no-repeat center center;
-      }
-
-      ::part(autoplay-play),
-      ::part(autoplay-pause) {
-        cursor: pointer;
-        border: 0;
-        background-color: transparent;
-
-        inline-size: 100%;
-        block-size: 100%;
-
-        min-width: 11px;
-        min-height: 11px;
-
-        @media (min-width: 768px) {
-          min-width: 15px;
-          min-height: 15px;
-        }
-        @media (min-width: 1920px) {
-          min-width: 25px;
-          min-height: 25px;
-
-          margin-inline-end: 1.25rem-0.75rem;
-        }
-      }
-
-      ::part(autoplay-play) {
-        background: url('/assets/images/icon/pause_banner.svg') no-repeat center
-          center;
-        background-size: contain;
-      }
-
-      ::part(autoplay-pause) {
-        background: url('/assets/images/icon/play_banner.svg') no-repeat center
-          center;
-        background-size: contain;
-      }
-
-      ::part(button-next),
-      ::part(button-prev) {
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-
-        inline-size: fit-content;
-        block-size: fit-content;
-      }
-
-      ::part(hidden) {
-        visibility: hidden;
-        display: none;
-      }
-
-      ::part(button-next-icon),
-      ::part(button-prev-icon) {
-        inline-size: 14px;
-        block-size: 14px;
-        opacity: 0.5;
-
-        @media (min-width: 768px) {
-          inline-size: 40px;
-          block-size: 40px;
-        }
-
-        @media (min-width: 1920px) {
-          inline-size: 70px;
-          block-size: 70px;
-        }
-      }
-
-      ::part(button-next-icon):hover {
-        opacity: 1;
-      }
-      ::part(button-prev-icon):hover {
-        opacity: 1;
-      }
-    `,
-  ];
-
-  get swiperContainer() {
-    return this.renderRoot.querySelector<HTMLElement>('swiper-container');
-  }
-
-  get pagination() {
-    const swiperContainer = this.swiperContainer;
-    return swiperContainer
-      ? swiperContainer.shadowRoot?.querySelector('.swiper-pagination')
-      : null;
-  }
-
-  get swiperInstance() {
-    return (this.swiperContainer as any)?.swiper || null; // Swiper 인스턴스를 반환
-  }
+  static styles: CSSResultGroup = [super.styles, bannerCSS];
 
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('resize', this.handleResize);
-
     this.fetchData();
   }
-
   async fetchData() {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_PB_API}/collections/main_banner/records`
       );
       this.data = await response.json();
-      this.initialized();
     } catch (error) {
       console.error('Error fetching banner data:', error);
     }
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('resize', this.handleResize);
+  get swiperContainer(): SwiperContainerElement | null {
+    return this.renderRoot.querySelector(
+      'swiper-container'
+    ) as SwiperContainerElement | null;
   }
 
-  initialized() {
-    const swiperInstance = this.swiperInstance;
-
-    if (!swiperInstance) return;
-
-    swiperInstance.update();
-    swiperInstance?.autoplay.start();
-
-    swiperInstance.on('slideChange', this.toggleNavigationButtons.bind(this));
-    swiperInstance.on(
-      'reachBeginning',
-      this.toggleNavigationButtons.bind(this)
-    );
-    swiperInstance.on('reachEnd', this.toggleNavigationButtons.bind(this));
-
-    console.log('Pagination object:', swiperInstance.pagination);
-
-    this.setPaginationObserver();
-    this.addNavigationButtonIcons();
-    this.toggleNavigationButtons();
-
-    console.log(this.pagination);
+  get swiperInstance(): Swiper | null {
+    return this.swiperContainer?.swiper || null;
   }
 
-  handleResize = () => {
-    const newDevice = super.getDevice;
-    if (this.device !== newDevice) {
-      this.device = newDevice;
-      console.log('banner-device-changed:', this.device);
-    }
-  };
-
-  setPaginationObserver() {
-    const pagination = this.pagination;
-    if (!pagination) return;
-
-    const observer = new MutationObserver(() => {
-      if (!pagination.querySelector('.banner-autoplay-btn')) {
-        this.addAutoplayButton(pagination as any);
-        observer.disconnect();
+  firstUpdated() {
+    if (this.swiperContainer) {
+      // Swiper 인스턴스가 초기화될 때까지 기다리기
+      if (!this.swiperInstance) {
+        this.swiperContainer.addEventListener('swiper-init', (event: Event) => {
+          this.attachNavigation();
+          this.attachPagination();
+          this.handleAutoplay();
+          this.handleSlideState();
+        });
+      } else {
+        this.attachNavigation();
+        this.attachPagination();
+        this.handleAutoplay();
+        this.handleSlideState();
       }
-    });
-
-    observer.observe(pagination, { childList: true, subtree: true });
-  }
-
-  addAutoplayButton(pagination: HTMLElement) {
-    const button = document.createElement('button');
-    button.classList.add('banner-autoplay-btn');
-    button.part.add('autoplay-play');
-    pagination.prepend(button);
-
-    button.addEventListener('click', this.toggleAutoplay.bind(this));
-
-    console.log('버튼 추가 완료', button);
-  }
-
-  toggleAutoplay() {
-    const swiperInstance = this.swiperInstance;
-    const button = this.pagination?.querySelector('.banner-autoplay-btn');
-
-    if (!this.swiperContainer || !button) return;
-
-    this.isPlaying = !this.isPlaying;
-
-    if (this.isPlaying) {
-      button.part.toggle('autoplay-play');
-      button.part.toggle('autoplay-pause');
-      swiperInstance.autoplay.start();
-    } else {
-      button.part.toggle('autoplay-play');
-      button.part.toggle('autoplay-pause');
-      swiperInstance.autoplay.stop();
     }
   }
 
-  addNavigationButtonIcons() {
-    const nextBtn = this.swiperContainer?.shadowRoot?.querySelector(
-      '.swiper-button-next'
-    );
-    const prevBtn = this.swiperContainer?.shadowRoot?.querySelector(
-      '.swiper-button-prev'
-    );
-
-    if (!nextBtn || !prevBtn) return;
-
-    nextBtn.innerHTML = `<img part="button-next-icon" src="/assets/images/icon/banner_arrow_right.svg" alt="다음 배너 보기" />`;
-    prevBtn.innerHTML = `<img part="button-prev-icon"  src="/assets/images/icon/banner_arrow_left.svg" alt="이전 배너 보기" />`;
-
-    console.log('nextBtn:', nextBtn);
-    console.log('prevBtn:', prevBtn);
+  handleSlideState() {
+    const swiper = this.swiperInstance;
+    if (swiper) {
+      this.swiperInstance.on('slideChange', () => {
+        this.isBeginning = swiper.isBeginning;
+        this.isEnd = swiper.isEnd;
+      });
+    }
   }
 
-  toggleNavigationButtons() {
-    const swiperInstance = this.swiperInstance;
+  handleAutoplay() {
+    const autoplayBtn = this.renderRoot.querySelector('.autoplay');
 
-    if (!swiperInstance) return;
+    if (this.swiperInstance && autoplayBtn) {
+      autoplayBtn.addEventListener('click', () => {
+        if (this.isPlaying) {
+          this.swiperInstance?.autoplay.stop();
+        } else {
+          this.swiperInstance?.autoplay.start();
+        }
+        this.isPlaying = !this.isPlaying;
+        console.log('autoplay:', this.isPlaying);
+      });
+    }
+  }
 
-    const nextBtn = this.swiperContainer?.shadowRoot?.querySelector(
-      '.swiper-button-next'
-    );
-    const prevBtn = this.swiperContainer?.shadowRoot?.querySelector(
-      '.swiper-button-prev'
-    );
+  attachNavigation() {
+    // 커스텀 네비게이션 버튼 요소 선택
+    const prevButton = this.renderRoot.querySelector('.prev');
+    const nextButton = this.renderRoot.querySelector('.next');
 
-    if (prevBtn && nextBtn) {
-      prevBtn.part.remove('hidden');
-      nextBtn.part.remove('hidden');
-      swiperInstance.isBeginning
-        ? prevBtn.part.add('hidden')
-        : swiperInstance.isEnd
-          ? nextBtn.part.add('hidden')
-          : nextBtn.part.remove('hidden');
+    if (this.swiperInstance && prevButton && nextButton) {
+      prevButton.addEventListener('click', () => {
+        this.swiperInstance?.slidePrev();
+      });
+
+      nextButton.addEventListener('click', () => {
+        this.swiperInstance?.slideNext();
+      });
+    }
+  }
+
+  attachPagination() {
+    const pagination = this.renderRoot.querySelector('.custom-pagination');
+    if (pagination) {
+      pagination.addEventListener('click', (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains('bullet')) {
+          const index =
+            Array.from(target.parentElement!.children).indexOf(target) - 1;
+          this.swiperInstance?.slideTo(index);
+
+          this.currunetBannerIndex = index;
+        }
+      });
+
+      this.swiperInstance?.on('slideChange', () => {
+        const bullets = pagination.querySelectorAll('.bullet');
+        bullets.forEach((bullet, index) => {
+          if (index === this.swiperInstance?.activeIndex) {
+            bullet.classList.add('active');
+          } else {
+            bullet.classList.remove('active');
+          }
+        });
+      });
+      this.swiperInstance?.pagination.update();
     }
   }
 
@@ -337,18 +150,13 @@ class MainBanner extends TaingElement {
       <div class="main-banner-container">
         <swiper-container
           .autoplay=${{
-            delay: 5000,
+            delay: 7000,
             disableOnInteraction: false,
           }}
           .loop=${false}
-          .pagination=${{
-            clickable: true,
-            observer: true,
-            observeParents: true,
-          }}
-          navigation=${{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+          .navigation=${{
+            nextEl: '.next',
+            prevEl: '.prev',
           }}
         >
           ${this.data.items
@@ -361,6 +169,49 @@ class MainBanner extends TaingElement {
               `
             )}
         </swiper-container>
+        <p class="banner-description" aria-label="Banner content description">
+          ${this.data.items.filter((item) => item.device === this.device)[
+            this.currunetBannerIndex
+          ]?.description}
+        </p>
+        <button
+          class="prev"
+          ?disabled=${this.isBeginning}
+          aria-label="Go to previous slide"
+        ></button>
+        <button
+          class="next"
+          ?disabled=${this.isEnd}
+          aria-label="Go to next slide"
+        ></button>
+        <div class="custom-pagination" part="pagination">
+          <button
+            class="autoplay ${this.isPlaying ? 'pause' : 'play'}"
+            aria-label="${this.isPlaying
+              ? 'pause banner slide'
+              : 'play banner slide'}}"
+          ></button>
+          ${this.data.items
+            .filter((item) => item.device === this.device)
+            .map(
+              (_, index) => html`
+                <span
+                  class="bullet ${index === 0 ? 'active' : ''}"
+                  aria-label="Go to slide ${index + 1}"
+                  role="button"
+                  tabIndex="0"
+                ></span>
+              `
+            )}
+        </div>
+        <button
+          class="view-more"
+          role="button"
+          tabindex="0"
+          aria-label="View more details of the banner content"
+        >
+          자세히보기
+        </button>
       </div>
     `;
   }

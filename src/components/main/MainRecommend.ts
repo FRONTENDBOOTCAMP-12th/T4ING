@@ -5,7 +5,10 @@ import { html, css, CSSResultGroup } from 'lit';
 import { getRecommendImageURL } from '../../api/getMainPageURL';
 import Swiper from 'swiper';
 
-@customElement('t-main-recommend')
+interface SwiperContainerElement extends HTMLElement {
+  swiper: Swiper;
+}
+@customElement('main-recommend')
 class MainRecommend extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
@@ -120,14 +123,20 @@ class MainRecommend extends TaingElement {
       }
 
       .dimmed-slide {
-        opacity: 0.6;
+        opacity: 0.3;
         transition: opacity 0.3s ease;
       }
     `,
   ];
 
-  get swiperInstance() {
-    return (this.renderRoot.querySelector('swiper-container') as any)?.swiper;
+  get swiperContainer(): SwiperContainerElement | null {
+    return this.renderRoot.querySelector(
+      'swiper-container'
+    ) as SwiperContainerElement | null;
+  }
+
+  get swiperInstance(): Swiper | null {
+    return this.swiperContainer?.swiper || null;
   }
 
   connectedCallback() {
@@ -175,7 +184,6 @@ class MainRecommend extends TaingElement {
       });
       swiper.on('reachBeginning', this.updateSwiperState);
       swiper.on('reachEnd', this.updateSwiperState);
-      swiper.on('swiper:render', this.toggleDimSlide);
     }
   }
 
@@ -220,7 +228,7 @@ class MainRecommend extends TaingElement {
   toggleDimSlide() {
     const swiper = this.swiperInstance;
     const device = this.device;
-    const slides = swiper.slides;
+    const slides = swiper?.slides;
     if (!slides) return;
     if (device === 'mobile' && slides.length > 0) {
       slides.forEach((slide: HTMLElement, index: number) => {

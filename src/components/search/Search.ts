@@ -2,7 +2,7 @@ import { html, CSSResultGroup, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { searchCSS } from '../../styles/searchCSS';
-import { getStorage, setStorage, deleteStorage } from '../../../lib/storage';
+import { getStorage, setStorage, deleteStorage } from '../../utils/storage';
 import '../SvgIcon';
 
 @customElement('taing-search')

@@ -11,18 +11,33 @@ function decodeJWT(token: any) {
   return JSON.parse(jsonPayload);
 }
 
+function getToken() {
+  return (
+    localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
+  );
+}
+
+export const defaultHeaders = {
+  'Content-Type': 'application/json',
+};
+
 export function getUserId() {
-  const localStorageToken = localStorage.getItem('authToken');
-  const storedToken = localStorageToken
-    ? localStorageToken
-    : sessionStorage.getItem('authToken');
-  return decodeJWT(storedToken).id;
+  return decodeJWT(getToken()).id;
+}
+
+export function getTokenHeader() {
+  return {
+    ...defaultHeaders,
+    Authorization: getToken(),
+  };
+}
+
+export function isLogin() {
+  return !!getToken();
 }
 
 export function checkLogin() {
-  if (
-    !(localStorage.getItem('authToken') || sessionStorage.getItem('authToken'))
-  ) {
+  if (!isLogin()) {
     location.href = '/src/pages/login/';
   }
 }

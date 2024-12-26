@@ -154,23 +154,30 @@ export class Slide extends TaingElement {
           </p>
         </hgroup>
         <div class="slider-container">
-          <swiper-element
-            .slides="${this.slides}"
-            .options=${{
-              autoplay: {
-                delay: 1000,
-                disableOnInteraction: false,
-              },
-              effect: 'cards',
-              speed: 500,
-              slidesPerView: 'auto',
-              spaceBetween: 16,
-              centeredSlides: true,
-              loop: true,
-            }}
-            key="${this.device}"
+          <a
+            class="landing-link"
+            href="/src/pages/login/"
+            target="_self"
+            rel="noopener noreferrer"
           >
-          </swiper-element>
+            <swiper-element
+              .slides="${this.slides}"
+              .options=${{
+                autoplay: {
+                  delay: 1000,
+                  disableOnInteraction: false,
+                },
+                effect: 'cards',
+                speed: 500,
+                slidesPerView: 'auto',
+                spaceBetween: 16,
+                centeredSlides: true,
+                loop: true,
+              }}
+              key="${this.device}"
+            >
+            </swiper-element>
+          </a>
         </div>
       </div>
     `;

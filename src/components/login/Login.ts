@@ -7,7 +7,7 @@ import '../Form';
 import '../Button';
 import './LoginCheckbox';
 
-@customElement('login-element')
+@customElement('login-page')
 class Login extends TaingElement {
   static styles: CSSResultGroup = [super.styles, loginCSS];
   @property({ type: Boolean }) autoLogin = false;

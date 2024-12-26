@@ -23,12 +23,14 @@ class Modal extends TaingElement {
         align-items: center;
         position: fixed;
         inset: 0;
+        background-color: #19191990;
+        backdrop-filter: var(--header-filter);
         z-index: 9999;
 
-        &:has(.modal__popup) {
-          background-color: #19191990;
-          backdrop-filter: var(--header-filter);
-        }
+        // &:has(.modal__popup) {
+        //   background-color: #19191990;
+        //   backdrop-filter: var(--header-filter);
+        // }
 
         @media (min-width: 48rem) {
           --modal-padding-inline: 3.125rem;
@@ -118,8 +120,6 @@ class Modal extends TaingElement {
   }
 
   render() {
-    this.bodyEl.classList.add('fixed');
-
     return html`
       <div class="modal">
         ${this.popup

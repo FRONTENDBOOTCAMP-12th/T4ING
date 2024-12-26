@@ -160,7 +160,7 @@ class Guide extends TaingElement {
           popup
           class="popup"
           .cancelFn=${() => {
-            const modal = this.shadowRoot?.querySelector(
+            const modal = this.renderRoot.querySelector(
               '.popup'
             ) as HTMLElement;
 
@@ -174,7 +174,7 @@ class Guide extends TaingElement {
           class="modal-confirm"
           .confirmFn=${() => console.log('컨펌 콜백')}
           .cancelFn=${() => {
-          const modal = this.shadowRoot?.querySelector(
+          const modal = this.renderRoot.querySelector(
             '.modal-confirm'
           ) as HTMLElement;
 

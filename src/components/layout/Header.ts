@@ -104,7 +104,7 @@ class Header extends TaingElement {
     `,
   ];
 
-  @state() isActiveSearch = true;
+  @state() isActiveSearch = false;
   @property({ type: String }) userImgPath =
     '/assets/images/profile/default.webp';
   @property({ type: String }) userName = '타잉';

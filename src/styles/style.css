@@ -8,6 +8,7 @@
   --base-font-color: var(--gray200);
   --header-bg: #19191970;
   --header-filter: blur(0.625rem);
+  --header-search-bg: var(--dark-bg-1);
 
   /* rounded */
   --round-xs: var(--size-1);

@@ -36,25 +36,26 @@ export class Banner extends TaingElement {
     }
 
     .slides {
-      position: absolute;
       display: flex;
       flex-direction: column;
+      gap: 0.5rem;
+      height: 200%;
     }
 
     @keyframes scroll-up {
       from {
-        transform: translateY(50%);
+        transform: translateY(0%);
       }
       to {
-        transform: translateY(-50%);
+        transform: translateY(-100%);
       }
     }
     @keyframes scroll-down {
       from {
-        transform: translateY(-50%);
+        transform: translateY(-100%);
       }
       to {
-        transform: translateY(50%);
+        transform: translateY(0%);
       }
     }
     .slides-up {
@@ -68,7 +69,7 @@ export class Banner extends TaingElement {
       text-align: center;
       margin: 1rem 0;
       img {
-        width: 80%;
+        width: 95%;
         max-width: 600px;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);

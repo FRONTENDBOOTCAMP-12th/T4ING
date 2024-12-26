@@ -67,7 +67,7 @@ class Welcome extends TaingElement {
           rel="noopener noreferrer"
           ><img
             class="landing-button-icon"
-            src="/assets/images/profile/profile_4.webp"
+            src="/assets/images/profile/default.webp"
             alt="taing logo"
           />
           새로워진 타잉을 만나보세요!</a

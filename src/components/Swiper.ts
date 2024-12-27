@@ -17,9 +17,17 @@ export class SwiperElement extends LitElement {
     this.initializeSwiper();
   }
 
-  initializeSwiper() {
-    if (this.swiper) this.swiper.destroy();
+  async initializeSwiper() {
+    if (this.swiper) this.swiper.destroy(true, true);
 
+    await this.updateComplete;
+    const swiperElement = this.renderRoot.querySelector(
+      '.swiper'
+    ) as HTMLElement;
+    if (!swiperElement) {
+      console.error('Swiper element not found!');
+      return;
+    }
     this.swiper = new Swiper(
       this.renderRoot.querySelector('.swiper')! as HTMLElement,
       {
@@ -28,14 +36,14 @@ export class SwiperElement extends LitElement {
         spaceBetween: 10,
         slidesPerGroup: 1,
         centeredSlides: true,
-
+        effect: 'cards',
         navigation: {
-          nextEl: this.renderRoot.querySelector(
+          nextEl: swiperElement.querySelector(
             '.swiper-button-next'
-          )! as HTMLElement,
-          prevEl: this.renderRoot.querySelector(
+          ) as HTMLElement,
+          prevEl: swiperElement.querySelector(
             '.swiper-button-prev'
-          )! as HTMLElement,
+          ) as HTMLElement,
         },
         autoplay: {
           delay: 1000,
@@ -60,8 +68,6 @@ export class SwiperElement extends LitElement {
               `
             )}
           </div>
-        </div>
-        <div class="buttons">
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
         </div>

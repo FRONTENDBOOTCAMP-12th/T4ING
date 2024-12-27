@@ -4,7 +4,7 @@ import { TaingElement } from '../Taing';
 import { LandingItem } from '../../@types/landingtype';
 
 @customElement('landing-welcome')
-class Welcome extends TaingElement {
+export class Welcome extends TaingElement {
   @property({ type: Array }) images: LandingItem[] = [];
   @property({ type: String }) apiUrl: string = '';
 
@@ -67,7 +67,7 @@ class Welcome extends TaingElement {
           rel="noopener noreferrer"
           ><img
             class="landing-button-icon"
-            src="/assets/images/profile/profile_4.webp"
+            src="/assets/images/profile/default.webp"
             alt="taing logo"
           />
           새로워진 타잉을 만나보세요!</a

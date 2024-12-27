@@ -4,7 +4,6 @@ import { TaingElement } from '../Taing';
 import { buttonCSS } from '../../styles/buttonCSS';
 import { debounce } from '../../utils/debounce';
 import { isLogin } from '../../utils/authUtils';
-
 import '../search/Search';
 import '../SvgIcon';
 
@@ -219,7 +218,10 @@ class Header extends TaingElement {
             `
           : nothing}
       </header>
-      <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
+      <taing-search
+        ?hidden=${!this.isActiveSearch}
+        .isHidden=${!this.isActiveSearch}
+      ></taing-search>
     `;
   }
 }

@@ -100,6 +100,14 @@ class Input extends TaingElement {
         &:focus {
           outline: 1px solid var(--gray100);
         }
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0 64rem var(--dark-bg-2) inset !important;
+          -webkit-text-fill-color: var(--white) !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
       }
 
       ::slotted(.hint) {

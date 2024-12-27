@@ -3,6 +3,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { searchCSS } from '../../styles/searchCSS';
 import { getStorage, setStorage, deleteStorage } from '../../utils/storage';
+import gsap from 'gsap';
 import '../SvgIcon';
 
 @customElement('taing-search')
@@ -11,6 +12,7 @@ class Search extends TaingElement {
 
   @query('.search__input') input!: HTMLInputElement;
   @property({ type: Array }) keywordArray: string[] = [];
+  @property({ type: Boolean }) isHidden = false;
   storageKey = 'taing-search-keyword';
 
   trendingKeyword = [
@@ -22,7 +24,7 @@ class Search extends TaingElement {
     '미씽: 그들이 있었다2',
     '술꾼도시여자들2',
     '캐나다 체크인',
-    '미씽: 그들이 있었다 - 그들을 ‘다만나다',
+    '미씽: 그들이 있었다 - 그들을 ′다시′만나다',
     '술꾼도시여자들',
   ];
 
@@ -99,6 +101,27 @@ class Search extends TaingElement {
     this.input.value = '';
   }
 
+  renderTrendingKeyword() {
+    return this.trendingKeyword.map(
+      (keyword) => html`<li><a href="/">${keyword}</a></li>`
+    );
+  }
+
+  trendingKeywordMotion() {
+    // FIXME: 검색어 입력, 삭제, li 클릭 시에도 적용 됨😭
+    if (!this.isHidden) {
+      gsap.from(
+        [this.renderRoot.querySelectorAll('.trending-keyword-list > li')],
+        {
+          y: 20,
+          opacity: 0,
+          stagger: 0.075,
+          clearProps: 'all',
+        }
+      );
+    }
+  }
+
   render() {
     return html`
       <section>
@@ -146,9 +169,7 @@ class Search extends TaingElement {
           <div class="search-keyword__item">
             <h3 class="search-keyword__title">실시간 인기 검색어</h3>
             <ul class="trending-keyword-list">
-              ${this.trendingKeyword.map(
-                (keyword) => html`<li><a href="/">${keyword}</a></li>`
-              )}
+              ${this.renderTrendingKeyword()} ${this.trendingKeywordMotion()}
             </ul>
           </div>
         </div>

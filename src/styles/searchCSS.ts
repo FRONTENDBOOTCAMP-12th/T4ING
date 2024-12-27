@@ -89,6 +89,16 @@ export const searchCSS = {
       column-gap: 4.375rem;
       margin-block: var(--padding);
 
+      &:before {
+        display: none;
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 50%;
+        inline-size: 1px;
+        background: var(--gray800);
+        content: '';
+      }
+
       .search-keyword__item {
         color: var(--gray300);
       }
@@ -105,8 +115,9 @@ export const searchCSS = {
       }
 
       .keyword-list {
-        display: inline-flex;
+        display: flex;
         flex-flow: column nowrap;
+        align-items: flex-start;
         row-gap: var(--size-2);
         overflow-y: auto;
         max-block-size: 16.25rem;
@@ -134,7 +145,8 @@ export const searchCSS = {
         }
 
         li {
-          display: flex;
+          display: inline-flex;
+          align-items: center;
           column-gap: var(--size-4);
         }
       }
@@ -150,6 +162,7 @@ export const searchCSS = {
             display: inline-flex;
             font-weight: 600;
             line-height: 1.6;
+            word-break: keep-all;
 
             &:before {
               min-inline-size: var(--size-5);
@@ -180,15 +193,9 @@ export const searchCSS = {
       }
 
       @media (min-width: 48rem) {
-        .search-keyword {
-          &:before {
-            position: absolute;
-            inset-block: 0;
-            inset-inline-start: 50%;
-            inline-size: 1px;
-            background: var(--gray800);
-            content: '';
-          }
+        &:before {
+          display: block;
+        }
       }
       @media (min-width: 120rem) {
       }

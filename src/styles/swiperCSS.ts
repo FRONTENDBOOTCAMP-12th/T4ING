@@ -5,6 +5,7 @@ export default css`
     display: flex;
     width: 100%;
     height: 100%;
+    position: relative;
   }
   .swiper-wrapper {
     display: flex;
@@ -30,23 +31,21 @@ export default css`
   .swiper-button-prev,
   .swiper-button-next {
     position: absolute;
-    top: 50%;
     width: 3rem;
-    height: 3rem;
-    margin-top: -1.5rem;
     z-index: 10;
     cursor: pointer;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--white);
   }
   .swiper-button-prev {
-    left: 1rem;
+    left: 0;
+    height: 100%;
   }
   .swiper-button-next {
-    right: 1rem;
+    right: 0;
+    height: 100%;
   }
 `;

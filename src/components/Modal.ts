@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 
 @customElement('t-modal')
-class Modal extends TaingElement {
+export class Modal extends TaingElement {
   @property({ type: Boolean, reflect: true }) hidden = true;
   htmlEl = document.querySelector('html') as HTMLElement;
 

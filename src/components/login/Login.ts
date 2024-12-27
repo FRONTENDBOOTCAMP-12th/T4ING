@@ -9,6 +9,7 @@ import '../Form';
 import '../Button';
 import '../Modal';
 import './LoginCheckbox';
+import './LoginModal';
 
 interface CustomInputElement extends HTMLInputElement {
   handleResetValue: () => void;
@@ -44,7 +45,7 @@ class Login extends TaingElement {
   }
 
   get modal() {
-    return this.renderRoot.querySelector<HTMLInputElement>('#loginState')!;
+    return this.renderRoot.querySelector<HTMLInputElement>('#loginModal')!;
   }
 
   async fetchData() {
@@ -87,8 +88,7 @@ class Login extends TaingElement {
       }
       location.href = '/src/pages/profile/';
     } catch {
-      this.idInput.handleResetValue();
-      this.pwInput.handleResetValue();
+      this.handleLoginFail();
     }
   }
 
@@ -110,9 +110,18 @@ class Login extends TaingElement {
     }
   }
 
+  handleLoginFail() {
+    this.modal.hidden = false;
+    this.idInput.handleResetValue();
+    this.pwInput.handleResetValue();
+  }
+
   render() {
     return html`
       <div class="login-container">
+        <login-modal id="loginModal"
+          ><div>${this.errorMessage}</div></login-modal
+        >
         <div class="login-wrap">
           <h1 class="login__title">TVING ID 로그인</h1>
           <form @keydown=${this.handleKeyDown} @submit=${this.debouncedSubmit}>

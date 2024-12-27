@@ -41,13 +41,13 @@ export class TaingElement extends LitElement {
 
       .modal {
         --popup-btn-wrap-padding: var(--size-2);
-        --popup-btn-font-size: var(--text-size-s);
+        --modal-font-size: var(--text-size-s);
         --popup-btn-padding: var(--size-2);
         --popup-btn-gap: var(--size-5);
 
         --modal-min-width: 12.25rem;
         --modal-padding-inline: 1.5625rem;
-        --modal-padding: var(--size-5) var(--modal-padding-inline) var(--size-3);
+        --modal-padding: var(--size-5) var(--modal-padding-inline);
         --modal-btn-padding: 0.625rem;
 
         display: flex;
@@ -60,15 +60,14 @@ export class TaingElement extends LitElement {
         z-index: 1000;
 
         @media (min-width: 48rem) {
-          --modal-padding-inline: 3.125rem;
-          --modal-padding: var(--size-7) var(--modal-padding-inline)
-            var(--size-4);
+          --modal-padding-inline: 2rem;
+          --modal-padding: var(--size-7) var(--modal-padding-inline);
           --modal-min-width: 18.4375rem;
           --modal-btn-padding: 0.875rem;
         }
         @media (min-width: 120rem) {
-          --popup-btn-padding: var(--size-4);
-          --popup-btn-font-size: var(--text-size-l);
+          --modal-padding: var(--size-12) var(--modal-padding-inline);
+          --modal-font-size: var(--text-size-l);
           --popup-btn-padding: var(--size-4);
           --modal-min-width: 32.875rem;
         }
@@ -85,7 +84,7 @@ export class TaingElement extends LitElement {
         padding: var(--popup-btn-padding) 0;
         border: 0;
         background-color: initial;
-        font-size: var(--popup-btn-font-size);
+        font-size: var(--modal-font-size);
         line-height: 1.6;
         color: inherit;
         white-space: nowrap;
@@ -105,6 +104,7 @@ export class TaingElement extends LitElement {
         .modal__btn-wrap {
           display: flex;
           padding-inline: var(--modal-padding-inline);
+          border-top: 1px solid var(--gray700);
 
           .modal__btn {
             flex: 1;
@@ -112,6 +112,7 @@ export class TaingElement extends LitElement {
             border: 0;
             background-color: initial;
             color: inherit;
+            font-size: var(--modal-font-size);
             appearance: none;
             cursor: pointer;
           }
@@ -119,9 +120,11 @@ export class TaingElement extends LitElement {
       }
 
       .modal__message {
+        font-size: var(--modal-font-size);
         padding: var(--modal-padding);
         color: var(--white);
         text-align: center;
+        align-items: center;
       }
     `,
   ];

@@ -2,6 +2,7 @@ import { html, CSSResultGroup, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../src/components/Taing';
 import { buttonCSS } from '../src/styles/buttonCSS';
+import { openModal } from './../src/utils/modal';
 import '../src/components/login/LoginCheckbox';
 import '../src/components/SvgIcon';
 import '../src/components/Form';
@@ -156,19 +157,24 @@ class Guide extends TaingElement {
         </div>
 
         <h2 class="guide-title">🪄 Modal</h2>
-        <t-modal
-          popup
-          class="popup"
-          .cancelFn=${() => {
-            const modal = this.renderRoot.querySelector(
-              '.popup'
-            ) as HTMLElement;
-
-            if (modal) {
-              modal.hidden = true;
-            }
-          }}
-        ></t-modal>
+        <t-button color="secondary" @click=${openModal.bind(this, '.popup')}
+          >팝업 보기</t-button
+        >
+        <t-modal class="popup" hidden>
+          <div class="modal__popup">
+            <figure class="modal__img">
+              <img src="" alt="" />
+            </figure>
+            <div class="modal-popup__wrap">
+              <button type="button" class="modal-popup__btn today">
+                오늘 하루 보지 않기
+              </button>
+              <button type="button" class="modal-popup__btn close-modal">
+                닫기
+              </button>
+            </div>
+          </div>
+        </t-modal>
 
         <!--t-modal
           class="modal-confirm"

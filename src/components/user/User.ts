@@ -1,6 +1,7 @@
 import { css, CSSResultGroup, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
+import { openModal } from '../../utils/modal';
 import '../Modal';
 
 @customElement('t-user')
@@ -50,12 +51,6 @@ class User extends TaingElement {
     `,
   ];
 
-  handleModalOpen(target: string) {
-    const modal = this.renderRoot.querySelector(target) as HTMLElement;
-
-    modal.hidden = false;
-  }
-
   render() {
     return html`
       <ul class="user-menu">
@@ -66,7 +61,7 @@ class User extends TaingElement {
           <button
             type="button"
             class="user-menu__btn"
-            @click=${this.handleModalOpen.bind(this, '.modal-logout')}
+            @click=${openModal.bind(this, '.modal-logout')}
           >
             로그아웃
           </button>
@@ -75,43 +70,30 @@ class User extends TaingElement {
           <button
             type="button"
             class="user-menu__btn"
-            @click=${this.handleModalOpen.bind(this, '.modal-withdraw')}
+            @click=${openModal.bind(this, '.modal-withdraw')}
           >
             회원 탈퇴
           </button>
         </li>
       </ul>
 
-      <t-modal
-        hidden
-        class="modal-logout"
-        .confirmFn=${() => console.log('컨펌 콜백')}
-        .cancelFn=${() => {
-          const modal = this.renderRoot.querySelector(
-            '.modal-logout'
-          ) as HTMLElement;
-
-          if (modal) {
-            modal.hidden = true;
-          }
-        }}
-        >로그아웃 하시겠습니까?</t-modal
-      >
-
-      <t-modal
-        hidden
-        class="modal-withdraw"
-        .confirmFn=${() => console.log('컨펌 콜백')}
-        .cancelFn=${() => {
-          const modal = this.renderRoot.querySelector(
-            '.modal-withdraw'
-          ) as HTMLElement;
-
-          if (modal) {
-            modal.hidden = true;
-          }
-        }}
-        >회원 탈퇴 하시겠습니까?</t-modal
+      <t-modal class="modal-logout" hidden>
+        <div class="modal__inner">
+          <p class="modal__message">로그아웃 하시겠습니까?</p>
+          <div class="modal__btn-wrap">
+            <button type="button" class="modal__btn close-modal">확인</button>
+            <button type="button" class="modal__btn close-modal">취소</button>
+          </div>
+        </div>
+      </t-modal>
+      <t-modal class="modal-withdraw" hidden>
+        <div class="modal__inner">
+          <p class="modal__message">회원 탈퇴 하시겠습니까?</p>
+          <div class="modal__btn-wrap">
+            <button type="button" class="modal__btn close-modal">확인</button>
+            <button type="button" class="modal__btn close-modal">취소</button>
+          </div>
+        </div></t-modal
       >
     `;
   }

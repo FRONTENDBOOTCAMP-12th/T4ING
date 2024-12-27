@@ -5,6 +5,7 @@ import { Banner } from './LandingBanner';
 import { Slide } from './LandingSlide';
 import { Panorama } from './LandingPanorama';
 import { Welcome } from './LandingWelcome';
+import { checkLogin, isLogin } from '../../utils/authUtils';
 
 @customElement('landing-page')
 export class LandingPage extends TaingElement {
@@ -16,6 +17,9 @@ export class LandingPage extends TaingElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+    if (isLogin()) {
+      location.href = '/src/pages/main/';
+    }
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
   }

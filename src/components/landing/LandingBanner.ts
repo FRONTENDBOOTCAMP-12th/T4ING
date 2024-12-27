@@ -129,16 +129,35 @@ export class Banner extends TaingElement {
     this.fetchSlides();
     window.addEventListener('resize', this.handleResize);
   }
+
   disconnectedCallback(): void {
     super.disconnectedCallback();
     window.removeEventListener('resize', this.handleResize);
   }
-  async handleResize() {
+
+  handleResize() {
     const newDevice = super.getDevice;
 
     if (this.device !== newDevice) {
       this.device = newDevice;
     }
+  }
+
+  filterSlide(data: any[]) {
+    return data
+      .map((item: any) => {
+        const img = item.img || 'default.jpg';
+        return {
+          title: item.title || 'Unknown',
+          img: `${this.apiUrl}/files/landing_float/${item.id}/${img}`,
+          device: item.device,
+        };
+      })
+      .filter((item: any) =>
+        this.device === 'tablet'
+          ? item.device === 'mobile' || item.device === 'tablet'
+          : item.device === this.device
+      );
   }
 
   async fetchSlides() {
@@ -147,33 +166,16 @@ export class Banner extends TaingElement {
         `${this.apiUrl}/collections/landing_float/records`
       );
       const data = (await response.json()).items;
-
-      console.log('Data from API:', data);
-      console.log('Current device:', this.device);
-
-      let filterSlide = data
-        .map((item: any) => {
-          let img = item.img || 'default.jpg';
-          if (this.device === 'tablet' && !item.img) {
-            img = item.device === 'mobile' ? item.img : 'default.jpg';
-          }
-          return {
-            title: item.title || 'Unknown',
-            img: `${this.apiUrl}/files/landing_float/${item.id}/${img}`,
-            device: item.device,
-          };
-        })
-        .filter(
-          (item: any) =>
-            item.device === this.device ||
-            (this.device === 'tablet' && item.device === 'mobile')
-        );
+      let filterSlide = this.filterSlide(data);
 
       const minSlides = 20;
-      while (filterSlide.length < minSlides) {
-        filterSlide = [...filterSlide, ...filterSlide];
-      }
-      this.slides = filterSlide.slice(0, minSlides);
+
+      this.slides = filterSlide = Array.from(
+        { length: Math.ceil(minSlides / filterSlide.length) },
+        () => filterSlide
+      )
+        .flat()
+        .slice(0, minSlides);
       this.updateAnimation();
     } catch (error) {
       console.error('Error');
@@ -188,59 +190,27 @@ export class Banner extends TaingElement {
     this.style.setProperty('--animation-duration', `${animationDuration}s`);
   }
 
+  renderSlide(animationClass: string) {
+    return html`<div class="slides-container">
+      <div class="${animationClass}">
+        ${this.slides.map(
+          (slide) => html`
+            <div class="slide">
+              <img src="${slide.img}" alt="${slide.title}" />
+            </div>
+          `
+        )}
+      </div>
+    </div>`;
+  }
+
   render() {
     return html`
       <div class="container">
         <div class="background">
-          <div class="slides-container">
-            <div class="slides-down">
-              ${this.slides.map(
-                (slide) => html`
-                  <div class="slide">
-                    <img src="${slide.img}" alt="${slide.title}" />
-                  </div>
-                `
-              )}
-            </div>
-          </div>
-
-          <div class="slides-container">
-            <div class="slides-up">
-              ${this.slides.map(
-                (slide) => html`
-                  <div class="slide">
-                    <img src="${slide.img}" alt="${slide.title}" />
-                  </div>
-                `
-              )}
-            </div>
-          </div>
-
-          <div class="slides-container">
-            <div class="slides-down">
-              ${this.slides.map(
-                (slide) => html`
-                  <div class="slide">
-                    <img src="${slide.img}" alt="${slide.title}" />
-                  </div>
-                `
-              )}
-            </div>
-          </div>
-
-          <div class="slides-container">
-            <div class="slides-up">
-              ${this.slides.map(
-                (slide) => html`
-                  <div class="slide">
-                    <img src="${slide.img}" alt="${slide.title}" />
-                  </div>
-                `
-              )}
-            </div>
-          </div>
+          ${this.renderSlide('slides-down')} ${this.renderSlide('slides-up')}
+          ${this.renderSlide('slides-down')} ${this.renderSlide('slides-up')}
         </div>
-
         <div class="banner">
           <h2>티빙 오리지널 콘텐츠,</h2>
           <h2>방송, 영화, 해외시리즈까지</h2>

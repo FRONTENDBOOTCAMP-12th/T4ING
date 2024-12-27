@@ -4,7 +4,7 @@ import { TaingElement } from '../Taing';
 import { LandingItem } from '../../@types/landingtype';
 
 @customElement('landing-welcome')
-class Welcome extends TaingElement {
+export class Welcome extends TaingElement {
   @property({ type: Array }) images: LandingItem[] = [];
   @property({ type: String }) apiUrl: string = '';
 

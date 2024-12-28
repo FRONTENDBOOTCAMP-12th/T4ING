@@ -30,7 +30,7 @@ class SvgIcon extends TaingElement {
   @state() device = '';
 
   svgId: string | null = '';
-  size: Array<number[] | undefined> = [];
+  size: Array<number[] | null> = [];
   centered: boolean = false;
   svgDevice: string = '';
 

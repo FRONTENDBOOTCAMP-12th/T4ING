@@ -46,7 +46,7 @@ class Search extends TaingElement {
                         <span class="sr-only">검색어 삭제</span>
                         <svg-icon
                           svg-id="del3"
-                          .size=${[[12], , [15]]}
+                          .size=${[[12], null, [15]]}
                           centered="true"
                         ></svg-icon>
                       </button>
@@ -158,7 +158,7 @@ class Search extends TaingElement {
                       모두 지우기
                       <svg-icon
                         svg-id="del2"
-                        .size=${[[12], , [14]]}
+                        .size=${[[12], null, [14]]}
                       ></svg-icon>
                     </button>
                   `

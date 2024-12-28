@@ -1,10 +1,16 @@
-import { CSSResultGroup, html, css } from 'lit';
+import { CSSResultGroup, html, css, PropertyValues, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { UserProfile } from '../../@types/type';
-import { requestUrl, getPbImageURL } from '../../utils/request';
+import {
+  requestUrl,
+  getPbImageURL,
+  fetchData,
+  createUserProfile,
+} from '../../utils/request';
 import { checkLogin, getUserId, getTokenHeader } from '../../utils/authUtils';
+import { UserProfile } from '../../@types/type';
 import gsap from 'gsap';
+import './ProfileImageList';
 import '../Button';
 import '../SvgIcon';
 
@@ -146,7 +152,14 @@ class Profile extends TaingElement {
   ];
 
   @property({ type: Array }) data: UserProfile[] = [];
+  @state() userIndex: number = -1;
   @state() isEdit = false;
+
+  DEFAULT_NAME = '타잉';
+  DEFAULT_IMG_PATH = '/assets/images/profile/default.webp';
+  changeProfileIndexArray: boolean[] = Array(4).fill(false);
+  changeNameIndexArray: boolean[] = Array(4).fill(false);
+  profileListItem: HTMLLIElement[] = [];
 
   connectedCallback() {
     super.connectedCallback();
@@ -155,20 +168,20 @@ class Profile extends TaingElement {
     this.dataFetch();
   }
 
-  handleEdit() {
-    this.isEdit = !this.isEdit;
-  }
-
-  updated(changedProperties: Map<string | number | symbol, unknown>): void {
-    super.updated(changedProperties);
+  updated(_changedProperties: PropertyValues): void {
     const item = this.renderRoot.querySelectorAll('.profile-list__item');
     const tButton = this.renderRoot.querySelector('t-button');
 
     if (item.length && !this.isEdit) {
+      this.profileListItem = Array.from(
+        this.renderRoot.querySelectorAll('.profile-list li')
+      );
+
       gsap.from([item, tButton], {
         y: 20,
         opacity: 0,
-        stagger: 0.15,
+        stagger: 0.14,
+        clearProps: 'all',
       });
     }
   }
@@ -176,7 +189,10 @@ class Profile extends TaingElement {
   async dataFetch() {
     try {
       const response = await fetch(
-        requestUrl('users_profile', `?filter=account='${getUserId()}'`)
+        requestUrl(
+          'users_profile',
+          `?filter=account='${getUserId()}'&sort=-index,created`
+        )
       );
       const data = await response.json();
 
@@ -186,25 +202,39 @@ class Profile extends TaingElement {
           .map(
             (_, i) =>
               data.items[i] || {
-                name: '타잉',
-                src: '/assets/images/profile/default.webp',
+                name: this.DEFAULT_NAME,
+                src: this.DEFAULT_IMG_PATH,
               }
           );
+        // .map((profile) => {
+        //   if (profile.avatar) {
+        //     console.log('요청 시작');
+        //     (async () => {
+        //       profile.avatar = await fetchData(
+        //         'profile_image',
+        //         `/${profile.avatar}`
+        //       ).then((profileImgObj) => {
+        //         profile.avatar = getPbImageURL(profileImgObj);
+        //         console.log('요청 끝', profile.avatar);
+        //         return profile.avatar;
+        //       });
+        //     })();
+        //   } else {
+        //     return profile;
+        //   }
+        // });
       }
     } catch (err) {
       console.error(err);
     }
   }
 
-  async handleSelectProfile(e: Event) {
+  async selectProfile(e: Event) {
     e.preventDefault();
 
-    const target = e.target as HTMLAnchorElement;
-    const id = target.closest('li')?.id || 'default';
+    const id = (e.target as HTMLAnchorElement).id || 'default';
 
-    console.log(getTokenHeader());
     try {
-      console.log(getUserId());
       const response = await fetch(requestUrl('users', `/${getUserId()}`), {
         method: 'PATCH',
         headers: getTokenHeader(),
@@ -219,6 +249,83 @@ class Profile extends TaingElement {
     }
   }
 
+  handleEditToggle() {
+    this.isEdit = !this.isEdit;
+  }
+
+  openAvatarList(index: number) {
+    const imgListComponent = this.renderRoot.querySelector(
+      'profile-img-list'
+    ) as TaingElement;
+
+    this.userIndex = index;
+    imgListComponent.hidden = false;
+  }
+
+  selectAvatar(e: CustomEvent) {
+    const { imgObj } = e.detail;
+
+    this.changeProfileIndexArray[this.userIndex] = true;
+    this.data[this.userIndex].avatar = '';
+    this.data[this.userIndex].src =
+      getPbImageURL(imgObj) || this.DEFAULT_IMG_PATH;
+    this.profileListItem[this.userIndex].dataset.imgId = imgObj.id;
+    this.requestUpdate();
+  }
+
+  profileUpdate(e: Event) {
+    e.preventDefault();
+    const changeIndexArray = this.changeProfileIndexArray.map((item, index) => {
+      return item || this.changeNameIndexArray[index];
+    });
+
+    if (changeIndexArray.length) {
+      for (const [index, isChanged] of changeIndexArray.entries()) {
+        if (isChanged) {
+          const changeProfile = this.profileListItem[index];
+          const nickname = (
+            this.profileListItem[index].querySelector(
+              '.profile-list__nickname'
+            ) as HTMLInputElement
+          ).value;
+          // id가 있으면 PATCH, 없으면 POST
+          // name, account, img-id, index
+          if (changeProfile.id) {
+            console.log();
+          } else {
+            try {
+              createUserProfile('users_profile', {
+                name: nickname,
+                account: getUserId()!,
+                avatar: changeProfile.dataset.imgId || null,
+                index: index,
+              }).then((res) => {
+                console.log('POST 통신 결과 ', res);
+              });
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        }
+      }
+    }
+
+    this.handleEditToggle();
+  }
+
+  handleInputBlur(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const index = (input.closest('li') as HTMLLIElement).dataset.index!;
+    const value = (e.target as HTMLInputElement).value.trim();
+
+    this.changeNameIndexArray[+index] =
+      value !== this.DEFAULT_NAME && value !== '';
+
+    if (!input.value.length) {
+      input.value = this.DEFAULT_NAME;
+    }
+  }
+
   render() {
     return html`<section class="section-profile">
       <hgroup class="section-title">
@@ -228,69 +335,86 @@ class Profile extends TaingElement {
         </p>
       </hgroup>
 
-      <form>
+      <form @submit=${this.profileUpdate}>
         <ul class="profile-list">
-          ${this.data.map((profile) => {
-            return html`
-              <li class="profile-list__item" id=${profile.id || ''}>
-                <figure class="profile-list__img">
-                  <img
-                    src="${profile.avatar
-                      ? getPbImageURL(profile)
-                      : profile.src}"
-                    alt="${profile.name}"
-                  />
-                  ${this.isEdit
-                    ? html`<input
-                        type="text"
-                        class="profile-list__nickname"
-                        value=${profile.name}
-                        maxlength="8"
-                      />`
-                    : html`<figcaption class="profile-list__nickname">
-                        ${profile.name}
-                      </figcaption>`}
-                </figure>
-                ${this.isEdit
-                  ? html`<button type="button" class="profile-list__btn">
-                      <svg-icon
-                        svg-id="edit"
-                        .size=${[[50], , [60]]}
-                      ></svg-icon>
-                      <span class="sr-only">프로필 편집</span>
-                    </button>`
-                  : html`<a
-                      href="/src/pages/main/"
-                      class="profile-list__btn select"
-                      @click=${this.handleSelectProfile}
-                    >
-                      <svg-icon
-                        svg-id="lock"
-                        .size=${[[50], , [60]]}
-                      ></svg-icon>
-                      <span class="sr-only">프로필 선택</span>
-                    </a>`}
-              </li>
-            `;
-          })}
+          ${this.data
+            ? this.data.map((profile, index) => {
+                return html`
+                  <li
+                    id=${profile.id || ''}
+                    class="profile-list__item"
+                    data-index=${index}
+                  >
+                    <figure class="profile-list__img">
+                      <img
+                        src="${profile.avatar
+                          ? getPbImageURL(profile)
+                          : profile.src}"
+                        alt="${profile.name}"
+                      />
+                      ${this.isEdit
+                        ? html`<input
+                            type="text"
+                            class="profile-list__nickname"
+                            value=${profile.name}
+                            @blur=${this.handleInputBlur}
+                            maxlength="8"
+                            required
+                          />`
+                        : html`<figcaption class="profile-list__nickname">
+                            ${profile.name}
+                          </figcaption>`}
+                    </figure>
+                    ${this.isEdit
+                      ? html`<button
+                          type="button"
+                          class="profile-list__btn"
+                          @click=${this.openAvatarList.bind(this, index)}
+                        >
+                          <svg-icon
+                            svg-id="edit"
+                            .size=${[[50], null, [60]]}
+                          ></svg-icon>
+                          <span class="sr-only">프로필 편집</span>
+                        </button>`
+                      : html`<a
+                          href="/src/pages/main/"
+                          class="profile-list__btn select"
+                          @click=${this.selectProfile}
+                        >
+                          <svg-icon
+                            svg-id="lock"
+                            .size=${[[50], null, [60]]}
+                          ></svg-icon>
+                          <span class="sr-only">프로필 선택</span>
+                        </a>`}
+                  </li>
+                `;
+              })
+            : nothing}
         </ul>
         ${this.isEdit
           ? html`<t-button
               type="submit"
               color="secondary"
               size="size-s"
-              @click=${this.handleEdit}
+              @click=${this.profileUpdate}
               >완료</t-button
             >`
-          : this.data.length
+          : this.data?.length
             ? html`<t-button
                 color="line"
                 size="size-s"
-                @click=${this.handleEdit}
+                @click=${this.handleEditToggle}
                 ><span>프로필 편집</span></t-button
               >`
-            : ''}
+            : nothing}
       </form>
+      <profile-img-list
+        hidden
+        selectIndex=${this.userIndex}
+        @select-image=${this.selectAvatar}
+      ></profile-img-list>
     </section>`;
   }
 }

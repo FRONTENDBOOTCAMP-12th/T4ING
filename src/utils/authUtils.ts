@@ -29,10 +29,10 @@ export function getUserId() {
   return decodeJWT(getToken()).id;
 }
 
-export function getTokenHeader() {
+export function getTokenHeader(): HeadersInit {
   return {
     ...defaultHeaders,
-    Authorization: getToken(),
+    Authorization: getToken() || '',
   };
 }
 

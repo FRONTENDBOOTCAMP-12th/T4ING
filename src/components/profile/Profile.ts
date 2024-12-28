@@ -206,6 +206,23 @@ class Profile extends TaingElement {
                 src: this.DEFAULT_IMG_PATH,
               }
           );
+        // .map((profile) => {
+        //   if (profile.avatar) {
+        //     console.log('요청 시작');
+        //     (async () => {
+        //       profile.avatar = await fetchData(
+        //         'profile_image',
+        //         `/${profile.avatar}`
+        //       ).then((profileImgObj) => {
+        //         profile.avatar = getPbImageURL(profileImgObj);
+        //         console.log('요청 끝', profile.avatar);
+        //         return profile.avatar;
+        //       });
+        //     })();
+        //   } else {
+        //     return profile;
+        //   }
+        // });
       }
     } catch (err) {
       console.error(err);
@@ -249,6 +266,7 @@ class Profile extends TaingElement {
     const { imgObj } = e.detail;
 
     this.changeProfileIndexArray[this.userIndex] = true;
+    this.data[this.userIndex].avatar = '';
     this.data[this.userIndex].src =
       getPbImageURL(imgObj) || this.DEFAULT_IMG_PATH;
     this.profileListItem[this.userIndex].dataset.imgId = imgObj.id;
@@ -260,7 +278,6 @@ class Profile extends TaingElement {
     const changeIndexArray = this.changeProfileIndexArray.map((item, index) => {
       return item || this.changeNameIndexArray[index];
     });
-    console.log('submit');
 
     if (changeIndexArray.length) {
       for (const [index, isChanged] of changeIndexArray.entries()) {
@@ -279,11 +296,11 @@ class Profile extends TaingElement {
             try {
               createUserProfile('users_profile', {
                 name: nickname,
-                account: getUserId(),
-                avatar: changeProfile.id,
+                account: getUserId()!,
+                avatar: changeProfile.dataset.imgId || null,
                 index: index,
               }).then((res) => {
-                console.log(res);
+                console.log('POST 통신 결과 ', res);
               });
             } catch (err) {
               console.error(err);
@@ -292,6 +309,8 @@ class Profile extends TaingElement {
         }
       }
     }
+
+    this.handleEditToggle();
   }
 
   handleInputBlur(e: Event) {
@@ -318,69 +337,61 @@ class Profile extends TaingElement {
 
       <form @submit=${this.profileUpdate}>
         <ul class="profile-list">
-          ${this.data.map((profile, index) => {
-            let img;
-
-            if (profile.avatar) {
-              fetchData('profile_image', `/${profile.avatar}`).then(
-                (profileImgObj) => {
-                  img = getPbImageURL(profileImgObj);
-                }
-              );
-            }
-
-            return html`
-              <li
-                id=${profile.id || ''}
-                class="profile-list__item"
-                data-index=${index}
-              >
-                <figure class="profile-list__img">
-                  <img
-                    src="${profile.avatar
-                      ? getPbImageURL(profile)
-                      : profile.src}"
-                    alt="${profile.name}"
-                  />
-                  ${this.isEdit
-                    ? html`<input
-                        type="text"
-                        class="profile-list__nickname"
-                        value=${profile.name}
-                        @blur=${this.handleInputBlur}
-                        maxlength="8"
-                        required
-                      />`
-                    : html`<figcaption class="profile-list__nickname">
-                        ${profile.name}
-                      </figcaption>`}
-                </figure>
-                ${this.isEdit
-                  ? html`<button
-                      type="button"
-                      class="profile-list__btn"
-                      @click=${this.openAvatarList.bind(this, index)}
-                    >
-                      <svg-icon
-                        svg-id="edit"
-                        .size=${[[50], null, [60]]}
-                      ></svg-icon>
-                      <span class="sr-only">프로필 편집</span>
-                    </button>`
-                  : html`<a
-                      href="/src/pages/main/"
-                      class="profile-list__btn select"
-                      @click=${this.selectProfile}
-                    >
-                      <svg-icon
-                        svg-id="lock"
-                        .size=${[[50], null, [60]]}
-                      ></svg-icon>
-                      <span class="sr-only">프로필 선택</span>
-                    </a>`}
-              </li>
-            `;
-          })}
+          ${this.data
+            ? this.data.map((profile, index) => {
+                return html`
+                  <li
+                    id=${profile.id || ''}
+                    class="profile-list__item"
+                    data-index=${index}
+                  >
+                    <figure class="profile-list__img">
+                      <img
+                        src="${profile.avatar
+                          ? getPbImageURL(profile)
+                          : profile.src}"
+                        alt="${profile.name}"
+                      />
+                      ${this.isEdit
+                        ? html`<input
+                            type="text"
+                            class="profile-list__nickname"
+                            value=${profile.name}
+                            @blur=${this.handleInputBlur}
+                            maxlength="8"
+                            required
+                          />`
+                        : html`<figcaption class="profile-list__nickname">
+                            ${profile.name}
+                          </figcaption>`}
+                    </figure>
+                    ${this.isEdit
+                      ? html`<button
+                          type="button"
+                          class="profile-list__btn"
+                          @click=${this.openAvatarList.bind(this, index)}
+                        >
+                          <svg-icon
+                            svg-id="edit"
+                            .size=${[[50], null, [60]]}
+                          ></svg-icon>
+                          <span class="sr-only">프로필 편집</span>
+                        </button>`
+                      : html`<a
+                          href="/src/pages/main/"
+                          class="profile-list__btn select"
+                          @click=${this.selectProfile}
+                        >
+                          <svg-icon
+                            svg-id="lock"
+                            .size=${[[50], null, [60]]}
+                          ></svg-icon>
+                          <span class="sr-only">프로필 선택</span>
+                        </a>`}
+                  </li>
+                `;
+              })
+            : nothing}
         </ul>
         ${this.isEdit
           ? html`<t-button
@@ -390,14 +401,14 @@ class Profile extends TaingElement {
               @click=${this.profileUpdate}
               >완료</t-button
             >`
-          : this.data.length
+          : this.data?.length
             ? html`<t-button
                 color="line"
                 size="size-s"
                 @click=${this.handleEditToggle}
                 ><span>프로필 편집</span></t-button
               >`
-            : ''}
+            : nothing}
       </form>
       <profile-img-list
         hidden

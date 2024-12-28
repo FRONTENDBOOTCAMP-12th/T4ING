@@ -21,7 +21,7 @@ export async function createUserProfile(
   data: {
     name: string;
     account: string;
-    avatar: string;
+    avatar: string | null;
     index: number;
   }
 ) {

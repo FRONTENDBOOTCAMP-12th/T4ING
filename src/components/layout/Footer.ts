@@ -24,7 +24,7 @@ class Footer extends TaingElement {
         font-size: var(--text-size-s);
         line-height: 1.1875rem;
         color: var(--gray500);
-        transition: 0.3s;
+        transition: padding 0.3s;
 
         .notice {
           display: flex;
@@ -83,6 +83,7 @@ class Footer extends TaingElement {
 
           a {
             text-decoration: underline;
+            transition: color 0.3s;
 
             &:hover {
               color: var(--gray300);

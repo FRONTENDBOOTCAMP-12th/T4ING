@@ -168,7 +168,7 @@ class Input extends TaingElement {
             >
               <svg-icon
                 svg-id="del"
-                .size=${[[20], , [36]]}
+                .size=${[[20], null, [36]]}
                 center="true"
               ></svg-icon>
               <span class="sr-only">입력값 삭제</span>
@@ -183,13 +183,13 @@ class Input extends TaingElement {
               ${this.type === 'password'
                 ? html`<svg-icon
                       svg-id="show"
-                      .size=${[[20], , [36]]}
+                      .size=${[[20], null, [36]]}
                       center="true"
                     ></svg-icon
                     ><span class="sr-only">비밀번호 보기</span>`
                 : html`<svg-icon
                       svg-id="hide"
-                      .size=${[[20], , [36]]}
+                      .size=${[[20], null, [36]]}
                       center="true"
                     ></svg-icon
                     ><span class="sr-only">비밀번호 숨기기</span>`}

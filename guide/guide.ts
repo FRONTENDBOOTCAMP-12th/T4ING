@@ -175,21 +175,6 @@ class Guide extends TaingElement {
             </div>
           </div>
         </t-modal>
-
-        <!--t-modal
-          class="modal-confirm"
-          .confirmFn=${() => console.log('컨펌 콜백')}
-          .cancelFn=${() => {
-          const modal = this.renderRoot.querySelector(
-            '.modal-confirm'
-          ) as HTMLElement;
-
-          if (modal) {
-            modal.hidden = true;
-          }
-        }}
-          >로그아웃 하시겠습니까?</t-modal
-        -->
       </div>
     `;
   }

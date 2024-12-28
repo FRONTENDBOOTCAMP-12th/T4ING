@@ -127,7 +127,7 @@ export class TaingElement extends LitElement {
   ];
 
   static PB_URL = import.meta.env.VITE_PB_URL;
-  static PB_API = `${this.PB_URL}api`;
+  static PB_API = `${this.PB_URL}/api`;
 
   headers = {
     'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ class Modal extends TaingElement {
   @property({ type: Boolean, reflect: true }) hidden = true;
   htmlEl = document.querySelector('html') as HTMLElement;
 
-  protected updated(_changedProperties: PropertyValues): void {
+  updated(_changedProperties: PropertyValues): void {
     if (_changedProperties.has('hidden')) {
       if (this.hidden) {
         this.htmlEl.classList.remove('fixed');
@@ -19,12 +19,11 @@ class Modal extends TaingElement {
 
   closeModal(e: Event) {
     const target = e.target as HTMLButtonElement;
-    const hasClass = [...target.classList].some(
+    const hasClass = [...target.classList].find(
       (item) => item === 'close-modal'
     );
 
     if (hasClass) {
-      this.htmlEl.classList.remove('fixed');
       this.hidden = true;
     }
   }

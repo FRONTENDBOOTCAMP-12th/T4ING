@@ -9,7 +9,6 @@ import '../src/components/Form';
 import '../src/components/Checkbox';
 import '../src/components/Button';
 import '../src/components/Modal';
-import '../main.ts';
 
 @customElement('guide-logo')
 class GuideLogo extends TaingElement {

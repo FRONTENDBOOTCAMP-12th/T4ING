@@ -128,13 +128,13 @@ class Guide extends TaingElement {
           <login-checkbox>label</login-checkbox>
           <t-checkbox>label</t-checkbox>
         </div>
-        <t-input>
+        <t-input id="userId" .value=${'불러온 값을 넣을 때✨'}>
           <label slot="label">아이디</label>
           <strong slot="hint" class="hint"
             >영문 또는 영문, 숫자 조합 6~12자리</strong
           >
         </t-input>
-        <t-input type="password">
+        <t-input id="userPassword" type="password">
           <label slot="label">비밀번호</label>
           <strong slot="hint" class="hint"
             >영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리</strong

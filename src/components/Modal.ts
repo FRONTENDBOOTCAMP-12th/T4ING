@@ -1,5 +1,5 @@
-import { CSSResultGroup, html, PropertyValues, css, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { html, css, CSSResultGroup, PropertyValues, nothing } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 import { customEventParam } from '../utils/customEvent';
 

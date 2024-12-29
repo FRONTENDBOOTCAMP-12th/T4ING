@@ -5,8 +5,8 @@ const eventDefaultValue = {
 
 export function customEventParam(
   customEvent: string,
-  valueObj: {},
-  eventDefault = eventDefaultValue
+  valueObj?: { [key: string]: any },
+  eventDefault: { [key: string]: boolean } = eventDefaultValue
 ) {
   return new CustomEvent(customEvent, {
     detail: valueObj,

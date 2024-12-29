@@ -43,7 +43,7 @@ export default css`
 
     inline-size: 18px;
     block-size: 18px;
-    opacity: 0.7;
+    opacity: 0.5;
 
     cursor: pointer;
 
@@ -58,7 +58,7 @@ export default css`
     }
 
     &:hover {
-      opacity: 1;
+      opacity: 0.8;
     }
 
     &:disabled {

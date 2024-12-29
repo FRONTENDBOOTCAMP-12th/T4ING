@@ -51,12 +51,14 @@ class MainRecommend extends TaingElement {
           this.handleResize();
           this.handleSlideState();
           this.attachNavigation();
+          this.showNavigation();
           window.addEventListener('resize', this.handleResize);
         });
       } else {
         this.handleResize();
         this.handleSlideState();
         this.attachNavigation();
+        this.showNavigation();
         window.addEventListener('resize', this.handleResize);
       }
     }
@@ -104,6 +106,24 @@ class MainRecommend extends TaingElement {
 
       nextButton.addEventListener('click', () => {
         this.swiperInstance?.slideNext();
+      });
+    }
+  }
+
+  // bug: 마우스가 네비게이션 버튼 위에 올라가면 컨테이너에서 마우스가
+  // 벗어나는 것으로 인식되어 네비게이션 버튼이 사라짐
+
+  showNavigation() {
+    const swiperContainer = this.swiperContainer;
+    const navButtons = this.renderRoot.querySelectorAll('.nav-btn');
+
+    if (swiperContainer && navButtons) {
+      swiperContainer.addEventListener('mouseenter', () => {
+        navButtons.forEach((button) => button.classList.add('show'));
+      });
+
+      swiperContainer.addEventListener('mouseleave', () => {
+        navButtons.forEach((button) => button.classList.remove('show'));
       });
     }
   }

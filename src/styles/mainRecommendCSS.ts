@@ -110,24 +110,33 @@ export default css`
   }
 
   .slide-title {
-    font-size: 2vw;
+    font-size: 0;
     white-space: nowrap;
+    overflow: ellipsis;
+    text-overflow: ellipsis;
+
+    @media (min-width: 768px) {
+      font-size: 1.6vw;
+    }
   }
 
   .nav-btn {
-    background-color: transparent;
-
+    display: none;
     position: absolute;
     border: 0;
 
     inline-size: 18px;
-    opacity: 0.7;
+    opacity: 1;
 
     cursor: pointer;
 
     z-index: 30;
 
     block-size: 100%;
+
+    &.show {
+      display: block;
+    }
 
     @media (min-width: 768px) {
       inline-size: 40px;
@@ -139,10 +148,6 @@ export default css`
       // block-size: 70px;
     }
 
-    &:hover {
-      opacity: 1;
-    }
-
     &:disabled {
       display: none;
     }
@@ -150,8 +155,17 @@ export default css`
 
   .next-btn {
     right: 0;
-    background: url('/assets/images/icon/banner_arrow_right.svg') no-repeat
-      center;
+    background: url('/assets/images/icon/banner_arrow_right.svg'),
+      radial-gradient(
+        ellipse at right,
+        rgb(0 0 0 / 60%) 15%,
+        rgb(0 0 0 / 24%),
+        transparent,
+        transparent
+      );
+
+    background-repeat: no-repeat;
+    background-position: center;
 
     background-size: contain;
 
@@ -166,8 +180,17 @@ export default css`
 
   .prev-btn {
     left: 0;
-    background: url('/assets/images/icon/banner_arrow_left.svg') no-repeat
-      center;
+    background: url('/assets/images/icon/banner_arrow_left.svg'),
+      radial-gradient(
+        ellipse at left,
+        rgb(0 0 0 / 60%) 15%,
+        rgb(0 0 0 / 24%),
+        transparent,
+        transparent
+      );
+
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: contain;
     @media (min-width: 768px) {
       transform: translateX(-2.5rem);

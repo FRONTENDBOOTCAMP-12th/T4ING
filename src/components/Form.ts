@@ -3,20 +3,11 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { TaingElement } from './Taing';
 import { buttonCSS } from '../styles/buttonCSS';
+import { customEventParam } from '../utils/customEvent';
 import './SvgIcon';
 
 @customElement('t-input')
 class Input extends TaingElement {
-  @property({ type: String }) id = '';
-  @property({ type: String }) type:
-    | 'text'
-    | 'password'
-    | 'number'
-    | 'search'
-    | 'email' = 'text';
-  @property({ type: String }) value = '';
-  @state() isPassword: boolean = false;
-
   static styles: CSSResultGroup = [
     super.styles,
     buttonCSS['t-button'],
@@ -76,13 +67,17 @@ class Input extends TaingElement {
         }
       }
 
+      .is-hidden::slotted(label) {
+        visibility: hidden;
+      }
+
       label,
       ::slotted(label) {
         position: absolute;
         inset-inline-start: var(--padding-inline-start);
         inset-block-start: 50%;
         translate: 0 -50%;
-        transition: 0.3s;
+        transition: padding 0.3s;
         pointer-events: none;
       }
 
@@ -118,27 +113,41 @@ class Input extends TaingElement {
     `,
   ];
 
+  @property({ type: String }) type:
+    | 'text'
+    | 'password'
+    | 'number'
+    | 'search'
+    | 'email' = 'text';
+  @property({ type: String, reflect: true }) value = '';
+  @state() isPassword: boolean = false;
+
   connectedCallback() {
     super.connectedCallback();
+
+    this.setLabelFor();
     this.isPassword = this.type === 'password';
   }
 
-  get inputField(): HTMLInputElement | null {
-    return this.renderRoot.querySelector('input');
+  setLabelFor() {
+    const label = this.querySelector('label') as HTMLLabelElement;
+
+    if (this.id) {
+      label.setAttribute('for', this.id);
+    }
+  }
+
+  get inputField() {
+    return this.renderRoot.querySelector('input') as HTMLInputElement;
+  }
+
+  handleInputChange() {
+    this.value = this.inputField.value;
+    this.dispatchEvent(customEventParam('inputChange', { value: this.value }));
   }
 
   handleResetValue() {
-    this.value = '';
-
-    if (this.inputField) {
-      this.inputField.value = '';
-    }
-  }
-
-  handleChange() {
-    if (this.inputField) {
-      this.value = this.inputField.value;
-    }
+    this.value = this.inputField.value = '';
   }
 
   handleToggleInputField() {
@@ -153,12 +162,18 @@ class Input extends TaingElement {
           password: this.isPassword,
         })}
       >
-        <slot name="label" ?hidden=${!!this.value.length}></slot>
+        <slot
+          name="label"
+          class=${classMap({
+            ['is-hidden']: this.value.length,
+          })}
+        ></slot>
         <input
           id=${this.id}
           type=${this.type}
           class="t-form__input"
-          @input=${this.handleChange}
+          value=${this.value}
+          @input=${this.handleInputChange}
         />
         ${this.value
           ? html`<button

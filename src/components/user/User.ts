@@ -77,23 +77,11 @@ class User extends TaingElement {
         </li>
       </ul>
 
-      <t-modal class="modal-logout" hidden>
-        <div class="modal__inner">
-          <p class="modal__message">로그아웃 하시겠습니까?</p>
-          <div class="modal__btn-wrap">
-            <button type="button" class="modal__btn close-modal">확인</button>
-            <button type="button" class="modal__btn close-modal">취소</button>
-          </div>
-        </div>
-      </t-modal>
-      <t-modal class="modal-withdraw" hidden>
-        <div class="modal__inner">
-          <p class="modal__message">회원 탈퇴 하시겠습니까?</p>
-          <div class="modal__btn-wrap">
-            <button type="button" class="modal__btn close-modal">확인</button>
-            <button type="button" class="modal__btn close-modal">취소</button>
-          </div>
-        </div></t-modal
+      <t-modal class="modal-logout" cancel hidden
+        >로그아웃 하시겠습니까?</t-modal
+      >
+      <t-modal class="modal-withdraw" cancel hidden
+        >회원 탈퇴 하시겠습니까?</t-modal
       >
     `;
   }

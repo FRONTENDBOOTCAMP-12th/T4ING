@@ -1,4 +1,4 @@
-import { html, CSSResultGroup, css } from 'lit';
+import { html, css, CSSResultGroup } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../src/components/Taing';
 import { buttonCSS } from '../src/styles/buttonCSS';
@@ -157,24 +157,47 @@ class Guide extends TaingElement {
         </div>
 
         <h2 class="guide-title">🪄 Modal</h2>
-        <t-button color="secondary" @click=${openModal.bind(this, '.popup')}
-          >팝업 보기</t-button
+        <div class="component-wrap flex">
+          <t-button color="secondary" @click=${openModal.bind(this, '.popup')}
+            >팝업 보기</t-button
+          >
+          <t-button color="line" @click=${openModal.bind(this, '.popup-2')}
+            >팝업 보기</t-button
+          >
+        </div>
+        <t-modal
+          class="popup"
+          hidden
+          @modalConfirm=${() => alert('콜백함수 전달')}
+          ><p style="margin:0;line-height:1.6">
+            안녕하세요! 🦭<br />확인을 누르면 콜백 함수가 실행되요
+          </p></t-modal
         >
-        <t-modal class="popup" hidden>
-          <div class="modal__popup">
-            <figure class="modal__img">
-              <img src="" alt="" />
-            </figure>
-            <div class="modal-popup__wrap">
-              <button type="button" class="modal-popup__btn today">
-                오늘 하루 보지 않기
-              </button>
-              <button type="button" class="modal-popup__btn close-modal">
-                닫기
-              </button>
-            </div>
-          </div>
-        </t-modal>
+        <t-modal class="popup-2" hidden cancel>안녕히 가세요!</t-modal>
+        <ul
+          style="display:flex;flex-flow:column wrap;row-gap:.5rem;list-style:none"
+        >
+          <li>&lt;t-modal hidden&gt;&lt;/t-modal&gt; 기본 상태</li>
+          <li>&lt;t-modal hidden&gt;문구&lt;/t-modal&gt; slot 문구</li>
+          <li>
+            &lt;t-modal hidden class="foo"&gt;&lt;/t-modal&gt; class :: 모달을
+            띄우기 위한 식별자
+          </li>
+          <li>
+            &lt;t-modal hidden cancel&gt;&lt;/t-modal&gt; cancel :: 취소버튼
+            옵션
+          </li>
+          <li>
+            &lt;t-modal hidden
+            @modalConfirm=${() => alert('확인 콜백함수')}&gt;&lt;/t-modal&gt;
+            @modalConfirm 완료버튼 콜백함수
+          </li>
+          <li>
+            &lt;t-modal hidden
+            @modalCancel=${() => alert('취소 콜백함수')}&gt;&lt;/t-modal&gt;
+            @modalCancel 취소버튼 콜백함수
+          </li>
+        </ul>
       </div>
     `;
   }

@@ -1,8 +1,9 @@
-import { html, CSSResultGroup, nothing } from 'lit';
+import { html, CSSResultGroup, PropertyValues, noChange, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { searchCSS } from '../../styles/searchCSS';
 import { getStorage, setStorage, deleteStorage } from '../../utils/storage';
+import { KeywordArray } from '../../@types/type';
 import gsap from 'gsap';
 import '../SvgIcon';
 
@@ -11,10 +12,10 @@ class Search extends TaingElement {
   static styles: CSSResultGroup = [super.styles, searchCSS['taing-search']];
 
   @query('.search__input') input!: HTMLInputElement;
-  @property({ type: Array }) keywordArray: string[] = [];
-  @property({ type: Boolean }) isHidden = false;
-  storageKey = 'taing-search-keyword';
+  @property({ type: Array }) keywordArray: KeywordArray[] = [];
+  @property({ type: Boolean, reflect: true }) hidden = true;
 
+  storageKey = 'taing-search-keyword';
   trendingKeyword = [
     '재벌집 막내아들',
     '미스터트롯2: 새로운 전설의 시작',
@@ -28,21 +29,73 @@ class Search extends TaingElement {
     '술꾼도시여자들',
   ];
 
-  connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     this.getStorageKeyword();
   }
 
-  renderKeyword(keywordArray: string[] = this.keywordArray) {
+  update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+
+    if (changedProperties.has('hidden')) {
+      const trendingKeywordLlist = this.renderRoot.querySelectorAll(
+        '.trending-keyword-list > li'
+      );
+
+      if (!this.hidden) {
+        gsap.from(trendingKeywordLlist, {
+          y: 20,
+          opacity: 0,
+          stagger: 0.075,
+          clearProps: 'all',
+        });
+      }
+    }
+  }
+
+  async getStorageKeyword() {
+    this.keywordArray = (await getStorage(this.storageKey)) || [];
+  }
+
+  handleSubmit(e: Event) {
+    e.preventDefault();
+
+    if (this.input.value) {
+      this.keywordArray.push({ id: Date.now(), keyword: this.input.value });
+      setStorage(this.storageKey, this.keywordArray);
+      this.requestUpdate();
+      this.input.value = '';
+    }
+  }
+
+  handleClearStorage() {
+    this.keywordArray = [];
+    deleteStorage(this.storageKey);
+  }
+
+  deleteKeyword(e: Event) {
+    const button = e.target as HTMLButtonElement;
+    const keywordItem = button.closest('li') as HTMLLIElement;
+    const deleteId = +keywordItem.id;
+
+    this.keywordArray = this.keywordArray.filter(({ id }) => id !== deleteId);
+    setStorage(this.storageKey, this.keywordArray);
+  }
+
+  renderKeyword(keywordArray: KeywordArray[] = this.keywordArray) {
     return html`
       ${keywordArray.length
         ? html`
-            <ul class="keyword-list" @click=${this.handleDeleteKeyword}>
+            <ul class="keyword-list">
               ${keywordArray
                 .map(
-                  (keyword) =>
-                    html`<li>
-                      ${keyword}<button type="button" class="btn-del">
+                  ({ id, keyword }) =>
+                    html`<li id=${id}>
+                      ${keyword}<button
+                        type="button"
+                        class="btn-del"
+                        @click=${this.deleteKeyword}
+                      >
                         <span class="sr-only">검색어 삭제</span>
                         <svg-icon
                           svg-id="del3"
@@ -57,69 +110,6 @@ class Search extends TaingElement {
           `
         : html`<span>검색 내역이 없습니다.</span>`}
     `;
-  }
-
-  async getStorageKeyword() {
-    this.keywordArray = (await getStorage(this.storageKey)) || [];
-  }
-
-  async addKeyword() {
-    if (this.input.value) {
-      this.keywordArray.push(this.input.value);
-      setStorage(this.storageKey, this.keywordArray);
-
-      return this.keywordArray;
-    }
-  }
-
-  handleDeleteKeyword(e: Event) {
-    const button = e.target as HTMLButtonElement;
-    const ul = button.closest('ul') as HTMLUListElement;
-    const li = button.closest('li') as HTMLLIElement;
-    const liList = Array.from(ul.children);
-    const index = liList.indexOf(li);
-
-    this.keywordArray = this.keywordArray
-      .reverse()
-      .filter((k: string, i: number) => i !== index);
-
-    setStorage(this.storageKey, this.keywordArray);
-  }
-
-  handleClearStorage() {
-    this.keywordArray = [];
-    deleteStorage(this.storageKey);
-  }
-
-  handleSubmit(e: Event) {
-    e.preventDefault();
-
-    this.addKeyword().then((res) => {
-      this.renderKeyword(res);
-      this.requestUpdate();
-    });
-    this.input.value = '';
-  }
-
-  renderTrendingKeyword() {
-    return this.trendingKeyword.map(
-      (keyword) => html`<li><a href="/">${keyword}</a></li>`
-    );
-  }
-
-  trendingKeywordMotion() {
-    // FIXME: 검색어 입력, 삭제, li 클릭 시에도 적용 됨😭
-    if (!this.isHidden) {
-      gsap.from(
-        [this.renderRoot.querySelectorAll('.trending-keyword-list > li')],
-        {
-          y: 20,
-          opacity: 0,
-          stagger: 0.075,
-          clearProps: 'all',
-        }
-      );
-    }
   }
 
   render() {
@@ -169,7 +159,11 @@ class Search extends TaingElement {
           <div class="search-keyword__item">
             <h3 class="search-keyword__title">실시간 인기 검색어</h3>
             <ul class="trending-keyword-list">
-              ${this.renderTrendingKeyword()} ${this.trendingKeywordMotion()}
+              ${this.trendingKeyword.length
+                ? this.trendingKeyword.map(
+                    (keyword) => html`<li><a href="/">${keyword}</a></li>`
+                  )
+                : noChange}
             </ul>
           </div>
         </div>

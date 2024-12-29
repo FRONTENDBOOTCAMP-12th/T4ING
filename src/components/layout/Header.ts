@@ -218,10 +218,7 @@ class Header extends TaingElement {
             `
           : nothing}
       </header>
-      <taing-search
-        ?hidden=${!this.isActiveSearch}
-        .isHidden=${!this.isActiveSearch}
-      ></taing-search>
+      <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
     `;
   }
 }

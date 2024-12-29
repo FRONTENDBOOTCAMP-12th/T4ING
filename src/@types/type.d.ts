@@ -78,3 +78,8 @@ export interface UserProfile extends ImageResponseData {
 export interface ProfileDataList extends DefaultResponseData {
   items: ImageResponseData[];
 }
+
+export interface KeywordArray {
+  id: number;
+  keyword: string;
+}

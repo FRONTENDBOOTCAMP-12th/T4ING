@@ -1,4 +1,4 @@
-import { CSSResultGroup, html, css, nothing } from 'lit';
+import { CSSResultGroup, html, css, nothing, PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from './Taing';
 
@@ -8,7 +8,6 @@ class SvgIcon extends TaingElement {
     super.styles,
     css`
       :host {
-        // position: relative;
         vertical-align: middle;
       }
 
@@ -25,10 +24,10 @@ class SvgIcon extends TaingElement {
     `,
   ];
 
-  @property({ type: Number }) width = 18;
-  @property({ type: Number }) height = 18;
   @state() device = '';
 
+  width: number = 18;
+  height: number = 18;
   svgId: string | null = '';
   size: Array<number[] | null> = [];
   centered: boolean = false;
@@ -45,6 +44,15 @@ class SvgIcon extends TaingElement {
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
+  update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+
+    if (changedProperties.has('device')) {
+      this.setIconSize();
+      this.requestUpdate();
+    }
+  }
+
   setIconSize() {
     const index =
       this.device === 'mobile' ? 0 : this.device === 'tablet' ? 1 : 2;
@@ -56,7 +64,6 @@ class SvgIcon extends TaingElement {
 
   handleResize() {
     this.device = super.getDevice;
-    this.setIconSize();
   }
 
   render() {

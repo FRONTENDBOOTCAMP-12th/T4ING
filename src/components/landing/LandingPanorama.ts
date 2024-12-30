@@ -1,4 +1,4 @@
-import { css, CSSResultGroup, html } from 'lit';
+import { CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingPanoramaCSS from '../../styles/landingPanoramaCSS';

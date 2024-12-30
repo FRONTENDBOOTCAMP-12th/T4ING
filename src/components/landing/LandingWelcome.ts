@@ -1,5 +1,5 @@
-import { html, css, CSSResultGroup } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { html, CSSResultGroup } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingWelcomeCSS from '../../styles/landingWelcomeCSS';
 

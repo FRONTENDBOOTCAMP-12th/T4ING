@@ -1,16 +1,16 @@
 import { TaingElement } from '../Taing';
 import { MainData } from '../../@types/type';
 import { customElement, property } from 'lit/decorators.js';
-import { html, css, CSSResultGroup } from 'lit';
-import { getRecommendImageURL } from '../../api/getMainPageURL';
+import { html, CSSResultGroup } from 'lit';
+import { getVODImageURL } from '../../api/getMainPageURL';
 import Swiper from 'swiper';
-import mainRecommendCSS from '../../styles/mainRecommendCSS';
-
+import mainVODCSS from '../../styles/mainVODCSS';
 interface SwiperContainerElement extends HTMLElement {
   swiper: Swiper;
 }
-@customElement('main-recommend')
-class MainRecommend extends TaingElement {
+
+@customElement('main-vod')
+class MainVOD extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
     page: 0,
@@ -26,7 +26,7 @@ class MainRecommend extends TaingElement {
   @property({ type: Boolean }) isBeginning = true;
   @property({ type: Boolean }) isEnd = false;
 
-  static styles: CSSResultGroup = [super.styles, mainRecommendCSS];
+  static styles: CSSResultGroup = [super.styles, mainVODCSS];
 
   get swiperContainer(): SwiperContainerElement | null {
     return this.renderRoot.querySelector(
@@ -75,7 +75,7 @@ class MainRecommend extends TaingElement {
   async fetchData() {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_PB_API}/collections/main_recommend/records`
+        `${import.meta.env.VITE_PB_API}/collections/main_vod/records`
       );
       const data = await response.json();
       this.data = data;
@@ -132,7 +132,7 @@ class MainRecommend extends TaingElement {
   render() {
     return html`
       <div class="container">
-        <h1>티빙에서 꼭 봐야하는 콘텐츠</h1>
+        <h1>Quick VOD</h1>
         <div class="swiper-outer-wrapper">
           <button
             class="nav-btn prev-btn"
@@ -157,13 +157,13 @@ class MainRecommend extends TaingElement {
             .observeParents=${true}
             .breakpoints="${{
               768: {
-                slidesPerView: 6,
-                slidesPerGroup: 6,
+                slidesPerView: 4,
+                slidesPerGroup: 4,
                 spaceBetween: 10,
               },
               1920: {
-                slidesPerView: 7,
-                slidesPerGroup: 7,
+                slidesPerView: 6,
+                slidesPerGroup: 6,
                 spaceBetween: 10,
               },
             }}"
@@ -176,46 +176,25 @@ class MainRecommend extends TaingElement {
                   <swiper-slide tabindex="0">
                     <figure class="slide-img-container">
                       <img
-                        src="${getRecommendImageURL(slide)}"
+                        src="${getVODImageURL(slide)}"
                         aria-label="${slide.title}"
                       />
                       <figcaption class="slide-title">
                         ${slide.title}
                       </figcaption>
+                      <p class="episode" aria-label="Episode Number">
+                        ${slide.ep}화
+                      </p>
                     </figure>
                     ${slide.age !== 0
                       ? html`
-                          <span
-                            class="age-rating"
-                            aria-label="${slide.age}세 이상 관람가"
+                          <span class="quick-vod" aria-label="Quick VOD 콘텐츠"
                             ><img
-                              src="/assets/images/icon/restricted_19_${this
-                                .device === 'mobile'
-                                ? 's'
-                                : this.device === 'tablet'
-                                  ? 'm'
-                                  : 'l'}.png"
-                              class="age-rating-icon"
-                              alt="Age Rating Icon"
+                              src="/assets/images/icon/quick_vod.png"
+                              class="quick-vod-icon"
+                              alt="Quick VOD Icon"
                           /></span>
                         `
-                      : ''}
-                    ${slide.original
-                      ? html`<span
-                          class="t-original"
-                          aria-label="Tving Original 콘텐츠"
-                        >
-                          <img
-                            src="/assets/images/icon/taing_original_${this
-                              .device === 'mobile'
-                              ? 's'
-                              : this.device === 'tablet'
-                                ? 'm'
-                                : 'l'}.png"
-                            class="t-original-icon"
-                            alt="Tving Original Icon"
-                          />
-                        </span>`
                       : ''}
                   </swiper-slide>
                 `
@@ -228,7 +207,7 @@ class MainRecommend extends TaingElement {
                   <swiper-slide tabindex="0">
                     <figure class="slide-img-container">
                       <img
-                        src="${getRecommendImageURL(slide)}"
+                        src="${getVODImageURL(slide)}"
                         aria-label="${slide.title}"
                       />
                       <figcaption class="slide-title">
@@ -237,37 +216,18 @@ class MainRecommend extends TaingElement {
                     </figure>
                     ${slide.age !== 0
                       ? html`
-                          <span
-                            class="age-rating"
-                            aria-label="${slide.age}세 이상 관람가"
+                          <span class="quick-vod" aria-label="Quick VOD 콘텐츠"
                             ><img
-                              src="/assets/images/icon/restricted_19_${this
+                              src="/assets/images/icon/quick_vod_${this
                                 .device === 'mobile'
                                 ? 's'
                                 : this.device === 'tablet'
                                   ? 'm'
                                   : 'l'}.png"
-                              class="age-rating-icon"
-                              alt="Age Rating Icon"
+                              class="quick-vod-icon"
+                              alt="Quick VOD Icon"
                           /></span>
                         `
-                      : ''}
-                    ${slide.original
-                      ? html`<span
-                          class="t-original"
-                          aria-label="Tving Original 콘텐츠"
-                        >
-                          <img
-                            src="/assets/images/icon/taing_original_${this
-                              .device === 'mobile'
-                              ? 's'
-                              : this.device === 'tablet'
-                                ? 'm'
-                                : 'l'}.png"
-                            class="t-original-icon"
-                            alt="Tving Original Icon"
-                          />
-                        </span>`
                       : ''}
                   </swiper-slide>
                 `
@@ -279,4 +239,4 @@ class MainRecommend extends TaingElement {
   }
 }
 
-export default MainRecommend;
+export default MainVOD;

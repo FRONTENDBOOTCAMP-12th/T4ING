@@ -2,15 +2,15 @@ import { TaingElement } from '../Taing';
 import { MainData } from '../../@types/type';
 import { customElement, property } from 'lit/decorators.js';
 import { html, css, CSSResultGroup } from 'lit';
-import { getRecommendImageURL } from '../../api/getMainPageURL';
+import { getTopImageURL } from '../../api/getMainPageURL';
 import Swiper from 'swiper';
-import mainRecommendCSS from '../../styles/mainRecommendCSS';
+import mainTopCSS from '../../styles/mainTopCSS';
 
 interface SwiperContainerElement extends HTMLElement {
   swiper: Swiper;
 }
-@customElement('main-recommend')
-class MainRecommend extends TaingElement {
+@customElement('main-top')
+class MainTop extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
     page: 0,
@@ -26,7 +26,7 @@ class MainRecommend extends TaingElement {
   @property({ type: Boolean }) isBeginning = true;
   @property({ type: Boolean }) isEnd = false;
 
-  static styles: CSSResultGroup = [super.styles, mainRecommendCSS];
+  static styles: CSSResultGroup = [super.styles, mainTopCSS];
 
   get swiperContainer(): SwiperContainerElement | null {
     return this.renderRoot.querySelector(
@@ -75,7 +75,7 @@ class MainRecommend extends TaingElement {
   async fetchData() {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_PB_API}/collections/main_recommend/records`
+        `${import.meta.env.VITE_PB_API}/collections/main_top/records`
       );
       const data = await response.json();
       this.data = data;
@@ -132,7 +132,7 @@ class MainRecommend extends TaingElement {
   render() {
     return html`
       <div class="container">
-        <h1>티빙에서 꼭 봐야하는 콘텐츠</h1>
+        <h1>실시간 인기 프로그램</h1>
         <div class="swiper-outer-wrapper">
           <button
             class="nav-btn prev-btn"
@@ -157,8 +157,8 @@ class MainRecommend extends TaingElement {
             .observeParents=${true}
             .breakpoints="${{
               768: {
-                slidesPerView: 6,
-                slidesPerGroup: 6,
+                slidesPerView: 5,
+                slidesPerGroup: 5,
                 spaceBetween: 10,
               },
               1920: {
@@ -170,65 +170,18 @@ class MainRecommend extends TaingElement {
           >
             ${this.data.items
               .filter((item) => item.device === this.device)
-              .sort((a, b) => a.title.localeCompare(b.title))
+              .sort((a, b) => b.views - a.views)
               .map(
-                (slide) => html`
+                (slide, index) => html`
                   <swiper-slide tabindex="0">
+                    <div class="ranking-container">
+                      <span class="ranking" aria-label="실시간 ${index + 1}위">
+                        ${index + 1}
+                      </span>
+                    </div>
                     <figure class="slide-img-container">
                       <img
-                        src="${getRecommendImageURL(slide)}"
-                        aria-label="${slide.title}"
-                      />
-                      <figcaption class="slide-title">
-                        ${slide.title}
-                      </figcaption>
-                    </figure>
-                    ${slide.age !== 0
-                      ? html`
-                          <span
-                            class="age-rating"
-                            aria-label="${slide.age}세 이상 관람가"
-                            ><img
-                              src="/assets/images/icon/restricted_19_${this
-                                .device === 'mobile'
-                                ? 's'
-                                : this.device === 'tablet'
-                                  ? 'm'
-                                  : 'l'}.png"
-                              class="age-rating-icon"
-                              alt="Age Rating Icon"
-                          /></span>
-                        `
-                      : ''}
-                    ${slide.original
-                      ? html`<span
-                          class="t-original"
-                          aria-label="Tving Original 콘텐츠"
-                        >
-                          <img
-                            src="/assets/images/icon/taing_original_${this
-                              .device === 'mobile'
-                              ? 's'
-                              : this.device === 'tablet'
-                                ? 'm'
-                                : 'l'}.png"
-                            class="t-original-icon"
-                            alt="Tving Original Icon"
-                          />
-                        </span>`
-                      : ''}
-                  </swiper-slide>
-                `
-              )}
-            ${this.data.items
-              .filter((item) => item.device === this.device)
-              .sort((a, b) => a.title.localeCompare(b.title))
-              .map(
-                (slide) => html`
-                  <swiper-slide tabindex="0">
-                    <figure class="slide-img-container">
-                      <img
-                        src="${getRecommendImageURL(slide)}"
+                        src="${getTopImageURL(slide)}"
                         aria-label="${slide.title}"
                       />
                       <figcaption class="slide-title">
@@ -279,4 +232,4 @@ class MainRecommend extends TaingElement {
   }
 }
 
-export default MainRecommend;
+export default MainTop;

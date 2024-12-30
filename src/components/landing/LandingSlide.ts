@@ -1,8 +1,8 @@
 import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { LandingItem } from '../../@types/landingtype';
 import landingSlideCSS from '../../styles/landingSlideCSS';
+import { LandingItem } from '../../@types/type';
 
 @customElement('landing-slide')
 export class Slide extends TaingElement {

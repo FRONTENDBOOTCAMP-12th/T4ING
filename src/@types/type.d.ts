@@ -93,3 +93,17 @@ export interface KeywordArray {
   id: number;
   keyword: string;
 }
+
+export interface LandingMain extends DefaultResponseData {
+  items: LandingItem[];
+}
+
+export interface LandingItem extends DefaultCollectionField {
+  cast: string;
+  category: string;
+  device: string;
+  genre: string;
+  id: string;
+  img: string;
+  title: string;
+}

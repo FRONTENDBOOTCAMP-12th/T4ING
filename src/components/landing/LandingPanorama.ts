@@ -1,8 +1,8 @@
 import { css, CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { LandingItem } from '../../@types/landingtype';
 import landingPanoramaCSS from '../../styles/landingPanoramaCSS';
+import { LandingItem } from '../../@types/type';
 
 @customElement('landing-panorama')
 export class Panorama extends TaingElement {

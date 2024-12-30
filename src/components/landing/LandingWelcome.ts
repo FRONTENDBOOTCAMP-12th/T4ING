@@ -1,14 +1,11 @@
 import { html, css, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { LandingItem } from '../../@types/landingtype';
 import landingWelcomeCSS from '../../styles/landingWelcomeCSS';
 
 @customElement('landing-welcome')
 export class Welcome extends TaingElement {
   static styles: CSSResultGroup = [super.styles, landingWelcomeCSS];
-  @property({ type: Array }) images: LandingItem[] = [];
-  @property({ type: String }) apiUrl: string = '';
 
   render() {
     return html`

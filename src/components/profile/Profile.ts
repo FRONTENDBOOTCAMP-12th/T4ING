@@ -168,7 +168,9 @@ class Profile extends TaingElement {
     this.dataFetch();
   }
 
-  updated(_changedProperties: PropertyValues): void {
+  update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+
     const item = this.renderRoot.querySelectorAll('.profile-list__item');
     const tButton = this.renderRoot.querySelector('t-button');
 
@@ -195,25 +197,30 @@ class Profile extends TaingElement {
         )
       );
       const { items } = await response.json();
-      const sortArray = Array(4).fill({
+      const sortArray = Array(4).fill({}); //참조복사 주의
+      const defaultProfile = {
         name: this.DEFAULT_NAME,
         src: this.DEFAULT_IMG_PATH,
-      });
+      };
 
       items.forEach((item: UserProfile) => (sortArray[item.index] = item));
 
       const promiseArray = sortArray.map((profile) => {
-        if (profile.avatar) {
+        if (profile.avatar || profile.name) {
           return (async () => {
-            profile.avatar = await getPbImageURL(
-              await fetchData('profile_image', `/${profile.avatar}`)
-            );
+            if (profile.avatar.length) {
+              profile.avatar = await getPbImageURL(
+                await fetchData('profile_image', `/${profile.avatar}`)
+              );
+            } else {
+              profile.src = this.DEFAULT_IMG_PATH;
+            }
 
             return profile;
           })();
         }
 
-        return profile;
+        return { ...defaultProfile };
       });
 
       Promise.all(promiseArray).then((result) => (this.data = result));
@@ -281,24 +288,35 @@ class Profile extends TaingElement {
               '.profile-list__nickname'
             ) as HTMLInputElement
           ).value;
+
+          this.data[index].name = nickname;
+
           if (changeProfile.id) {
             try {
-              console.log('first');
+              createUserProfile(
+                'PATCH',
+                'users_profile',
+                {
+                  name: nickname,
+                  avatar: changeProfile.dataset.imgId || undefined,
+                },
+                `/${changeProfile.id}`
+              );
             } catch (error) {
               console.error(error);
             }
-            console.log(changeProfile.id);
           } else {
             try {
               createUserProfile('POST', 'users_profile', {
-                name: nickname,
                 account: getUserId()!,
-                avatar: changeProfile.dataset.imgId || null,
+                name: nickname,
+                avatar: changeProfile.dataset.imgId || undefined,
                 index: index,
-              }).then((res) => {
+              }).then((result) => {
                 this.changeProfileIndexArray = Array(4).fill(false);
                 this.changeNameIndexArray = Array(4).fill(false);
-                console.log('✔️ Complete Create!');
+                this.data[index] = result;
+                changeProfile.id = result.id; // 아이디가 늦게 추가될 경우 엑박
               });
             } catch (err) {
               console.error(err);
@@ -333,7 +351,7 @@ class Profile extends TaingElement {
         </p>
       </hgroup>
 
-      <form @submit=${this.profileUpdate}>
+      <form>
         <ul class="profile-list">
           ${this.data
             ? this.data.map((profile, index) => {
@@ -345,7 +363,9 @@ class Profile extends TaingElement {
                   >
                     <figure class="profile-list__img">
                       <img
-                        src="${profile.avatar || profile.src}"
+                        src="${profile.avatar ||
+                        profile.src ||
+                        this.DEFAULT_IMG_PATH}"
                         alt="${profile.name}"
                       />
                       ${this.isEdit

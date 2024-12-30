@@ -1,9 +1,9 @@
-import { css, CSSResultGroup, PropertyValues } from 'lit';
+import { css, CSSResultGroup, noChange } from 'lit';
 import { html } from 'lit/static-html.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { fetchData, getPbImageURL } from '../../utils/request';
-import { ProfileDataList, ImageResponseData } from '../../@types/type';
+import { ProfileDataList, ProfileImages } from '../../@types/type';
 import { customEventParam } from '../../utils/customEvent';
 
 @customElement('profile-img-list')
@@ -74,9 +74,8 @@ class ProfileImageList extends TaingElement {
     totalPages: 0,
   };
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
+  constructor() {
+    super();
     this.fetchData();
   }
 
@@ -84,16 +83,8 @@ class ProfileImageList extends TaingElement {
     this.data = await fetchData('profile_image');
   }
 
-  updated(_changedProperties: PropertyValues): void {
-    if (_changedProperties.has('hidden')) {
-      // if (this.hidden) {
-      // } else {
-      // }
-    }
-  }
-
-  selectImage(obj: ImageResponseData) {
-    this.hidden = true;
+  selectImage(obj: ProfileImages) {
+    this.closeProfileImgList();
     this.dispatchEvent(
       customEventParam('select-image', {
         imgObj: obj,
@@ -108,32 +99,34 @@ class ProfileImageList extends TaingElement {
   render() {
     const { items } = this.data;
 
-    return html`
-      <div class="profile-img-list-wrap">
-        <ul class="profile-img-list">
-          ${items.map(
-            (img) => html`
-              <li class="profile-img-list__item" id=${img.id}>
-                <img src="${getPbImageURL(img)}" />
-                <button
-                  type="button"
-                  class="profile-img-list__btn"
-                  @click=${this.selectImage.bind(this, img)}
-                >
-                  <span class="sr-only">선택</span>
-                </button>
-              </li>
-            `
-          )}
-        </ul>
-        <button
-          type="button"
-          class="btn-close"
-          @click=${this.closeProfileImgList}
-        >
-          닫기
-        </button>
-      </div>
-    `;
+    return items.length
+      ? html`
+          <div class="profile-img-list-wrap">
+            <ul class="profile-img-list">
+              ${items.map(
+                (img) => html`
+                  <li class="profile-img-list__item" id=${img.id}>
+                    <img src="${getPbImageURL(img)}" />
+                    <button
+                      type="button"
+                      class="profile-img-list__btn"
+                      @click=${this.selectImage.bind(this, img)}
+                    >
+                      <span class="sr-only">선택</span>
+                    </button>
+                  </li>
+                `
+              )}
+            </ul>
+            <button
+              type="button"
+              class="btn-close"
+              @click=${this.closeProfileImgList}
+            >
+              닫기
+            </button>
+          </div>
+        `
+      : noChange;
   }
 }

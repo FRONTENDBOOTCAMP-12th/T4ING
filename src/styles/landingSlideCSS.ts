@@ -41,6 +41,15 @@ export default css`
       box-sizing: border-box;
       overflow: hidden;
     }
+    .landing-link {
+      display: block;
+      outline: none;
+      text-decoration: none;
+    }
+
+    .landing-link:focus {
+      outline: 2px solid var(--focus-color);
+    }
     @media (min-width: 48rem) {
       --primary-font-size: var(--size-4);
       .slide-title {

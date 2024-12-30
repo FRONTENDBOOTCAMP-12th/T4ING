@@ -17,8 +17,8 @@ export default css`
     align-items: center;
 
     & img {
-      min-width: 17rem;
-      min-height: 25rem;
+      max-width: 17rem;
+      max-height: 25rem;
       aspect-ratio: 4/5;
       object-fit: cover;
 

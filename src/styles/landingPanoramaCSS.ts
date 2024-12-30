@@ -66,6 +66,7 @@ export default css`
       display: inline-block;
       width: var(--image-width);
       height: var(--image-height);
+      aspect-ratio: 4/5;
     }
 
     @media (min-width: 120rem) {

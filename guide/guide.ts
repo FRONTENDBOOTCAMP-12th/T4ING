@@ -98,6 +98,11 @@ class Guide extends TaingElement {
         }
       }
 
+      .guide-sub-title {
+        font-size: 1.1rem;
+        font-weight: 900;
+      }
+
       .component-wrap {
         padding-bottom: 2rem;
 
@@ -152,10 +157,13 @@ class Guide extends TaingElement {
 
         <div class="component-wrap flex">
           <t-button></t-button>
-          <t-button color="primary" disabled>로그인</t-button>
           <t-button type="submit" color="primary">로그인</t-button>
           <t-button color="secondary">본인인증</t-button>
           <t-button color="line">프로필 편집</t-button>
+          <p class="guide-sub-title">Disabled style</p>
+          <t-button color="primary" disabled>로그인</t-button>
+          <t-button color="secondary" disabled>본인인증</t-button>
+          <t-button color="line" disabled>프로필 편집</t-button>
         </div>
 
         <h2 class="guide-title">🪄 Modal</h2>

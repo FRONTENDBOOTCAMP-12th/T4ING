@@ -69,7 +69,7 @@ export const buttonCSS = {
         }
       }
 
-      &.secondary {
+      &.secondary:not(:disabled) {
         --background-color: var(--gray100);
         --color: var(--black);
 
@@ -78,7 +78,7 @@ export const buttonCSS = {
         }
       }
 
-      &.line {
+      &.line:not(:disabled) {
         --border-color: var(--gray600);
         --background-color: transparent;
         --color: var(--gray300);

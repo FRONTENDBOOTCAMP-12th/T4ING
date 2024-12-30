@@ -61,7 +61,7 @@ export default css`
   }
 
   swiper-container {
-    width: 100%;
+    inline-size: 100%;
     margin-inline: 0;
 
     @media (max-width: 767px) {
@@ -79,6 +79,7 @@ export default css`
 
   swiper-slide {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     inline-size: 100%;
@@ -103,8 +104,8 @@ export default css`
   }
 
   .slide-img-container img {
-    width: 100%;
-    height: auto;
+    inline-size: 100%;
+    block-size: auto;
     object-fit: cover;
     border-radius: 0.3rem;
   }
@@ -117,6 +118,53 @@ export default css`
 
     @media (min-width: 768px) {
       font-size: 1.6vw;
+    }
+  }
+
+  .age-rating {
+    display: inline-block;
+    position: absolute;
+    top: 1.5%;
+    right: 1%;
+  }
+
+  .age-rating-icon {
+    inline-size: 90%;
+    block-size: auto;
+    max-width: 1.5rem;
+    max-height: 1.5rem;
+    object-fit: contain;
+
+    @media (min-width: 768px) {
+      max-width: 2rem;
+      max-height: 2rem;
+    }
+
+    @media (min-width: 1920px) {
+      max-width: 2.5rem;
+      max-height: 2.5rem;
+    }
+  }
+
+  .t-original {
+    display: inline-block;
+    position: absolute;
+    bottom: 8%;
+
+    @media (min-width: 768px) {
+      bottom: 15%;
+    }
+  }
+
+  .t-original-icon {
+    inline-size: 12vw; /* 슬라이드 이미지 크기 비례로 설정 */
+    block-size: auto; /* 비율 유지 */
+    max-width: 7rem; /* 최대 크기 제한 */
+    object-fit: contain; /* 비율을 유지하며 크기 맞추기 */
+
+    @media (min-width: 768px) {
+      inline-size: 10vw;
+      max-width: 10rem;
     }
   }
 

@@ -5,7 +5,6 @@ export default css`
     box-sizing: border-box;
     padding: 0; /* 내부 여백 제거 */
     margin: 0;
-    transition: all 0.2s ease-in-out;
   }
 
   .container {
@@ -120,7 +119,6 @@ export default css`
     word-break: break-word;
 
     font-size: 2.8vw;
-
     @media (min-width: 768px) {
       font-size: 1.6vw;
     }
@@ -130,50 +128,38 @@ export default css`
     }
   }
 
-  .age-rating {
+  .quick-vod {
     display: inline-block;
     position: absolute;
     top: 1.5%;
-    right: 1%;
+    left: 1%;
   }
 
-  .age-rating-icon {
-    inline-size: 90%;
+  .quick-vod-icon {
+    inline-size: 15vw;
     block-size: auto;
-    max-width: 1.5rem;
-    max-height: 1.5rem;
+
     object-fit: contain;
 
     @media (min-width: 768px) {
-      max-width: 2rem;
-      max-height: 2rem;
+      inline-size: 8vw;
     }
 
     @media (min-width: 1920px) {
-      max-width: 2.5rem;
-      max-height: 2.5rem;
+      max-width: 7rem;
+      max-height: 7rem;
     }
   }
 
-  .t-original {
-    display: inline-block;
-    position: absolute;
-    bottom: 15%;
-
+  .episode {
+    font-size: 2.5vw;
+    font-weight: 200;
     @media (min-width: 768px) {
-      bottom: 15%;
+      font-size: 1.5vw;
     }
-  }
 
-  .t-original-icon {
-    inline-size: 12vw; /* 슬라이드 이미지 크기 비례로 설정 */
-    block-size: auto; /* 비율 유지 */
-    max-width: 7rem; /* 최대 크기 제한 */
-    object-fit: contain; /* 비율을 유지하며 크기 맞추기 */
-
-    @media (min-width: 768px) {
-      inline-size: 10vw;
-      max-width: 10rem;
+    @media (min-width: 1920px) {
+      font-size: 1vw;
     }
   }
 
@@ -197,12 +183,10 @@ export default css`
 
     @media (min-width: 768px) {
       inline-size: 40px;
-      // block-size: 40px;
     }
 
     @media (min-width: 1920px) {
       inline-size: 70px;
-      // block-size: 70px;
     }
 
     &:disabled {

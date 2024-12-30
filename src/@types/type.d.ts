@@ -15,6 +15,7 @@ export interface DefaultCollectionField {
 
 /* 메인 페이지 추천 콘텐츠 */
 export interface RecommendItem extends DefaultResponseData {
+  id: string;
   age: number;
   cast: string;
   category: string;
@@ -24,6 +25,29 @@ export interface RecommendItem extends DefaultResponseData {
   original: boolean;
   title: string;
 }
+export interface VODItem extends DefaultResponseData {
+  id: string;
+  cast: string;
+  category: string;
+  device: Device;
+  ep: number;
+  genre: string;
+  img: string;
+  title: string;
+}
+export interface TopItem extends DefaultResponseData {
+  id: string;
+  age: number;
+  cast: string;
+  category: string;
+  device: Device;
+  genre: string;
+  img: string;
+  new_ep: boolean;
+  original: boolean;
+  title: string;
+  views: number;
+}
 
 /* 메인 페이지 배너 */
 export interface BannerItem extends RecommendItem {
@@ -31,15 +55,14 @@ export interface BannerItem extends RecommendItem {
   description: BannerDescription;
 }
 
-/* 메인 페이지 공통 */
+export interface MainData extends DefaultResponseData {
+  items: Item[];
+}
+
 export enum Device {
   Desktop = 'desktop',
   Mobile = 'mobile',
   Tablet = 'tablet',
-}
-
-export interface MainData extends DefaultResponseData {
-  items: Item[];
 }
 
 export enum BannerCollectionID {

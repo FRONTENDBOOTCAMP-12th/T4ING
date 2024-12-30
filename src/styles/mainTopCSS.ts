@@ -5,7 +5,6 @@ export default css`
     box-sizing: border-box;
     padding: 0; /* 내부 여백 제거 */
     margin: 0;
-    transition: all 0.2s ease-in-out;
   }
 
   .container {
@@ -15,7 +14,6 @@ export default css`
     inline-size: 100%;
     block-size: auto;
     min-width: 320px;
-    height: auto;
     padding-inline: 0.5rem;
     gap: 1rem;
     background-color: transparent;
@@ -120,13 +118,50 @@ export default css`
     word-break: break-word;
 
     font-size: 2.8vw;
-
     @media (min-width: 768px) {
       font-size: 1.6vw;
     }
 
     @media (min-width: 1920px) {
       font-size: 1.2vw;
+    }
+  }
+
+  .ranking-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem; /* 고정된 너비 */
+    height: 5rem; /* 고정된 높이 */
+    margin: 0 auto; /* 중앙 정렬 */
+  }
+
+  @media (min-width: 768px) {
+    .ranking-container {
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .ranking-container {
+      width: 9rem;
+      height: 9rem;
+    }
+  }
+
+  .ranking {
+    font-size: 2.5rem;
+    font-style: italic;
+    font-weight: bold;
+    color: var(--white);
+    line-height: 1; /* 숫자를 중앙 정렬하기 위해 사용 */
+    @media (min-width: 768px) {
+      font-size: 4rem;
+    }
+
+    @media (min-width: 1920px) {
+      font-size: 5rem;
     }
   }
 
@@ -158,10 +193,15 @@ export default css`
   .t-original {
     display: inline-block;
     position: absolute;
-    bottom: 15%;
+    bottom: 16%;
+    left: 14vw;
 
     @media (min-width: 768px) {
-      bottom: 15%;
+      left: 8.5vw;
+    }
+
+    @media (min-width: 1920px) {
+      left: 5.6vw;
     }
   }
 
@@ -172,8 +212,8 @@ export default css`
     object-fit: contain; /* 비율을 유지하며 크기 맞추기 */
 
     @media (min-width: 768px) {
-      inline-size: 10vw;
-      max-width: 10rem;
+      inline-size: 7vw;
+      max-width: 8rem;
     }
   }
 

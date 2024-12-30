@@ -49,6 +49,9 @@ export default css`
       align-items: center;
       gap: var(--button-gap);
     }
+    .landing-link:hover {
+      background-color: var(--red-3);
+    }
 
     .landing-button-icon {
       width: var(--icon-size);

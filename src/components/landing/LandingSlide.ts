@@ -16,12 +16,12 @@ export class Slide extends TaingElement {
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
     this.fetchSlides();
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('resize', this.handleResize.bind(this));
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('resize', this.handleResize.bind(this));
   }
 
   async handleResize() {
@@ -29,6 +29,7 @@ export class Slide extends TaingElement {
 
     if (this.device !== newDevice) {
       this.device = newDevice;
+      await this.fetchSlides();
     }
   }
 
@@ -96,7 +97,7 @@ export class Slide extends TaingElement {
             aria-label="Go to the login page"
           >
             <swiper-element
-              .slides="${this.slides}"
+              .slides="${[...this.slides]}"
               .options=${{
                 autoplay: {
                   delay: 1000,

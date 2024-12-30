@@ -231,6 +231,7 @@ class MainRecommend extends TaingElement {
                       <img
                         src="${getRecommendImageURL(slide)}"
                         alt="${slide.title}"
+                        aria-label="${slide.title}"
                       />
                       <figcaption class="slide-title">
                         ${slide.title}
@@ -249,8 +250,26 @@ class MainRecommend extends TaingElement {
                                   ? 'm'
                                   : 'l'}.png"
                               class="age-rating-icon"
+                              alt="Age Rating Icon"
                           /></span>
                         `
+                      : ''}
+                    ${slide.original
+                      ? html`<span
+                          class="t-original"
+                          aria-label="Tving Original 콘텐츠"
+                        >
+                          <img
+                            src="/assets/images/icon/taing_original_${this
+                              .device === 'mobile'
+                              ? 's'
+                              : this.device === 'tablet'
+                                ? 'm'
+                                : 'l'}.png"
+                            class="t-original-icon"
+                            alt="Tving Original Icon"
+                          />
+                        </span>`
                       : ''}
                   </swiper-slide>
                 `

@@ -42,7 +42,7 @@ export class LandingPage extends TaingElement {
           .device="${this.device}"
         ></landing-Panorama>
 
-        <landing-Welcome .apiUrl="${this.apiUrl}"></landing-Welcome>
+        <landing-Welcome></landing-Welcome>
       </div>
     `;
   }

@@ -2,11 +2,11 @@ import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { LandingItem } from '../../@types/landingtype';
-import landingCSS from '../../styles/landingCSS';
+import landingSlideCSS from '../../styles/landingSlideCSS';
 
 @customElement('landing-slide')
 export class Slide extends TaingElement {
-  static styles: CSSResultGroup = [super.styles, landingCSS];
+  static styles: CSSResultGroup = [super.styles, landingSlideCSS];
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';

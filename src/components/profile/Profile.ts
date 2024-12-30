@@ -191,37 +191,32 @@ class Profile extends TaingElement {
       const response = await fetch(
         requestUrl(
           'users_profile',
-          `?filter=account='${getUserId()}'&sort=-index,created`
+          `?filter=account='${getUserId()}'&sort=index,created`
         )
       );
-      const data = await response.json();
-
-      const defaultArray = Array(4)
-        .fill(undefined)
-        .map(
-          (_, i) =>
-            data.items[i] || {
-              name: this.DEFAULT_NAME,
-              src: this.DEFAULT_IMG_PATH,
-            }
-        )
-        .map((profile) => {
-          if (profile.avatar) {
-            return (profile.avatar = (async () => {
-              profile.avatar = await getPbImageURL(
-                await fetchData('profile_image', `/${profile.avatar}`)
-              );
-
-              return profile;
-            })());
-          } else {
-            return profile;
-          }
-        });
-
-      Promise.all(defaultArray).then((result) => {
-        this.data = result;
+      const { items } = await response.json();
+      const sortArray = Array(4).fill({
+        name: this.DEFAULT_NAME,
+        src: this.DEFAULT_IMG_PATH,
       });
+
+      items.forEach((item: UserProfile) => (sortArray[item.index] = item));
+
+      const promiseArray = sortArray.map((profile) => {
+        if (profile.avatar) {
+          return (async () => {
+            profile.avatar = await getPbImageURL(
+              await fetchData('profile_image', `/${profile.avatar}`)
+            );
+
+            return profile;
+          })();
+        }
+
+        return profile;
+      });
+
+      Promise.all(promiseArray).then((result) => (this.data = result));
     } catch (err) {
       console.error(err);
     }
@@ -286,19 +281,24 @@ class Profile extends TaingElement {
               '.profile-list__nickname'
             ) as HTMLInputElement
           ).value;
-          // id가 있으면 PATCH, 없으면 POST
-          // name, account, img-id, index
           if (changeProfile.id) {
-            console.log();
+            try {
+              console.log('first');
+            } catch (error) {
+              console.error(error);
+            }
+            console.log(changeProfile.id);
           } else {
             try {
-              createUserProfile('users_profile', {
+              createUserProfile('POST', 'users_profile', {
                 name: nickname,
                 account: getUserId()!,
                 avatar: changeProfile.dataset.imgId || null,
                 index: index,
               }).then((res) => {
-                console.log('POST 통신 결과 ', res);
+                this.changeProfileIndexArray = Array(4).fill(false);
+                this.changeNameIndexArray = Array(4).fill(false);
+                console.log('✔️ Complete Create!');
               });
             } catch (err) {
               console.error(err);

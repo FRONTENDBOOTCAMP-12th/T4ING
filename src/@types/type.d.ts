@@ -64,6 +64,14 @@ export enum RecommendCollectionName {
   MainRecommend = 'main_recommend',
 }
 
+export interface ProfileDataList extends DefaultResponseData {
+  items: ImageResponseData[];
+}
+
+export interface PopupCollection extends RecommendItem {
+  items: PopupImage[];
+}
+
 export interface ImageResponseData extends DefaultCollectionField {
   avatar: string;
   [key: string]: string;
@@ -75,8 +83,10 @@ export interface UserProfile extends ImageResponseData {
   [key: string]: string;
 }
 
-export interface ProfileDataList extends DefaultResponseData {
-  items: ImageResponseData[];
+export interface PopupImage extends DefaultCollectionField {
+  image: string;
+  alt: string;
+  [key: string]: string;
 }
 
 export interface KeywordArray {

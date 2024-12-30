@@ -48,7 +48,6 @@ class Button extends TaingElement {
   }
 
   render() {
-    console.log(this.disabled);
     return html`
       <button
         type=${this.buttonType}

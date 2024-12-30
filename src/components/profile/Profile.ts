@@ -196,34 +196,32 @@ class Profile extends TaingElement {
       );
       const data = await response.json();
 
-      if (response.ok) {
-        this.data = Array(4)
-          .fill(undefined)
-          .map(
-            (_, i) =>
-              data.items[i] || {
-                name: this.DEFAULT_NAME,
-                src: this.DEFAULT_IMG_PATH,
-              }
-          );
-        // .map((profile) => {
-        //   if (profile.avatar) {
-        //     console.log('요청 시작');
-        //     (async () => {
-        //       profile.avatar = await fetchData(
-        //         'profile_image',
-        //         `/${profile.avatar}`
-        //       ).then((profileImgObj) => {
-        //         profile.avatar = getPbImageURL(profileImgObj);
-        //         console.log('요청 끝', profile.avatar);
-        //         return profile.avatar;
-        //       });
-        //     })();
-        //   } else {
-        //     return profile;
-        //   }
-        // });
-      }
+      const defaultArray = Array(4)
+        .fill(undefined)
+        .map(
+          (_, i) =>
+            data.items[i] || {
+              name: this.DEFAULT_NAME,
+              src: this.DEFAULT_IMG_PATH,
+            }
+        )
+        .map((profile) => {
+          if (profile.avatar) {
+            return (profile.avatar = (async () => {
+              profile.avatar = await getPbImageURL(
+                await fetchData('profile_image', `/${profile.avatar}`)
+              );
+
+              return profile;
+            })());
+          } else {
+            return profile;
+          }
+        });
+
+      Promise.all(defaultArray).then((result) => {
+        this.data = result;
+      });
     } catch (err) {
       console.error(err);
     }
@@ -347,9 +345,7 @@ class Profile extends TaingElement {
                   >
                     <figure class="profile-list__img">
                       <img
-                        src="${profile.avatar
-                          ? getPbImageURL(profile)
-                          : profile.src}"
+                        src="${profile.avatar || profile.src}"
                         alt="${profile.name}"
                       />
                       ${this.isEdit

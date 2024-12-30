@@ -24,7 +24,7 @@ export class Modal extends TaingElement {
         align-items: center;
         position: fixed;
         inset: 0;
-        background-color: #19191999;
+        background-color: rgba(0 0 0 / 0.9);
         backdrop-filter: var(--header-filter);
         z-index: 1000;
 

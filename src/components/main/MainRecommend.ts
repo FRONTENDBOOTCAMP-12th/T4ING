@@ -95,7 +95,6 @@ class MainRecommend extends TaingElement {
   }
 
   attachNavigation() {
-    // 커스텀 네비게이션 버튼 요소 선택
     const prevButton = this.renderRoot.querySelector('.prev-btn');
     const nextButton = this.renderRoot.querySelector('.next-btn');
 
@@ -110,20 +109,22 @@ class MainRecommend extends TaingElement {
     }
   }
 
-  // bug: 마우스가 네비게이션 버튼 위에 올라가면 컨테이너에서 마우스가
-  // 벗어나는 것으로 인식되어 네비게이션 버튼이 사라짐
-
   showNavigation() {
-    const swiperContainer = this.swiperContainer;
+    const swiperOuterWrapper = this.renderRoot.querySelector(
+      '.swiper-outer-wrapper'
+    );
+    const swiperContainer = this.renderRoot.querySelector('swiper-container');
     const navButtons = this.renderRoot.querySelectorAll('.nav-btn');
 
-    if (swiperContainer && navButtons) {
-      swiperContainer.addEventListener('mouseenter', () => {
+    if (swiperContainer && navButtons && swiperOuterWrapper) {
+      swiperOuterWrapper.addEventListener('mouseenter', () => {
         navButtons.forEach((button) => button.classList.add('show'));
       });
 
-      swiperContainer.addEventListener('mouseleave', () => {
-        navButtons.forEach((button) => button.classList.remove('show'));
+      swiperOuterWrapper.addEventListener('mouseleave', () => {
+        navButtons.forEach((button) => {
+          button.classList.remove('show');
+        });
       });
     }
   }
@@ -177,11 +178,46 @@ class MainRecommend extends TaingElement {
                       <img
                         src="${getRecommendImageURL(slide)}"
                         alt="${slide.title}"
+                        aria-label="${slide.title}"
                       />
                       <figcaption class="slide-title">
                         ${slide.title}
                       </figcaption>
                     </figure>
+                    ${slide.age !== 0
+                      ? html`
+                          <span
+                            class="age-rating"
+                            aria-label="${slide.age}세 이상 관람가"
+                            ><img
+                              src="/assets/images/icon/restricted_19_${this
+                                .device === 'mobile'
+                                ? 's'
+                                : this.device === 'tablet'
+                                  ? 'm'
+                                  : 'l'}.png"
+                              class="age-rating-icon"
+                              alt="Age Rating Icon"
+                          /></span>
+                        `
+                      : ''}
+                    ${slide.original
+                      ? html`<span
+                          class="t-original"
+                          aria-label="Tving Original 콘텐츠"
+                        >
+                          <img
+                            src="/assets/images/icon/taing_original_${this
+                              .device === 'mobile'
+                              ? 's'
+                              : this.device === 'tablet'
+                                ? 'm'
+                                : 'l'}.png"
+                            class="t-original-icon"
+                            alt="Tving Original Icon"
+                          />
+                        </span>`
+                      : ''}
                   </swiper-slide>
                 `
               )}
@@ -193,14 +229,48 @@ class MainRecommend extends TaingElement {
                   <swiper-slide tabindex="0">
                     <figure class="slide-img-container">
                       <img
-                        class="slide-img"
                         src="${getRecommendImageURL(slide)}"
                         alt="${slide.title}"
+                        aria-label="${slide.title}"
                       />
                       <figcaption class="slide-title">
                         ${slide.title}
                       </figcaption>
                     </figure>
+                    ${slide.age !== 0
+                      ? html`
+                          <span
+                            class="age-rating"
+                            aria-label="${slide.age}세 이상 관람가"
+                            ><img
+                              src="/assets/images/icon/restricted_19_${this
+                                .device === 'mobile'
+                                ? 's'
+                                : this.device === 'tablet'
+                                  ? 'm'
+                                  : 'l'}.png"
+                              class="age-rating-icon"
+                              alt="Age Rating Icon"
+                          /></span>
+                        `
+                      : ''}
+                    ${slide.original
+                      ? html`<span
+                          class="t-original"
+                          aria-label="Tving Original 콘텐츠"
+                        >
+                          <img
+                            src="/assets/images/icon/taing_original_${this
+                              .device === 'mobile'
+                              ? 's'
+                              : this.device === 'tablet'
+                                ? 'm'
+                                : 'l'}.png"
+                            class="t-original-icon"
+                            alt="Tving Original Icon"
+                          />
+                        </span>`
+                      : ''}
                   </swiper-slide>
                 `
               )}

@@ -1,8 +1,8 @@
-import { css, CSSResultGroup, html } from 'lit';
+import { CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
-import { LandingItem } from '../../@types/landingtype';
 import landingPanoramaCSS from '../../styles/landingPanoramaCSS';
+import { LandingItem } from '../../@types/type';
 
 @customElement('landing-panorama')
 export class Panorama extends TaingElement {
@@ -10,7 +10,6 @@ export class Panorama extends TaingElement {
   @property({ type: Array }) slides: LandingItem[] = [];
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
-  private resizeTimeout: number | null = null;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -120,8 +119,12 @@ export class Panorama extends TaingElement {
 
   render() {
     return html`
-      <section class="panorama-container">
-        <h2 class="panorama-title">내가 찾던 재미</h2>
+      <section
+        class="panorama-container"
+        aria-labelledby="panorama-title"
+        role="region"
+      >
+        <h2 id="panorama-title" class="panorama-title">내가 찾던 재미</h2>
         <p class="panorama-description-primary">
           보고 싶은 콘텐츠를 발견하세요!
         </p>
@@ -129,7 +132,11 @@ export class Panorama extends TaingElement {
           최신, 인기 TV프로그램, 영화, 해외시리즈, 파라마운트+ 오리지널 및 독점
         </p>
 
-        <div class="panorama-slider">
+        <div
+          class="panorama-slider"
+          role="group"
+          aria-label="Panorama slider with popular content"
+        >
           <div class="slides-right">
             ${this.slides.map(
               (slide) => html`
@@ -138,7 +145,9 @@ export class Panorama extends TaingElement {
                     class="landing-link"
                     href="/src/pages/login/"
                     target="_self"
+                    tabindex="-1"
                     rel="noopener noreferrer"
+                    aria-hidden="true"
                   >
                     <img src="${slide.img}" alt="${slide.title}" />
                   </a>
@@ -150,12 +159,14 @@ export class Panorama extends TaingElement {
           <div class="slides-left">
             ${this.slides.map(
               (slide) => html`
-                <figure class="slide">
+                <figure class="slide" role="group" aria-label="${slide.title}">
                   <a
                     class="landing-link"
                     href="/src/pages/login/"
                     target="_self"
+                    tabindex="-1"
                     rel="noopener noreferrer"
+                    aria-hidden="true"
                   >
                     <img src="${slide.img}" alt="${slide.title}" />
                   </a>

@@ -15,11 +15,13 @@ export interface DefaultCollectionField {
 
 /* 메인 페이지 추천 콘텐츠 */
 export interface RecommendItem extends DefaultResponseData {
+  age: number;
   cast: string;
   category: string;
   device: Device;
   genre: string;
   img: string;
+  original: boolean;
   title: string;
 }
 

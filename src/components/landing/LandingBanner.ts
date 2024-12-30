@@ -106,8 +106,17 @@ export class Banner extends TaingElement {
           <h2>방송, 영화, 해외시리즈까지</h2>
           <h2>재미를 플레이해보세요.</h2>
           <p>간편하게 가입하고 원하실 때 해지할 수 있어요.</p>
-          <a href="/src/pages/login/" target="_self" rel="noopener noreferrer">
-            <img src="/assets/images/profile/default.webp" alt="taing logo" />
+          <a
+            href="/src/pages/login/"
+            target="_self"
+            rel="noopener noreferrer"
+            aria-label="Go to the login page to experience the new Taing"
+          >
+            <img
+              src="/assets/images/profile/default.webp"
+              alt="taing logo"
+              aria-hidden="true"
+            />
             새로워진 타잉을 만나보세요!
           </a>
         </hgroup>

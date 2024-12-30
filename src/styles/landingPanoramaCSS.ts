@@ -20,6 +20,7 @@ export default css`
     color: white;
     padding-block: 4rem;
     margin-bottom: 2rem;
+    outline: none;
 
     .panorama-title {
       font-size: var(--title-font-size);
@@ -66,6 +67,11 @@ export default css`
       display: inline-block;
       width: var(--image-width);
       height: var(--image-height);
+      aspect-ratio: 4/5;
+    }
+    .landing-link:focus {
+      outline: 2px solid white;
+      outline-offset: 4px;
     }
 
     @media (min-width: 120rem) {

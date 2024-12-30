@@ -3,12 +3,14 @@ import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../src/components/Taing';
 import { buttonCSS } from '../src/styles/buttonCSS';
 import { openModal } from './../src/utils/modal';
+import '../src/components/layout/Layout';
 import '../src/components/login/LoginCheckbox';
 import '../src/components/SvgIcon';
 import '../src/components/Form';
 import '../src/components/Checkbox';
 import '../src/components/Button';
 import '../src/components/Modal';
+import '../src/components/main/MainModal';
 
 @customElement('guide-logo')
 class GuideLogo extends TaingElement {
@@ -96,6 +98,11 @@ class Guide extends TaingElement {
         }
       }
 
+      .guide-sub-title {
+        font-size: 1.1rem;
+        font-weight: 900;
+      }
+
       .component-wrap {
         padding-bottom: 2rem;
 
@@ -153,17 +160,27 @@ class Guide extends TaingElement {
           <t-button type="submit" color="primary">로그인</t-button>
           <t-button color="secondary">본인인증</t-button>
           <t-button color="line">프로필 편집</t-button>
+          <p class="guide-sub-title">Disabled style</p>
+          <t-button color="primary" disabled>로그인</t-button>
+          <t-button color="secondary" disabled>본인인증</t-button>
+          <t-button color="line" disabled>프로필 편집</t-button>
         </div>
 
         <h2 class="guide-title">🪄 Modal</h2>
         <div class="component-wrap flex">
+          <t-button
+            color="primary"
+            @click=${openModal.bind(this, '.main-modal')}
+            >메인 팝업 보기</t-button
+          >
           <t-button color="secondary" @click=${openModal.bind(this, '.popup')}
             >팝업 보기</t-button
           >
-          <t-button color="line" @click=${openModal.bind(this, '.popup-2')}
+          <t-button color="secondary" @click=${openModal.bind(this, '.popup-2')}
             >팝업 보기</t-button
           >
         </div>
+        <main-modal class="main-modal"></main-modal>
         <t-modal
           class="popup"
           hidden
@@ -187,14 +204,12 @@ class Guide extends TaingElement {
             옵션
           </li>
           <li>
-            &lt;t-modal hidden
-            @modalConfirm=${() => alert('확인 콜백함수')}&gt;&lt;/t-modal&gt;
-            @modalConfirm 완료버튼 콜백함수
+            &lt;t-modal hidden @modalConfirm=&#36;&#123;()&#61;&#62; alert('확인
+            콜백함수')&#125;&gt;&lt;/t-modal&gt; @modalConfirm 완료버튼 콜백함수
           </li>
           <li>
-            &lt;t-modal hidden
-            @modalCancel=${() => alert('취소 콜백함수')}&gt;&lt;/t-modal&gt;
-            @modalCancel 취소버튼 콜백함수
+            &lt;t-modal hidden @modalCancel=&#36;&#123;()&#61;&#62; alert('취소
+            콜백함수')&#125;&gt;&lt;/t-modal&gt; @modalCancel 취소버튼 콜백함수
           </li>
         </ul>
       </div>

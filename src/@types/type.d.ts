@@ -16,6 +16,7 @@ export interface DefaultCollectionField {
 /* 메인 페이지 추천 콘텐츠 */
 export interface RecommendItem extends DefaultResponseData {
   id: string;
+
   age: number;
   cast: string;
   category: string;
@@ -105,7 +106,7 @@ export interface ImageResponseData extends DefaultCollectionField {
 export interface UserProfile extends ImageResponseData {
   account?: string;
   name: string;
-  [key: string]: string;
+  [key?: string]: string;
 }
 
 export interface PopupImage extends DefaultCollectionField {
@@ -117,4 +118,18 @@ export interface PopupImage extends DefaultCollectionField {
 export interface KeywordArray {
   id: number;
   keyword: string;
+}
+
+export interface LandingMain extends DefaultResponseData {
+  items: LandingItem[];
+}
+
+export interface LandingItem extends DefaultCollectionField {
+  cast: string;
+  category: string;
+  device: string;
+  genre: string;
+  id: string;
+  img: string;
+  title: string;
 }

@@ -25,15 +25,33 @@ class Button extends TaingElement {
       }
     `,
   ];
+
   @property({ type: String }) buttonType: 'submit' | 'reset' | 'button' =
     'button';
   @property({ type: String }) color: 'primary' | 'secondary' | 'line' | null =
     null;
+  @property({ type: Boolean }) disabled = false;
+
+  handleClick() {
+    if (this.buttonType === 'submit') {
+      const form = this.closest('form');
+
+      if (form) {
+        const submitEvent = new Event('submit', {
+          bubbles: true,
+          cancelable: true,
+        });
+
+        form.dispatchEvent(submitEvent);
+      }
+    }
+  }
 
   render() {
     return html`
       <button
         type=${this.buttonType}
+        ?disabled=${this.disabled}
         class=${classMap({
           btn: true,
           [this.color || '']: !!this.color,
@@ -43,18 +61,5 @@ class Button extends TaingElement {
         <slot>확인</slot>
       </button>
     `;
-  }
-
-  handleClick() {
-    if (this.buttonType === 'submit') {
-      const form = this.closest('form');
-      if (form) {
-        const submitEvent = new Event('submit', {
-          bubbles: true,
-          cancelable: true,
-        });
-        form.dispatchEvent(submitEvent);
-      }
-    }
   }
 }

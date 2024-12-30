@@ -93,6 +93,7 @@ export class Slide extends TaingElement {
             href="/src/pages/login/"
             target="_self"
             rel="noopener noreferrer"
+            aria-label="Go to the login page"
           >
             <swiper-element
               .slides="${this.slides}"

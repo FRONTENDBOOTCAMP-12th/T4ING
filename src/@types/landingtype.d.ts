@@ -1,5 +1,5 @@
 export interface LandingMain {
-  items: Item[];
+  items: LandingItem[];
   page: number;
   perPage: number;
   totalItems: number;
@@ -7,16 +7,15 @@ export interface LandingMain {
 }
 
 export interface LandingItem {
-  cast?: string;
-  category?: string;
-  collectionId?: string;
-  collectionName?: string;
-  created?: Date;
-  device?: string;
-  genre?: string;
-  id?: string;
-  img?: string;
-  title?: string;
-  updated?: Date;
-  description?: string;
+  cast: string;
+  category: string;
+  collectionId: string;
+  collectionName: string;
+  created: Date;
+  device: string;
+  genre: string;
+  id: string;
+  img: string;
+  title: string;
+  updated: Date;
 }

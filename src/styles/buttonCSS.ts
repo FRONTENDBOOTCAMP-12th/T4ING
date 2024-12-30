@@ -56,15 +56,15 @@ export const buttonCSS = {
       border-radius: var(--round-xs);
       transition: 0.3s;
 
-      &:hover {
+      &:not(:disabled):hover {
         --background-color: var(--hoaver-color);
       }
 
-      &.primary {
+      &.primary:not(:disabled) {
         --background-color: var(--red-1);
         --color: var(--white);
 
-        &:hover {
+        &:not(:disabled):hover {
           --background-color: #cc1030;
         }
       }
@@ -73,7 +73,7 @@ export const buttonCSS = {
         --background-color: var(--gray100);
         --color: var(--black);
 
-        &:hover {
+        &:not(:disabled):hover {
           --background-color: var(--white);
         }
       }
@@ -84,7 +84,7 @@ export const buttonCSS = {
         --color: var(--gray300);
         border: 1px solid var(--border-color);
 
-        &:hover {
+        &:not(:disabled):hover {
           --border-color: currentColor;
           --color: var(--white);
         }

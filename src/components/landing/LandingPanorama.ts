@@ -2,12 +2,12 @@ import { CSSResultGroup, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingPanoramaCSS from '../../styles/landingPanoramaCSS';
-import { LandingItem } from '../../@types/type';
+import { LandingUtils } from './LandingUtils';
 
 @customElement('landing-panorama')
 export class Panorama extends TaingElement {
   static styles: CSSResultGroup = [super.styles, landingPanoramaCSS];
-  @property({ type: Array }) slides: LandingItem[] = [];
+  @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
 
@@ -15,13 +15,13 @@ export class Panorama extends TaingElement {
     super.connectedCallback();
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
-    this.fetchSlides();
-    window.addEventListener('resize', this.handleResize);
+    this.loadSlides();
+    window.addEventListener('resize', this.handleResize.bind(this));
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('resize', this.handleResize.bind(this));
   }
 
   async handleResize() {
@@ -29,52 +29,19 @@ export class Panorama extends TaingElement {
 
     if (this.device !== newDevice) {
       this.device = newDevice;
+      await this.loadSlides();
     }
   }
 
-  filterSlide(data: LandingItem[]): LandingItem[] {
-    return data
-      .map((item: LandingItem) => {
-        const img = item.img || 'default.jpg';
-        return {
-          ...item,
-          title: item.title || 'Unknown',
-          img: `${this.apiUrl}/files/landing_float/${item.id}/${img}`,
-          device: item.device,
-        };
-      })
-      .filter((item: LandingItem) =>
-        this.device === 'tablet'
-          ? item.device === 'mobile' || item.device === 'tablet'
-          : item.device === this.device
-      );
-  }
+  async loadSlides(): Promise<void> {
+    this.slides = await LandingUtils.fetchSlides(
+      this.apiUrl,
+      'landing_float',
+      this.device,
+      20
+    );
 
-  async fetchSlides() {
-    try {
-      if (!this.apiUrl) {
-        console.error('Error');
-        return;
-      }
-      const response = await fetch(
-        `${this.apiUrl}/collections/landing_float/records`
-      );
-      const data = (await response.json()).items;
-      let filterSlide = this.filterSlide(data);
-
-      const minSlides = 20;
-
-      this.slides = filterSlide = Array.from(
-        { length: Math.ceil(minSlides / filterSlide.length) },
-        () => filterSlide
-      )
-        .flat()
-        .slice(0, minSlides);
-
-      this.updateAnimation();
-    } catch (error) {
-      console.error('Error fetching slides:', error);
-    }
+    this.updateAnimation();
   }
 
   updateAnimation(): void {

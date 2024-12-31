@@ -2,7 +2,7 @@ import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingSlideCSS from '../../styles/landingSlideCSS';
-import { LandingItem } from '../../@types/type';
+import { LandingUtils } from './LandingUtils';
 
 @customElement('landing-slide')
 export class Slide extends TaingElement {
@@ -15,7 +15,7 @@ export class Slide extends TaingElement {
     super.connectedCallback();
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
-    this.fetchSlides();
+    this.loadSlides();
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
@@ -29,53 +29,18 @@ export class Slide extends TaingElement {
 
     if (this.device !== newDevice) {
       this.device = newDevice;
-      await this.fetchSlides();
+      await this.loadSlides();
     }
   }
 
-  filterSlide(data: LandingItem[]): LandingItem[] {
-    return data
-      .map((item: LandingItem) => {
-        const img = item.img || 'default.jpg';
-        return {
-          ...item,
-          title: item.title || 'Unknown',
-          img: `${this.apiUrl}/files/landing_origin/${item.id}/${img}`,
-          device: item.device,
-        };
-      })
-      .filter((item: LandingItem) =>
-        this.device === 'tablet'
-          ? item.device === 'mobile' || item.device === 'tablet'
-          : item.device === this.device
-      );
-  }
-
-  async fetchSlides() {
-    try {
-      if (!this.apiUrl) {
-        console.error('Error');
-        return;
-      }
-      const response = await fetch(
-        `${this.apiUrl}/collections/landing_origin/records`
-      );
-      const data = (await response.json()).items;
-      let filterSlide = this.filterSlide(data);
-
-      const minSlides = 20;
-
-      this.slides = filterSlide = Array.from(
-        { length: Math.ceil(minSlides / filterSlide.length) },
-        () => filterSlide
-      )
-        .flat()
-        .slice(0, minSlides);
-
-      await this.requestUpdate();
-    } catch (error) {
-      console.error('Error');
-    }
+  async loadSlides(): Promise<void> {
+    this.slides = await LandingUtils.fetchSlides(
+      this.apiUrl,
+      'landing_origin',
+      this.device,
+      20
+    );
+    await this.requestUpdate();
   }
 
   render() {

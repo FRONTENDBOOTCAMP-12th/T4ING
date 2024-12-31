@@ -75,7 +75,6 @@ class MainRecommend extends TaingElement {
         inline-size: 100%;
 
         overflow: hidden;
-        gap: 0.5rem;
         align-items: flex-start;
       }
 

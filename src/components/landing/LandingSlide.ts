@@ -103,7 +103,6 @@ export class Slide extends TaingElement {
                   delay: 1000,
                   disableOnInteraction: false,
                 },
-                effect: 'cards',
                 speed: 500,
                 slidesPerView: 'auto',
                 spaceBetween: 16,

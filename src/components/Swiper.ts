@@ -37,7 +37,6 @@ export class SwiperElement extends TaingElement {
         spaceBetween: 10,
         slidesPerGroup: 1,
         centeredSlides: true,
-        effect: 'cards',
         navigation: {
           nextEl: swiperElement.querySelector(
             '.swiper-button-next'

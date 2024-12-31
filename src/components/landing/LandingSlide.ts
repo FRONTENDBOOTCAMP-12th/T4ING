@@ -1,3 +1,4 @@
+import { SwiperOptions } from 'swiper/types';
 import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
@@ -44,6 +45,17 @@ export class Slide extends TaingElement {
   }
 
   render() {
+    const swiperOptions: SwiperOptions = {
+      autoplay: {
+        delay: 1000,
+        disableOnInteraction: false,
+      },
+      speed: 500,
+      slidesPerView: 'auto',
+      spaceBetween: 16,
+      centeredSlides: true,
+      loop: true,
+    };
     return html`
       <div class="slide-container">
         <hgroup>
@@ -63,18 +75,7 @@ export class Slide extends TaingElement {
           >
             <swiper-element
               .slides="${[...this.slides]}"
-              .options=${{
-                autoplay: {
-                  delay: 1000,
-                  disableOnInteraction: false,
-                },
-                effect: 'cards',
-                speed: 500,
-                slidesPerView: 'auto',
-                spaceBetween: 16,
-                centeredSlides: true,
-                loop: true,
-              }}
+              .options=${swiperOptions}
               key="${this.device}"
             >
             </swiper-element>

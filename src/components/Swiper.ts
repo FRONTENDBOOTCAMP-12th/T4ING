@@ -1,14 +1,16 @@
-import { html, css, CSSResultGroup, LitElement } from 'lit';
+import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import Swiper from 'swiper';
 import { Autoplay, Keyboard, Navigation } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import swiperCSS from '../styles/swiperCSS';
+import { TaingElement } from './Taing';
+import { SwiperOptions } from 'swiper/types';
 
 @customElement('swiper-element')
-export class SwiperElement extends LitElement {
+export class SwiperElement extends TaingElement {
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
-  @property({ type: Object }) options: Record<string, any> = {};
+  @property({ type: Object }) options: SwiperOptions = {};
   private swiper: Swiper | null = null;
 
   static styles: CSSResultGroup = [swiperCSS];
@@ -28,15 +30,13 @@ export class SwiperElement extends LitElement {
       console.error('Swiper element not found!');
       return;
     }
-    this.swiper = new Swiper(
-      this.renderRoot.querySelector('.swiper')! as HTMLElement,
-      {
+    try {
+      this.swiper = new Swiper(swiperElement as HTMLElement, {
         modules: [Navigation, Keyboard, Autoplay],
         slidesPerView: 1,
         spaceBetween: 10,
         slidesPerGroup: 1,
         centeredSlides: true,
-        effect: 'cards',
         navigation: {
           nextEl: swiperElement.querySelector(
             '.swiper-button-next'
@@ -52,8 +52,10 @@ export class SwiperElement extends LitElement {
         loop: true,
 
         ...this.options,
-      }
-    );
+      });
+    } catch (error) {
+      console.error('Error initializing Swiper:', error);
+    }
   }
 
   render() {

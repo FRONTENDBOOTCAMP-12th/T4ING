@@ -31,10 +31,9 @@ export default css`
   .swiper-button-prev,
   .swiper-button-next {
     position: absolute;
-    width: 3rem;
+    width: 10%;
     z-index: 10;
     cursor: pointer;
-    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;

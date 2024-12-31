@@ -60,7 +60,7 @@ export default css`
     text-align: center;
     margin: 1rem 0;
     img {
-      width: 95%;
+      width: 100%;
       max-width: 600px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);

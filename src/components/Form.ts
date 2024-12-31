@@ -148,6 +148,7 @@ class Input extends TaingElement {
 
   handleResetValue() {
     this.value = this.inputField.value = '';
+    this.dispatchEvent(customEventParam('inputChange', { value: this.value }));
   }
 
   handleToggleInputField() {

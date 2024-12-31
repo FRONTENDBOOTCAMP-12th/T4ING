@@ -42,6 +42,14 @@ export class LandingUtils {
         collectionName
       );
 
+      for (let i = filteredSlides.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [filteredSlides[i], filteredSlides[j]] = [
+          filteredSlides[j],
+          filteredSlides[i],
+        ];
+      }
+
       return Array.from(
         { length: Math.ceil(minSlides / filteredSlides.length) },
         () => filteredSlides

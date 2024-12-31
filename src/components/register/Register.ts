@@ -25,6 +25,8 @@ type CheckboxChangeEvent = CustomEvent<CheckboxChangeEvntDetail>;
 @customElement('register-page')
 export class Register extends TaingElement {
   static styles: CSSResultGroup = [super.styles, registerCSS];
+  @property({ type: Boolean }) isSubmitting = false;
+  @property({ type: Boolean }) allValidPassed = false;
   @property({ type: Boolean }) agreeAll = false;
   @property({ type: Object }) valid = {
     idValid: false,
@@ -66,6 +68,7 @@ export class Register extends TaingElement {
   }
 
   async signUp() {
+    this.isSubmitting = true;
     const apiUrl = `${import.meta.env.VITE_PB_API}/collections/users/records`;
     try {
       const response = await fetch(apiUrl, {
@@ -81,13 +84,13 @@ export class Register extends TaingElement {
         this.modalMessage = errorData.message;
         throw new Error();
       }
-
-      // const responseData = await response.json();
-      // console.log(responseData);
-
-      location.href = '/src/pages/login/';
+      this.modalMessage = '회원가입이 완료되었습니다';
+      await this.showModal();
     } catch {
-      this.modal.hidden = false;
+      await this.showModal();
+    } finally {
+      this.isSubmitting = false;
+      location.href = '/src/pages/login/';
     }
   }
 
@@ -98,12 +101,26 @@ export class Register extends TaingElement {
 
   handleAgreeAll(e: CheckboxChangeEvent) {
     const isChecked = e.detail.checked;
-    if (isChecked) {
-      this.checkboxes.forEach((checkbox) => (checkbox.checked = isChecked));
-    } else {
-      this.checkboxes.forEach((checkbox) => (checkbox.checked = isChecked));
-    }
+
+    this.requiredCheckList = {
+      ...this.requiredCheckList,
+      list1: isChecked,
+      list2: isChecked,
+      list3: isChecked,
+      list4: isChecked,
+    };
+    this.optionalCheckList = {
+      ...this.optionalCheckList,
+      personalInfo: isChecked,
+      thirdPartyInfo: isChecked,
+      marketingEmail: isChecked,
+      marketingSMS: isChecked,
+    };
+
     this.agreeAll = isChecked;
+
+    this.requestUpdate();
+    this.updateAllValidPassed();
   }
 
   handleRequiredChange(
@@ -111,6 +128,7 @@ export class Register extends TaingElement {
     key: keyof typeof this.requiredCheckList
   ) {
     this.requiredCheckList[key] = e.detail.checked;
+    this.updateAllValidPassed();
   }
 
   handleOptionalChange(
@@ -123,26 +141,40 @@ export class Register extends TaingElement {
   handleIdInputChange(e: InputChangeEvent) {
     this.payload.userId = e.detail.value;
     this.valid.idValid = isValidId(e.detail.value);
+    this.updateAllValidPassed();
   }
 
   handlePwInputChange(e: InputChangeEvent) {
     this.payload.password = e.detail.value;
     this.valid.pwValid = isValidPw(e.detail.value);
+    this.updateAllValidPassed();
   }
 
   handlePwCheckInputChange(e: InputChangeEvent) {
     this.payload.passwordConfirm = e.detail.value;
     this.valid.pwCheckValid = this.payload.password === e.detail.value;
+    this.updateAllValidPassed();
   }
 
   handleEmailInputChange(e: InputChangeEvent) {
     this.payload.email = e.detail.value;
+    this.updateAllValidPassed();
   }
-  isAllValidPassed() {
-    return (
-      Object.values(this.valid).every((value) => value === true) &&
-      Object.values(this.requiredCheckList).every((list) => list === true)
-    );
+
+  updateAllValidPassed() {
+    this.allValidPassed =
+      Object.values(this.valid).every((value) => value) &&
+      Object.values(this.requiredCheckList).every((list) => list);
+  }
+
+  async showModal(): Promise<void> {
+    this.modal.hidden = false;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.modal.hidden = true;
+        resolve();
+      }, 2000);
+    });
   }
 
   render() {
@@ -151,7 +183,7 @@ export class Register extends TaingElement {
     } else {
       return html`
         <div class="register-container">
-          <t-modal>this.modalMessage</t-modal>
+          <t-modal id="registerModal">${this.modalMessage}</t-modal>
           <div class="register-wrap">
             <div class="register__title-wrap">
               <h1 class="register__title">타잉 회원가입</h1>
@@ -258,7 +290,7 @@ export class Register extends TaingElement {
               <t-button
                 buttonType="submit"
                 color="primary"
-                .disabled=${!this.isAllValidPassed()}
+                .disabled=${!this.allValidPassed || this.isSubmitting}
               >
                 확인
               </t-button>

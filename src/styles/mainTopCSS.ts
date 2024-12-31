@@ -65,23 +65,16 @@ export default css`
 
     @media (max-width: 767px) {
       width: calc(100% - 16px);
-
-      &.is-middle {
-        margin-inline: 0.5rem;
-      }
-
-      &.is-end {
-        transform: translateX(1rem);
-      }
     }
   }
 
-  swiper-slide {
+  swiper-slide,
+  swiper-slide.swiper-slide-active {
     display: flex;
+
+    flex: 0 0 auto;
     position: relative;
-    justify-content: center;
-    align-items: center;
-    inline-size: 100%;
+    inline-size: calc(100% - 1rem);
 
     transition: transform 0.2s ease-in-out;
   }
@@ -94,19 +87,21 @@ export default css`
   .slide-img-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 80%;
+
+    min-width: 80%;
     overflow: hidden;
     gap: 0.5rem;
     align-items: flex-start;
   }
 
-  .slide-img-container img {
+  .slide-img-container .slide-img {
     inline-size: 100%;
     block-size: auto;
     object-fit: cover;
-    border-radius: 0.3rem;
+    border-radius: 0.4rem;
   }
 
   .slide-title {
@@ -130,90 +125,82 @@ export default css`
   .ranking-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 5rem; /* 고정된 너비 */
-    height: 5rem; /* 고정된 높이 */
-    margin: 0 auto; /* 중앙 정렬 */
-  }
+    align-items: end;
 
-  @media (min-width: 768px) {
-    .ranking-container {
-      width: 7rem;
-      height: 7rem;
+    inline-size: 10vw;
+
+    z-index: 40;
+
+    & .ranking {
+      font-size: 10vw;
+      font-weight: 700;
+      font-style: italic;
+
+      @media (min-width: 768px) {
+        font-weight: 600;
+        font-size: 7vw;
+      }
     }
   }
 
-  @media (min-width: 1920px) {
-    .ranking-container {
-      width: 9rem;
-      height: 9rem;
-    }
+  .icons-container {
+    display: flex;
+
+    position: absolute;
+    inline-size: 80%;
+    block-size: 100%;
   }
 
-  .ranking {
-    font-size: 2.5rem;
-    font-style: italic;
-    font-weight: bold;
-    color: var(--white);
-    line-height: 1; /* 숫자를 중앙 정렬하기 위해 사용 */
-    @media (min-width: 768px) {
-      font-size: 4rem;
-    }
-
-    @media (min-width: 1920px) {
-      font-size: 5rem;
-    }
+  .icons-wrapper {
+    position: relative;
+    inline-size: 100%;
+    block-size: 100%;
   }
 
   .age-rating {
-    display: inline-block;
+    inline-size: 100%;
     position: absolute;
-    top: 1.5%;
-    right: 1%;
-  }
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 0.5vw;
+    padding-top: 0.3vw;
 
-  .age-rating-icon {
-    inline-size: 90%;
-    block-size: auto;
-    max-width: 1.5rem;
-    max-height: 1.5rem;
-    object-fit: contain;
+    & .age-rating-icon {
+      inline-size: 100%;
+      max-width: 1.5rem;
+      max-height: 1.5rem;
+      object-fit: contain;
 
-    @media (min-width: 768px) {
-      max-width: 2rem;
-      max-height: 2rem;
-    }
-
-    @media (min-width: 1920px) {
-      max-width: 2.5rem;
-      max-height: 2.5rem;
+      @media (min-width: 768px) {
+        max-width: 2rem;
+        max-height: 2rem;
+      }
     }
   }
 
   .t-original {
-    display: inline-block;
+    inline-size: 100%;
     position: absolute;
-    bottom: 16%;
-    left: 14vw;
+    bottom: 20%;
+    display: flex;
+    justify-content: center;
 
     @media (min-width: 768px) {
-      left: 8.5vw;
+      bottom: 16%;
     }
 
-    @media (min-width: 1920px) {
-      left: 5.6vw;
-    }
-  }
+    & .t-original-icon {
+      inline-size: 16vw;
+      max-width: 5rem;
+      object-fit: contain;
 
-  .t-original-icon {
-    inline-size: 12vw; /* 슬라이드 이미지 크기 비례로 설정 */
-    block-size: auto; /* 비율 유지 */
-    max-width: 7rem; /* 최대 크기 제한 */
-    object-fit: contain; /* 비율을 유지하며 크기 맞추기 */
-
-    @media (min-width: 768px) {
-      inline-size: 7vw;
-      max-width: 8rem;
+      @media (min-width: 768px) {
+        inline-size: 9vw;
+        max-width: 10rem;
+      }
+      @media (min-width: 1920px) {
+        inline-size: 10vw;
+      }
     }
   }
 

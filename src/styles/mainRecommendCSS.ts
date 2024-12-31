@@ -2,10 +2,12 @@ import { css } from 'lit';
 
 export default css`
   * {
+    --slide-img-border-radius: 0.4rem;
+
     box-sizing: border-box;
     padding: 0; /* 내부 여백 제거 */
     margin: 0;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s ease-in;
   }
 
   .container {
@@ -17,11 +19,12 @@ export default css`
     min-width: 320px;
     height: auto;
     padding-inline: 0.5rem;
-    gap: 1rem;
     background-color: transparent;
 
     overflow: clip;
     clip: padding-box;
+
+    gap: 1rem;
 
     @media (min-width: 768px) {
       padding-inline: 2.5rem;
@@ -67,23 +70,16 @@ export default css`
 
     @media (max-width: 767px) {
       width: calc(100% - 16px);
-
-      &.is-middle {
-        margin-inline: 0.5rem;
-      }
-
-      &.is-end {
-        transform: translateX(1rem);
-      }
     }
   }
 
-  swiper-slide {
+  swiper-slide,
+  swiper-slide.swiper-slide-active {
     display: flex;
+
+    flex: 0 0 auto;
     position: relative;
-    justify-content: center;
-    align-items: center;
-    inline-size: 100%;
+    inline-size: calc(100% - 1rem);
 
     transition: transform 0.2s ease-in-out;
   }
@@ -96,19 +92,20 @@ export default css`
   .slide-img-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    inline-size: 100%;
+
     overflow: hidden;
     gap: 0.5rem;
     align-items: flex-start;
   }
 
-  .slide-img-container img {
+  .slide-img-container .slide-img {
     inline-size: 100%;
     block-size: auto;
     object-fit: cover;
-    border-radius: 0.3rem;
+    border-radius: var(--slide-img-border-radius);
   }
 
   .slide-title {
@@ -120,7 +117,6 @@ export default css`
     word-break: break-word;
 
     font-size: 2.8vw;
-
     @media (min-width: 768px) {
       font-size: 1.6vw;
     }
@@ -130,50 +126,64 @@ export default css`
     }
   }
 
-  .age-rating {
-    display: inline-block;
+  .icons-container {
+    display: flex;
+
     position: absolute;
-    top: 1.5%;
-    right: 1%;
+    inline-size: 100%;
+    block-size: 100%;
   }
 
-  .age-rating-icon {
-    inline-size: 90%;
-    block-size: auto;
-    max-width: 1.5rem;
-    max-height: 1.5rem;
-    object-fit: contain;
+  .icons-wrapper {
+    position: relative;
+    inline-size: 100%;
+    block-size: 100%;
+  }
 
-    @media (min-width: 768px) {
-      max-width: 2rem;
-      max-height: 2rem;
-    }
+  .age-rating {
+    inline-size: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 0.5vw;
+    padding-top: 0.3vw;
 
-    @media (min-width: 1920px) {
-      max-width: 2.5rem;
-      max-height: 2.5rem;
+    & .age-rating-icon {
+      inline-size: 100%;
+      max-width: 1.5rem;
+      max-height: 1.5rem;
+      object-fit: contain;
+
+      @media (min-width: 768px) {
+        max-width: 2rem;
+        max-height: 2rem;
+      }
     }
   }
 
   .t-original {
-    display: inline-block;
+    inline-size: 100%;
     position: absolute;
-    bottom: 15%;
+    bottom: 20%;
+    display: flex;
+    justify-content: center;
 
     @media (min-width: 768px) {
-      bottom: 15%;
+      bottom: 16%;
     }
-  }
 
-  .t-original-icon {
-    inline-size: 12vw; /* 슬라이드 이미지 크기 비례로 설정 */
-    block-size: auto; /* 비율 유지 */
-    max-width: 7rem; /* 최대 크기 제한 */
-    object-fit: contain; /* 비율을 유지하며 크기 맞추기 */
+    & .t-original-icon {
+      inline-size: 16vw;
+      max-width: 5rem;
+      object-fit: contain;
 
-    @media (min-width: 768px) {
-      inline-size: 10vw;
-      max-width: 10rem;
+      @media (min-width: 768px) {
+        inline-size: 9vw;
+        max-width: 10rem;
+      }
+      @media (min-width: 1920px) {
+        inline-size: 10vw;
+      }
     }
   }
 

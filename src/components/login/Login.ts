@@ -99,7 +99,7 @@ class Login extends TaingElement {
 
   debouncedSubmit = debounce((e: Event) => this.handleSubmit(e), 200);
 
-  handleCheckboxChange(e: any) {
+  handleCheckboxChange(e: CustomEvent) {
     this.autoLogin = e.detail.checked;
   }
 

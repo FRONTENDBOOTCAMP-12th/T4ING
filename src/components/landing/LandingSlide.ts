@@ -31,6 +31,11 @@ export class Slide extends TaingElement {
     if (this.device !== newDevice) {
       this.device = newDevice;
       await this.loadSlides();
+
+      if (this.device === 'tablet' && this.slides.length === 0) {
+        this.device = 'mobile';
+        await this.loadSlides();
+      }
     }
   }
 

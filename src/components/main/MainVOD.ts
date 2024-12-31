@@ -213,17 +213,15 @@ class MainVOD extends TaingElement {
                       <figcaption class="slide-title">
                         ${slide.title}
                       </figcaption>
+                      <p class="episode" aria-label="Episode Number">
+                        ${slide.ep}화
+                      </p>
                     </figure>
                     ${slide.age !== 0
                       ? html`
                           <span class="quick-vod" aria-label="Quick VOD 콘텐츠"
                             ><img
-                              src="/assets/images/icon/quick_vod_${this
-                                .device === 'mobile'
-                                ? 's'
-                                : this.device === 'tablet'
-                                  ? 'm'
-                                  : 'l'}.png"
+                              src="/assets/images/icon/quick_vod.png"
                               class="quick-vod-icon"
                               alt="Quick VOD Icon"
                           /></span>

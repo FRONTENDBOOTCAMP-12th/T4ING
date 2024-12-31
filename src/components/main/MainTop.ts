@@ -152,19 +152,19 @@ class MainTop extends TaingElement {
                 : 'is-middle'}"
             .slidesPerView=${3}
             .slidesPerGroup=${3}
-            .spaceBetween=${10}
+            .spaceBetween=${20}
             .observer=${true}
             .observeParents=${true}
             .breakpoints="${{
               768: {
                 slidesPerView: 5,
                 slidesPerGroup: 5,
-                spaceBetween: 10,
+                spaceBetween: 20,
               },
               1920: {
                 slidesPerView: 7,
                 slidesPerGroup: 7,
-                spaceBetween: 10,
+                spaceBetween: 20,
               },
             }}"
           >
@@ -175,53 +175,60 @@ class MainTop extends TaingElement {
                 (slide, index) => html`
                   <swiper-slide tabindex="0">
                     <div class="ranking-container">
-                      <span class="ranking" aria-label="실시간 ${index + 1}위">
+                      <div class="ranking" aria-label="실시간 ${index + 1}위">
                         ${index + 1}
-                      </span>
+                      </div>
                     </div>
                     <figure class="slide-img-container">
                       <img
+                        class="slide-img"
                         src="${getTopImageURL(slide)}"
                         aria-label="${slide.title}"
                       />
+                      <div class="icons-container">
+                        <div class="icons-wrapper">
+                          ${slide.age !== 0
+                            ? html`
+                                <div
+                                  class="age-rating"
+                                  aria-label="${slide.age}세 이상 관람가"
+                                >
+                                  <img
+                                    src="/assets/images/icon/restricted_19_${this
+                                      .device === 'mobile'
+                                      ? 's'
+                                      : this.device === 'tablet'
+                                        ? 'm'
+                                        : 'l'}.png"
+                                    class="age-rating-icon"
+                                    alt="Age Rating Icon"
+                                  />
+                                </div>
+                              `
+                            : ''}
+                          ${slide.original
+                            ? html`<div
+                                class="t-original"
+                                aria-label="Tving Original 콘텐츠"
+                              >
+                                <img
+                                  src="/assets/images/icon/taing_original_${this
+                                    .device === 'mobile'
+                                    ? 's'
+                                    : this.device === 'tablet'
+                                      ? 'm'
+                                      : 'l'}.png"
+                                  class="t-original-icon"
+                                  alt="Tving Original Icon"
+                                />
+                              </div>`
+                            : ''}
+                        </div>
+                      </div>
                       <figcaption class="slide-title">
                         ${slide.title}
                       </figcaption>
                     </figure>
-                    ${slide.age !== 0
-                      ? html`
-                          <span
-                            class="age-rating"
-                            aria-label="${slide.age}세 이상 관람가"
-                            ><img
-                              src="/assets/images/icon/restricted_19_${this
-                                .device === 'mobile'
-                                ? 's'
-                                : this.device === 'tablet'
-                                  ? 'm'
-                                  : 'l'}.png"
-                              class="age-rating-icon"
-                              alt="Age Rating Icon"
-                          /></span>
-                        `
-                      : ''}
-                    ${slide.original
-                      ? html`<span
-                          class="t-original"
-                          aria-label="Tving Original 콘텐츠"
-                        >
-                          <img
-                            src="/assets/images/icon/taing_original_${this
-                              .device === 'mobile'
-                              ? 's'
-                              : this.device === 'tablet'
-                                ? 'm'
-                                : 'l'}.png"
-                            class="t-original-icon"
-                            alt="Tving Original Icon"
-                          />
-                        </span>`
-                      : ''}
                   </swiper-slide>
                 `
               )}

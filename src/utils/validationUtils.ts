@@ -7,7 +7,7 @@ export function isValidId(input: string): boolean {
     const afterRegex = /^[a-zA-Z]+\.[a-zA-Z]+$/;
     const isAfterValid = afterRegex.test(afterAt);
 
-    return isBeforeValid && isAfterValid;
+    return isBeforeValid || isAfterValid;
   }
 
   return baseRegex.test(input);

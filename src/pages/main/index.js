@@ -4,3 +4,7 @@ import '@/components/main/MainBanner';
 import '@/components/main/MainRecommend';
 import '@/components/main/MainVOD';
 import '@/components/main/MainTop';
+import '@/components/main/MainLiveChannel';
+import '@/components/main/MainToriginal';
+import '@/components/main/MainBottomBanner';
+import '@/components/main/MainEventBanner';

@@ -2,6 +2,8 @@ import { css } from 'lit';
 
 export default css`
   * {
+    --slide-img-border-radius: 0.4rem;
+
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -14,11 +16,14 @@ export default css`
     inline-size: 100%;
     block-size: auto;
     min-width: 320px;
+    height: auto;
     padding-inline: 0.5rem;
-    gap: 1rem;
     background-color: transparent;
+
     overflow: clip;
     clip: padding-box;
+
+    gap: 1rem;
 
     @media (min-width: 768px) {
       padding-inline: 2.5rem;
@@ -72,6 +77,7 @@ export default css`
     display: flex;
     position: relative;
     inline-size: 100%;
+
     transition: transform 0.3s ease-in-out;
   }
 
@@ -84,12 +90,12 @@ export default css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
-    inline-size: 80%;
-    block-size: auto;
-    min-width: 80%;
+    align-items: center;
+    inline-size: 100%;
+
     overflow: hidden;
     gap: 0.5rem;
+    align-items: flex-start;
   }
 
   .slide-img-container .slide-img {
@@ -100,13 +106,12 @@ export default css`
   }
 
   .slide-title {
-    position: relative;
     inline-size: 100%;
+    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
-    font-size: var(--slide-title-font-size-s);
 
     font-size: var(--slide-title-font-size-s);
     font-weight: var(--slide-title-font-weight-s);
@@ -122,54 +127,11 @@ export default css`
     }
   }
 
-  .new {
-    position: absolute;
-    inline-size: 0.8vw;
-    block-size: 0.8vw;
-    background-color: var(--red-1);
-    border-radius: 50%;
-    margin-left: 0.2vw;
-    opacity: 0;
-    z-index: 50;
-
-    @media (min-width: 768px) {
-      inline-size: 0.5vw;
-      block-size: 0.5vw;
-    }
-
-    @media (min-width: 1920px) {
-      inline-size: 0.3vw;
-      block-size: 0.3vw;
-    }
-
-    &.updated {
-      opacity: 1;
-    }
-  }
-
-  .ranking-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    inline-size: 10vw;
-    z-index: 40;
-
-    & .ranking {
-      font-size: 10vw;
-      font-weight: 700;
-      font-style: italic;
-
-      @media (min-width: 768px) {
-        font-weight: 600;
-        font-size: 7vw;
-      }
-    }
-  }
-
   .icons-container {
     display: flex;
+
     position: absolute;
-    inline-size: 80%;
+    inline-size: 100%;
     block-size: 100%;
   }
 
@@ -197,33 +159,34 @@ export default css`
         max-width: 2rem;
         max-height: 2rem;
       }
+
+      @media (min-width: 1920px) {
+        max-width: 3rem;
+        max-height: 3rem;
+      }
     }
   }
 
   .t-original {
     inline-size: 100%;
     position: absolute;
-    bottom: 20%;
+    bottom: 15%;
     display: flex;
     justify-content: center;
+  }
+
+  .t-original-icon {
+    inline-size: 18vw;
+    max-width: 8rem;
+    object-fit: contain;
 
     @media (min-width: 768px) {
-      bottom: 16%;
+      inline-size: 8vw;
+      max-width: 10rem;
     }
-
-    & .t-original-icon {
-      inline-size: 16vw;
-      max-width: 5rem;
-      object-fit: contain;
-
-      @media (min-width: 768px) {
-        inline-size: 9vw;
-        max-width: 10rem;
-      }
-
-      @media (min-width: 1920px) {
-        inline-size: 10vw;
-      }
+    @media (min-width: 1920px) {
+      inline-size: 8vw;
+      max-width: 15rem;
     }
   }
 
@@ -231,10 +194,14 @@ export default css`
     display: none;
     position: absolute;
     border: 0;
+
     inline-size: 18px;
     opacity: 1;
+
     cursor: pointer;
+
     z-index: 30;
+
     block-size: 100%;
 
     &.show {
@@ -264,8 +231,10 @@ export default css`
         transparent,
         transparent
       );
+
     background-repeat: no-repeat;
     background-position: center;
+
     background-size: contain;
 
     @media (min-width: 768px) {
@@ -287,10 +256,10 @@ export default css`
         transparent,
         transparent
       );
+
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-
     @media (min-width: 768px) {
       transform: translateX(-2.5rem);
     }

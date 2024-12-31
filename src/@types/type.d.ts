@@ -13,10 +13,15 @@ export interface DefaultCollectionField {
   updated: Date;
 }
 
+/* 메인 페이지 배너 */
+export interface BannerItem extends RecommendItem {
+  title: BannerTitle;
+  description: BannerDescription;
+}
+
 /* 메인 페이지 추천 콘텐츠 */
 export interface RecommendItem extends DefaultResponseData {
   id: string;
-
   age: number;
   cast: string;
   category: string;
@@ -49,11 +54,32 @@ export interface TopItem extends DefaultResponseData {
   title: string;
   views: number;
 }
-
-/* 메인 페이지 배너 */
-export interface BannerItem extends RecommendItem {
-  title: BannerTitle;
-  description: BannerDescription;
+export interface LiveChannelItem extends DefaultResponseData {
+  id: string;
+  channel: string;
+  device: Device;
+  img: string;
+  progress: number;
+  ranking: number;
+  title: string;
+}
+export interface ToriginalItem extends DefaultResponseData {
+  id: string;
+  device: Device;
+  img: string;
+  title: string;
+}
+export interface BottomBannerItem extends DefaultResponseData {
+  id: string;
+  device: Device;
+  img: string;
+  description: string;
+}
+export interface EventBannerItem extends DefaultResponseData {
+  id: string;
+  device: Device;
+  img: string;
+  description: string;
 }
 
 export interface MainData extends DefaultResponseData {

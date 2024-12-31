@@ -32,18 +32,18 @@ export default css`
   }
 
   h1 {
-    font-size: 100%;
-    font-weight: 500;
+    font-size: var(--slider-title-font-size-s);
+    font-weight: var(--slider-title-font-weight-s);
     color: var(--white);
 
     @media (min-width: 768px) {
-      font-size: 1.5vw;
-      font-weight: 600;
+      font-size: var(--slider-title-font-size-m);
+      font-weight: var(--slider-title-font-weight-m);
     }
 
     @media (min-width: 1920px) {
-      font-size: 1.5vw;
-      font-weight: 700;
+      font-size: var(--slider-title-font-size-l);
+      font-weight: var(--slider-title-font-weight-l);
     }
   }
 
@@ -89,7 +89,7 @@ export default css`
 
   swiper-slide:hover,
   swiper-slide:focus {
-    transform: translateY(-0.3rem);
+    transform: translateY(var(--slide-hover-translate-y));
   }
 
   .slide-img-container {
@@ -107,7 +107,7 @@ export default css`
     inline-size: 100%;
     block-size: auto;
     object-fit: cover;
-    border-radius: 0.3rem;
+    border-radius: var(--slide-img-border-radius);
   }
 
   .slide-title {
@@ -118,13 +118,17 @@ export default css`
     text-overflow: ellipsis;
     word-break: break-word;
 
-    font-size: 2.8vw;
+    font-size: var(--slide-title-font-size-s);
+    font-weight: var(--slide-title-font-weight-s);
+
     @media (min-width: 768px) {
-      font-size: 1.6vw;
+      font-size: var(--slide-title-font-size-m);
+      font-weight: var(--slide-title-font-weight-m);
     }
 
     @media (min-width: 1920px) {
-      font-size: 1.2vw;
+      font-size: var(--slide-title-font-size-l);
+      font-weight: var(--slide-title-font-weight-l);
     }
   }
 
@@ -152,14 +156,14 @@ export default css`
   }
 
   .episode {
-    font-size: 2.5vw;
-    font-weight: 200;
+    font-size: var(--slide-title-font-size-s2);
+    font-weight: var(--slide-title-font-weight-s2);
     @media (min-width: 768px) {
-      font-size: 1.5vw;
+      font-size: var(--slide-title-font-size-m2);
     }
 
     @media (min-width: 1920px) {
-      font-size: 1vw;
+      font-size: var(--slide-title-font-size-l2);
     }
   }
 

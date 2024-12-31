@@ -2,8 +2,6 @@ import { css } from 'lit';
 
 export default css`
   .landing-welcome {
-    --welcome-height: 70vw;
-    --welcome-max-height: 23rem;
     --button-bg-color: var(--red-2);
     --button-text-color: var(--white);
     --button-padding: 0.5rem 1rem;
@@ -18,8 +16,6 @@ export default css`
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--welcome-height);
-    max-height: var(--welcome-max-height);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,13 +52,6 @@ export default css`
     .landing-button-icon {
       width: var(--icon-size);
       height: var(--icon-size);
-    }
-
-    @media (min-width: 120rem) {
-      .landing-welcome {
-        --welcome-height: 35vw;
-        --welcome-max-height: 7rem;
-      }
     }
   }
 `;

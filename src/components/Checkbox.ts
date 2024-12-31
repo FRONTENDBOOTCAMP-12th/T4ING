@@ -4,7 +4,6 @@ import { TaingElement } from './Taing';
 
 @customElement('t-checkbox')
 export class Checkbox extends TaingElement {
-  @property({ type: String }) id = 'default';
   @property({ type: Boolean }) checked = false;
 
   static styles: CSSResultGroup = [
@@ -16,10 +15,13 @@ export class Checkbox extends TaingElement {
         --icon-margin-right: 0.25rem;
         --font-size: 0.7502rem;
 
+        @media (min-width: 48rem) {
+          --icon-margin-right: 0.75rem;
+        }
+
         @media (min-width: 120rem) {
           --icon-width: 1.625rem;
           --icon-height: 1.625rem;
-          --icon-margin-right: 0.75rem;
           --font-size: 1.333rem;
         }
 
@@ -63,11 +65,11 @@ export class Checkbox extends TaingElement {
 
   handleChange(event: Event) {
     const target = event.target as HTMLInputElement;
-    const checked = target.checked;
+    this.checked = target.checked;
 
     this.dispatchEvent(
       new CustomEvent('change', {
-        detail: { checked },
+        detail: { checked: this.checked },
         bubbles: true,
         composed: true,
       })
@@ -80,9 +82,8 @@ export class Checkbox extends TaingElement {
         <input
           type="checkbox"
           class="checkbox"
-          id=${this.id}
           name="state"
-          ?checked=${this.checked}
+          .checked=${this.checked}
           @change=${this.handleChange}
         />
         <label for=${this.id} class="checkbox-label">

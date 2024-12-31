@@ -8,14 +8,16 @@ export class LoginCheckbox extends Checkbox {
     super.styles,
     css`
       .checkbox-container {
-        --container-padding: 0.5rem 0rem 1rem 0rem;
+        --container-padding: 1rem 0 1rem 0;
+        --icon-margin-right: 0.25rem;
 
         @media (min-width: 48rem) {
-          --container-padding: 0.75rem 0 1rem 0;
+          --container-padding: 1rem 0 1rem 0;
         }
 
         @media (min-width: 120rem) {
           --container-padding: 1rem 0 2rem 0;
+          --icon-margin-right: 0.75rem;
         }
         padding: var(--container-padding);
       }

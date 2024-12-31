@@ -25,10 +25,17 @@ class MainModal extends Modal {
   ];
 
   @property({ attribute: false }) popupImage = { src: '', alt: '' };
+  @property({ type: Boolean }) open = false;
 
   constructor() {
     super();
     this.dataFetch();
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    this.openPopup();
   }
 
   async dataFetch() {
@@ -37,6 +44,12 @@ class MainModal extends Modal {
       src: getPbImageURL(item, 'image'),
       alt: item.alt,
     }));
+  }
+
+  openPopup() {
+    if (this.open) {
+      this.hidden = false;
+    }
   }
 
   closePopup() {

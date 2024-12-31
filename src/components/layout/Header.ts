@@ -4,6 +4,7 @@ import { TaingElement } from '../Taing';
 import { buttonCSS } from '../../styles/buttonCSS';
 import { debounce } from '../../utils/debounce';
 import { isLogin } from '../../utils/authUtils';
+import { fetchData, getPbImageURL } from '../../utils/request';
 import '../search/Search';
 import '../SvgIcon';
 
@@ -106,18 +107,32 @@ class Header extends TaingElement {
   ];
 
   @state() isActiveSearch = false;
-  @property({ type: String }) userImgPath =
-    '/assets/images/profile/default.webp';
+  @property({ type: String }) userImgPath = '';
   @property({ type: String }) userName = '타잉';
 
   connectedCallback() {
     super.connectedCallback();
 
+    this.fetchProfile();
     window.addEventListener('scroll', this.debounceScroll.bind(this));
   }
 
   get header() {
-    return this.renderRoot.querySelector<HTMLElement>('.header')!;
+    return this.renderRoot.querySelector('.header') as HTMLHeadElement;
+  }
+
+  async fetchProfile() {
+    if (isLogin()) {
+      const { profile } =
+        JSON.parse(localStorage.getItem('taingUserProfile')!) ||
+        JSON.parse(sessionStorage.getItem('taingUserProfile')!);
+      const { name, avatar } = await fetchData('users_profile', `/${profile}`);
+
+      this.userImgPath = avatar
+        ? await getPbImageURL(await fetchData('profile_image', `/${avatar}`))
+        : '/assets/images/profile/default.webp';
+      this.userName = name;
+    }
   }
 
   search() {
@@ -168,13 +183,13 @@ class Header extends TaingElement {
                       ${className === 'tv'
                         ? html`<svg-icon
                             svg-id="live"
-                            .size=${[, [20], [34]]}
+                            .size=${[null, [20], [34]]}
                           ></svg-icon>`
                         : nothing}
                       ${className === 'paramount'
                         ? html`<svg-icon
                             svg-id="paramount"
-                            .size=${[, [65, 20], [112, 34]]}
+                            .size=${[null, [65, 20], [112, 34]]}
                           ></svg-icon>`
                         : nothing}
                       ${iconOnly ? nothing : navName}
@@ -211,7 +226,9 @@ class Header extends TaingElement {
                   href="/src/pages/user/"
                   class="btn-icon size-xs header__user"
                 >
-                  <img src=${this.userImgPath} alt=${this.userName} />
+                  ${this.userImgPath
+                    ? html`<img src=${this.userImgPath} alt=${this.userName} />`
+                    : nothing}
                   <span class="sr-only">사용자 메뉴</span>
                 </a>
               </aside>

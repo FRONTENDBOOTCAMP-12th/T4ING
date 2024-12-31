@@ -110,7 +110,7 @@ export const buttonCSS = {
       &.type-txt {
         --text-size: 0.5625rem;
         --round: 0.125rem;
-        padding: 3px 6px 4px;
+        padding: 0.25rem 0.375rem 0.1875rem;
         font-size: var(--text-size);
         line-height: 1;
         color: var(--white);

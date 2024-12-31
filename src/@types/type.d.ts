@@ -91,28 +91,31 @@ export enum RecommendCollectionName {
 }
 
 export interface ProfileDataList extends DefaultResponseData {
-  items: ImageResponseData[];
+  items: ProfileImages[];
 }
 
 export interface PopupCollection extends RecommendItem {
   items: PopupImage[];
 }
 
-export interface ImageResponseData extends DefaultCollectionField {
+export interface ProfileImages extends DefaultCollectionField {
   avatar: string;
-  [key: string]: string;
-}
-
-export interface UserProfile extends ImageResponseData {
-  account?: string;
-  name: string;
+  alt: string;
   [key?: string]: string;
 }
 
 export interface PopupImage extends DefaultCollectionField {
   image: string;
   alt: string;
-  [key: string]: string;
+  [key?: string]: string;
+}
+
+export interface UserProfile extends DefaultCollectionField {
+  account: string;
+  name: string;
+  avatar?: string;
+  index: number;
+  [key?: string]: string;
 }
 
 export interface KeywordArray {

@@ -168,7 +168,9 @@ class Profile extends TaingElement {
     this.dataFetch();
   }
 
-  updated(_changedProperties: PropertyValues): void {
+  update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+
     const item = this.renderRoot.querySelectorAll('.profile-list__item');
     const tButton = this.renderRoot.querySelector('t-button');
 
@@ -191,37 +193,37 @@ class Profile extends TaingElement {
       const response = await fetch(
         requestUrl(
           'users_profile',
-          `?filter=account='${getUserId()}'&sort=-index,created`
+          `?filter=account='${getUserId()}'&sort=index,created`
         )
       );
-      const data = await response.json();
+      const { items } = await response.json();
+      const sortArray = Array(4).fill({}); //참조복사 주의
+      const defaultProfile = {
+        name: this.DEFAULT_NAME,
+        src: this.DEFAULT_IMG_PATH,
+      };
 
-      const defaultArray = Array(4)
-        .fill(undefined)
-        .map(
-          (_, i) =>
-            data.items[i] || {
-              name: this.DEFAULT_NAME,
-              src: this.DEFAULT_IMG_PATH,
-            }
-        )
-        .map((profile) => {
-          if (profile.avatar) {
-            return (profile.avatar = (async () => {
+      items.forEach((item: UserProfile) => (sortArray[item.index] = item));
+
+      const promiseArray = sortArray.map((profile) => {
+        if (profile.avatar || profile.name) {
+          return (async () => {
+            if (profile.avatar.length) {
               profile.avatar = await getPbImageURL(
                 await fetchData('profile_image', `/${profile.avatar}`)
               );
+            } else {
+              profile.src = this.DEFAULT_IMG_PATH;
+            }
 
-              return profile;
-            })());
-          } else {
             return profile;
-          }
-        });
+          })();
+        }
 
-      Promise.all(defaultArray).then((result) => {
-        this.data = result;
+        return { ...defaultProfile };
       });
+
+      Promise.all(promiseArray).then((result) => (this.data = result));
     } catch (err) {
       console.error(err);
     }
@@ -286,19 +288,35 @@ class Profile extends TaingElement {
               '.profile-list__nickname'
             ) as HTMLInputElement
           ).value;
-          // id가 있으면 PATCH, 없으면 POST
-          // name, account, img-id, index
+
+          this.data[index].name = nickname;
+
           if (changeProfile.id) {
-            console.log();
+            try {
+              createUserProfile(
+                'PATCH',
+                'users_profile',
+                {
+                  name: nickname,
+                  avatar: changeProfile.dataset.imgId || undefined,
+                },
+                `/${changeProfile.id}`
+              );
+            } catch (error) {
+              console.error(error);
+            }
           } else {
             try {
-              createUserProfile('users_profile', {
-                name: nickname,
+              createUserProfile('POST', 'users_profile', {
                 account: getUserId()!,
-                avatar: changeProfile.dataset.imgId || null,
+                name: nickname,
+                avatar: changeProfile.dataset.imgId || undefined,
                 index: index,
-              }).then((res) => {
-                console.log('POST 통신 결과 ', res);
+              }).then((result) => {
+                this.changeProfileIndexArray = Array(4).fill(false);
+                this.changeNameIndexArray = Array(4).fill(false);
+                this.data[index] = result;
+                changeProfile.id = result.id; // 아이디가 늦게 추가될 경우 엑박
               });
             } catch (err) {
               console.error(err);
@@ -333,7 +351,7 @@ class Profile extends TaingElement {
         </p>
       </hgroup>
 
-      <form @submit=${this.profileUpdate}>
+      <form>
         <ul class="profile-list">
           ${this.data
             ? this.data.map((profile, index) => {
@@ -345,7 +363,9 @@ class Profile extends TaingElement {
                   >
                     <figure class="profile-list__img">
                       <img
-                        src="${profile.avatar || profile.src}"
+                        src="${profile.avatar ||
+                        profile.src ||
+                        this.DEFAULT_IMG_PATH}"
                         alt="${profile.name}"
                       />
                       ${this.isEdit

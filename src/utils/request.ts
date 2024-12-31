@@ -1,4 +1,4 @@
-import { ImageResponseData, PopupImage, UserProfile } from '../@types/type';
+import { PopupImage, ProfileImages, UserProfile } from '../@types/type';
 import { getTokenHeader } from './authUtils';
 
 export const PB_API = import.meta.env.VITE_PB_API;
@@ -17,16 +17,18 @@ export async function fetchData(
 }
 
 export async function createUserProfile(
+  method: string = 'POST',
   collection: string = 'users',
   data: {
-    name: string;
-    account: string;
-    avatar: string | null;
-    index: number;
-  }
+    account?: string;
+    name?: string;
+    avatar?: string | null;
+    index?: number;
+  },
+  recordId?: string
 ) {
-  const response = await fetch(requestUrl(collection), {
-    method: 'POST',
+  const response = await fetch(requestUrl(collection, recordId), {
+    method,
     headers: getTokenHeader(),
     body: JSON.stringify(data),
   });
@@ -35,7 +37,7 @@ export async function createUserProfile(
 }
 
 export function getPbImageURL(
-  item: ImageResponseData | UserProfile | PopupImage,
+  item: ProfileImages | UserProfile | PopupImage,
   fileName = 'avatar'
 ) {
   return `${PB_API}/files/${item.collectionId}/${item.id}/${item[fileName]}`;

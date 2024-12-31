@@ -5,9 +5,8 @@ export default css`
     --slide-img-border-radius: 0.4rem;
 
     box-sizing: border-box;
-    padding: 0; /* 내부 여백 제거 */
+    padding: 0;
     margin: 0;
-    transition: all 0.1s ease-in;
   }
 
   .container {
@@ -36,18 +35,18 @@ export default css`
   }
 
   h1 {
-    font-size: 100%;
-    font-weight: 500;
+    font-size: var(--slider-title-font-size-s);
+    font-weight: var(--slider-title-font-weight-s);
     color: var(--white);
 
     @media (min-width: 768px) {
-      font-size: 1.5vw;
-      font-weight: 600;
+      font-size: var(--slider-title-font-size-m);
+      font-weight: var(--slider-title-font-weight-m);
     }
 
     @media (min-width: 1920px) {
-      font-size: 1.5vw;
-      font-weight: 700;
+      font-size: var(--slider-title-font-size-l);
+      font-weight: var(--slider-title-font-weight-l);
     }
   }
 
@@ -81,12 +80,12 @@ export default css`
     position: relative;
     inline-size: calc(100% - 1rem);
 
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.3s ease-in-out;
   }
 
   swiper-slide:hover,
   swiper-slide:focus {
-    transform: translateY(-0.3rem);
+    transform: translateY(var(--slide-hover-translate-y));
   }
 
   .slide-img-container {
@@ -116,13 +115,17 @@ export default css`
     text-overflow: ellipsis;
     word-break: break-word;
 
-    font-size: 2.8vw;
+    font-size: var(--slide-title-font-size-s);
+    font-weight: var(--slide-title-font-weight-s);
+
     @media (min-width: 768px) {
-      font-size: 1.6vw;
+      font-size: var(--slide-title-font-size-m);
+      font-weight: var(--slide-title-font-weight-m);
     }
 
     @media (min-width: 1920px) {
-      font-size: 1.2vw;
+      font-size: var(--slide-title-font-size-l);
+      font-weight: var(--slide-title-font-weight-l);
     }
   }
 
@@ -158,32 +161,34 @@ export default css`
         max-width: 2rem;
         max-height: 2rem;
       }
+
+      @media (min-width: 1920px) {
+        max-width: 3rem;
+        max-height: 3rem;
+      }
     }
   }
 
   .t-original {
     inline-size: 100%;
     position: absolute;
-    bottom: 20%;
+    bottom: 15%;
     display: flex;
     justify-content: center;
+  }
+
+  .t-original-icon {
+    inline-size: 18vw;
+    max-width: 8rem;
+    object-fit: contain;
 
     @media (min-width: 768px) {
-      bottom: 16%;
+      inline-size: 8vw;
+      max-width: 10rem;
     }
-
-    & .t-original-icon {
-      inline-size: 16vw;
-      max-width: 5rem;
-      object-fit: contain;
-
-      @media (min-width: 768px) {
-        inline-size: 9vw;
-        max-width: 10rem;
-      }
-      @media (min-width: 1920px) {
-        inline-size: 10vw;
-      }
+    @media (min-width: 1920px) {
+      inline-size: 8vw;
+      max-width: 15rem;
     }
   }
 
@@ -207,12 +212,10 @@ export default css`
 
     @media (min-width: 768px) {
       inline-size: 40px;
-      // block-size: 40px;
     }
 
     @media (min-width: 1920px) {
       inline-size: 70px;
-      // block-size: 70px;
     }
 
     &:disabled {

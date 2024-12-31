@@ -2,15 +2,15 @@ import { TaingElement } from '../Taing';
 import { MainData } from '../../@types/type';
 import { customElement, property } from 'lit/decorators.js';
 import { html, CSSResultGroup } from 'lit';
-import { getTopImageURL } from '../../api/getMainPageURL';
+import { getEventBannerImageURL } from '../../api/getMainPageURL';
 import Swiper from 'swiper';
-import mainTopCSS from '../../styles/mainTopCSS';
+import mainEventBannerCSS from '../../styles/mainEventBannerCSS';
 
 interface SwiperContainerElement extends HTMLElement {
   swiper: Swiper;
 }
-@customElement('main-top')
-class MainTop extends TaingElement {
+@customElement('main-event-banner')
+class MainRecommend extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
     page: 0,
@@ -26,7 +26,7 @@ class MainTop extends TaingElement {
   @property({ type: Boolean }) isBeginning = true;
   @property({ type: Boolean }) isEnd = false;
 
-  static styles: CSSResultGroup = [super.styles, mainTopCSS];
+  static styles: CSSResultGroup = [super.styles, mainEventBannerCSS];
 
   get swiperContainer(): SwiperContainerElement | null {
     return this.renderRoot.querySelector(
@@ -75,7 +75,7 @@ class MainTop extends TaingElement {
   async fetchData() {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_PB_API}/collections/main_top/records`
+        `${import.meta.env.VITE_PB_API}/collections/main_event_banner/records`
       );
       const data = await response.json();
       this.data = data;
@@ -132,7 +132,7 @@ class MainTop extends TaingElement {
   render() {
     return html`
       <div class="container">
-        <h1>실시간 인기 프로그램</h1>
+        <h1>이벤트</h1>
         <div class="swiper-outer-wrapper">
           <button
             class="nav-btn prev-btn"
@@ -150,91 +150,55 @@ class MainTop extends TaingElement {
               : this.isEnd
                 ? 'is-end'
                 : 'is-middle'}"
-            .slidesPerView=${3}
-            .slidesPerGroup=${3}
-            .spaceBetween=${20}
+            .slidesPerView=${2}
+            .slidesPerGroup=${2}
+            .spaceBetween=${10}
             .observer=${true}
             .observeParents=${true}
             .breakpoints="${{
               768: {
-                slidesPerView: 5,
-                slidesPerGroup: 5,
-                spaceBetween: 20,
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+                spaceBetween: 10,
               },
               1920: {
-                slidesPerView: 7,
-                slidesPerGroup: 7,
-                spaceBetween: 20,
+                slidesPerView: 5,
+                slidesPerGroup: 5,
+                spaceBetween: 10,
               },
             }}"
           >
             ${this.data.items
               .filter((item) => item.device === this.device)
-              .sort((a, b) => b.views - a.views)
               .map(
-                (slide, index) => html`
+                (slide) => html`
                   <swiper-slide tabindex="0">
-                    <div class="ranking-container">
-                      <div class="ranking" aria-label="실시간 ${index + 1}위">
-                        ${index + 1}
-                      </div>
-                    </div>
                     <figure class="slide-img-container">
                       <img
                         class="slide-img"
-                        src="${getTopImageURL(slide)}"
-                        aria-label="${slide.title}"
+                        src="${getEventBannerImageURL(slide)}"
+                        aria-label="${slide.description}"
                       />
-                      <div class="icons-container">
-                        <div class="icons-wrapper">
-                          ${slide.age !== 0
-                            ? html`
-                                <div
-                                  class="age-rating"
-                                  aria-label="${slide.age}세 이상 관람가"
-                                >
-                                  <img
-                                    src="/assets/images/icon/restricted_19_${this
-                                      .device === 'mobile'
-                                      ? 's'
-                                      : this.device === 'tablet'
-                                        ? 'm'
-                                        : 'l'}.png"
-                                    class="age-rating-icon"
-                                    alt="Age Rating Icon"
-                                  />
-                                </div>
-                              `
-                            : ''}
-                          ${slide.original
-                            ? html`<div
-                                class="t-original"
-                                aria-label="Tving Original 콘텐츠"
-                              >
-                                <img
-                                  src="/assets/images/icon/taing_original_${this
-                                    .device === 'mobile'
-                                    ? 's'
-                                    : this.device === 'tablet'
-                                      ? 'm'
-                                      : 'l'}.png"
-                                  class="t-original-icon"
-                                  alt="Tving Original Icon"
-                                />
-                              </div>`
-                            : ''}
-                        </div>
-                      </div>
-                      <figcaption class="slide-title">
-                        ${slide.title}
-                        <span
-                          class="${slide.new_ep === true
-                            ? 'new updated'
-                            : 'new'}"
-                        >
-                        </span>
+                      <figcaption class="slide-title sr-only">
+                        ${slide.description}
                       </figcaption>
-                    </figure>
+                  </swiper-slide>
+                `
+              )}
+            ${this.data.items
+              .filter((item) => item.device === this.device)
+              .map(
+                (slide) => html`
+                  <swiper-slide tabindex="0">
+                    <figure class="slide-img-container">
+                      <img
+                        class="slide-img"
+                        src="${getEventBannerImageURL(slide)}"
+                        aria-label="${slide.description}"
+                      />
+                      <figcaption class="slide-title sr-only">
+                        ${slide.description}
+                      </figcaption>
                   </swiper-slide>
                 `
               )}
@@ -245,4 +209,4 @@ class MainTop extends TaingElement {
   }
 }
 
-export default MainTop;
+export default MainRecommend;

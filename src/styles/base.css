@@ -38,4 +38,40 @@
   --text-size-xl: 1.75rem;
   --text-size-2xl: 2.375rem;
   --text-size-3xl: 3.125rem;
+
+  /* MainPage */
+  --slider-title-font-size-s: 100%;
+  --slider-title-font-size-m: 1.65vw;
+  --slider-title-font-size-l: 1.5vw;
+
+  --slider-title-font-weight-s: 500;
+  --slider-title-font-weight-m: 700;
+  --slider-title-font-weight-l: 800;
+
+  --slide-hover-translate-y: -0.6rem;
+  --slide-img-border-radius: 0.3rem;
+
+  --slide-title-font-size-s: 2.8vw;
+  --slide-title-font-size-m: 1.6vw;
+  --slide-title-font-size-l: 1.2vw;
+
+  --slide-title-font-weight-s: 600;
+  --slide-title-font-weight-m: 600;
+  --slide-title-font-weight-l: 600;
+
+  --slide-title-font-size-s2: 2.5vw;
+  --slide-title-font-size-m2: 1.5vw;
+  --slide-title-font-size-l2: 1vw;
+
+  --slide-title-font-weight-s2: 200;
+  --slide-title-font-weight-m2: ;
+  --slide-title-font-weight-l2: ;
+
+  --slide-title-font-size-s3: 2.8vw;
+  --slide-title-font-size-m3: 1.6vw;
+  --slide-title-font-size-l3: c1.2vw;
+
+  --slide-title-font-weight-s3: 600;
+  --slide-title-font-weight-m3: 600;
+  --slide-title-font-weight-l3: 600;
 }

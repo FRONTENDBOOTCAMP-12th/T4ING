@@ -2,14 +2,14 @@ import { TaingElement } from '../Taing';
 import { MainData } from '../../@types/type';
 import { customElement, property } from 'lit/decorators.js';
 import { html, CSSResultGroup } from 'lit';
-import { getTopImageURL } from '../../api/getMainPageURL';
+import { getLiveChannelImageURL } from '../../api/getMainPageURL';
 import Swiper from 'swiper';
-import mainTopCSS from '../../styles/mainTopCSS';
+import mainLiveChannelCSS from '../../styles/mainLiveChannelCSS';
 
 interface SwiperContainerElement extends HTMLElement {
   swiper: Swiper;
 }
-@customElement('main-top')
+@customElement('main-live-channel')
 class MainTop extends TaingElement {
   @property({ type: Object }) data: MainData = {
     items: [],
@@ -26,7 +26,7 @@ class MainTop extends TaingElement {
   @property({ type: Boolean }) isBeginning = true;
   @property({ type: Boolean }) isEnd = false;
 
-  static styles: CSSResultGroup = [super.styles, mainTopCSS];
+  static styles: CSSResultGroup = [super.styles, mainLiveChannelCSS];
 
   get swiperContainer(): SwiperContainerElement | null {
     return this.renderRoot.querySelector(
@@ -75,7 +75,7 @@ class MainTop extends TaingElement {
   async fetchData() {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_PB_API}/collections/main_top/records`
+        `${import.meta.env.VITE_PB_API}/collections/main_live_channel/records`
       );
       const data = await response.json();
       this.data = data;
@@ -132,7 +132,7 @@ class MainTop extends TaingElement {
   render() {
     return html`
       <div class="container">
-        <h1>실시간 인기 프로그램</h1>
+        <h1>인기 LIVE 채널</h1>
         <div class="swiper-outer-wrapper">
           <button
             class="nav-btn prev-btn"
@@ -162,77 +162,34 @@ class MainTop extends TaingElement {
                 spaceBetween: 20,
               },
               1920: {
-                slidesPerView: 7,
-                slidesPerGroup: 7,
+                slidesPerView: 5,
+                slidesPerGroup: 5,
                 spaceBetween: 20,
               },
             }}"
           >
             ${this.data.items
               .filter((item) => item.device === this.device)
-              .sort((a, b) => b.views - a.views)
+              .sort((a, b) => a.ranking - b.ranking)
               .map(
                 (slide, index) => html`
-                  <swiper-slide tabindex="0">
-                    <div class="ranking-container">
-                      <div class="ranking" aria-label="실시간 ${index + 1}위">
-                        ${index + 1}
-                      </div>
-                    </div>
+                  <swiper-slide tabindex="0">                  
                     <figure class="slide-img-container">
                       <img
                         class="slide-img"
-                        src="${getTopImageURL(slide)}"
+                        src="${getLiveChannelImageURL(slide)}"
                         aria-label="${slide.title}"
                       />
-                      <div class="icons-container">
-                        <div class="icons-wrapper">
-                          ${slide.age !== 0
-                            ? html`
-                                <div
-                                  class="age-rating"
-                                  aria-label="${slide.age}세 이상 관람가"
-                                >
-                                  <img
-                                    src="/assets/images/icon/restricted_19_${this
-                                      .device === 'mobile'
-                                      ? 's'
-                                      : this.device === 'tablet'
-                                        ? 'm'
-                                        : 'l'}.png"
-                                    class="age-rating-icon"
-                                    alt="Age Rating Icon"
-                                  />
-                                </div>
-                              `
-                            : ''}
-                          ${slide.original
-                            ? html`<div
-                                class="t-original"
-                                aria-label="Tving Original 콘텐츠"
-                              >
-                                <img
-                                  src="/assets/images/icon/taing_original_${this
-                                    .device === 'mobile'
-                                    ? 's'
-                                    : this.device === 'tablet'
-                                      ? 'm'
-                                      : 'l'}.png"
-                                  class="t-original-icon"
-                                  alt="Tving Original Icon"
-                                />
-                              </div>`
-                            : ''}
-                        </div>
                       </div>
                       <figcaption class="slide-title">
+                        <div class="ranking-container">
+                          <div class="ranking" aria-label="실시간 ${
+                            index + 1
+                          }위">
+                            ${index + 1}
+                          </div>
+                        </div>
                         ${slide.title}
-                        <span
-                          class="${slide.new_ep === true
-                            ? 'new updated'
-                            : 'new'}"
-                        >
-                        </span>
                       </figcaption>
                     </figure>
                   </swiper-slide>

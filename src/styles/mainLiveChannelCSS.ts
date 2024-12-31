@@ -17,6 +17,7 @@ export default css`
     padding-inline: 0.5rem;
     gap: 1rem;
     background-color: transparent;
+
     overflow: clip;
     clip: padding-box;
 
@@ -70,8 +71,11 @@ export default css`
   swiper-slide,
   swiper-slide.swiper-slide-active {
     display: flex;
+
+    flex: 0 0 auto;
     position: relative;
-    inline-size: 100%;
+    inline-size: calc(100% - 1rem);
+
     transition: transform 0.3s ease-in-out;
   }
 
@@ -84,12 +88,13 @@ export default css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
-    inline-size: 80%;
-    block-size: auto;
+    align-items: center;
+    width: 100%;
+
     min-width: 80%;
     overflow: hidden;
     gap: 0.5rem;
+    align-items: flex-start;
   }
 
   .slide-img-container .slide-img {
@@ -100,13 +105,17 @@ export default css`
   }
 
   .slide-title {
+    display: flex;
+    flex-direction: row;
+
     position: relative;
     inline-size: 100%;
+    block-size: 50%;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
-    font-size: var(--slide-title-font-size-s);
 
     font-size: var(--slide-title-font-size-s);
     font-weight: var(--slide-title-font-weight-s);
@@ -122,36 +131,13 @@ export default css`
     }
   }
 
-  .new {
-    position: absolute;
-    inline-size: 0.8vw;
-    block-size: 0.8vw;
-    background-color: var(--red-1);
-    border-radius: 50%;
-    margin-left: 0.2vw;
-    opacity: 0;
-    z-index: 50;
-
-    @media (min-width: 768px) {
-      inline-size: 0.5vw;
-      block-size: 0.5vw;
-    }
-
-    @media (min-width: 1920px) {
-      inline-size: 0.3vw;
-      block-size: 0.3vw;
-    }
-
-    &.updated {
-      opacity: 1;
-    }
-  }
-
   .ranking-container {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: end;
+
     inline-size: 10vw;
+
     z-index: 40;
 
     & .ranking {
@@ -166,75 +152,18 @@ export default css`
     }
   }
 
-  .icons-container {
-    display: flex;
-    position: absolute;
-    inline-size: 80%;
-    block-size: 100%;
-  }
-
-  .icons-wrapper {
-    position: relative;
-    inline-size: 100%;
-    block-size: 100%;
-  }
-
-  .age-rating {
-    inline-size: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 0.5vw;
-    padding-top: 0.3vw;
-
-    & .age-rating-icon {
-      inline-size: 100%;
-      max-width: 1.5rem;
-      max-height: 1.5rem;
-      object-fit: contain;
-
-      @media (min-width: 768px) {
-        max-width: 2rem;
-        max-height: 2rem;
-      }
-    }
-  }
-
-  .t-original {
-    inline-size: 100%;
-    position: absolute;
-    bottom: 20%;
-    display: flex;
-    justify-content: center;
-
-    @media (min-width: 768px) {
-      bottom: 16%;
-    }
-
-    & .t-original-icon {
-      inline-size: 16vw;
-      max-width: 5rem;
-      object-fit: contain;
-
-      @media (min-width: 768px) {
-        inline-size: 9vw;
-        max-width: 10rem;
-      }
-
-      @media (min-width: 1920px) {
-        inline-size: 10vw;
-      }
-    }
-  }
-
   .nav-btn {
     display: none;
     position: absolute;
     border: 0;
+
     inline-size: 18px;
     opacity: 1;
+
     cursor: pointer;
+
     z-index: 30;
+
     block-size: 100%;
 
     &.show {
@@ -264,8 +193,10 @@ export default css`
         transparent,
         transparent
       );
+
     background-repeat: no-repeat;
     background-position: center;
+
     background-size: contain;
 
     @media (min-width: 768px) {
@@ -287,10 +218,10 @@ export default css`
         transparent,
         transparent
       );
+
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-
     @media (min-width: 768px) {
       transform: translateX(-2.5rem);
     }

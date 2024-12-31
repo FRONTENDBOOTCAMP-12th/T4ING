@@ -7,12 +7,18 @@ import {
   fetchData,
   createUserProfile,
 } from '../../utils/request';
-import { checkLogin, getUserId, getTokenHeader } from '../../utils/authUtils';
+import {
+  checkLogin,
+  getUserId,
+  getTokenHeader,
+  isLogin,
+} from '../../utils/authUtils';
 import { UserProfile } from '../../@types/type';
 import gsap from 'gsap';
 import './ProfileImageList';
 import '../Button';
 import '../SvgIcon';
+import { setStorage } from '../../utils/storage';
 
 @customElement('t-profile')
 class Profile extends TaingElement {
@@ -232,7 +238,8 @@ class Profile extends TaingElement {
   async selectProfile(e: Event) {
     e.preventDefault();
 
-    const id = (e.target as HTMLAnchorElement).id || 'default';
+    const id = ((e.target as HTMLAnchorElement).closest('li') as HTMLLIElement)
+      .id;
 
     try {
       const response = await fetch(requestUrl('users', `/${getUserId()}`), {
@@ -240,8 +247,14 @@ class Profile extends TaingElement {
         headers: getTokenHeader(),
         body: JSON.stringify({ profile: id }),
       });
+      const { profile } = await response.json();
 
       if (response.ok) {
+        const storage = localStorage.getItem('authToken')
+          ? localStorage
+          : sessionStorage;
+
+        storage.setItem('taingUserProfile', JSON.stringify({ profile }));
         location.href = '/src/pages/main/';
       }
     } catch (err) {

@@ -29,6 +29,33 @@ export class Layout extends TaingElement {
       }
     `,
   ];
+
+  constructor() {
+    super();
+
+    this.metaOg();
+  }
+
+  metaOg() {
+    const head = document.querySelector('head') as HTMLHeadElement;
+    const metaTag = `
+      <meta name="author" content="TAING">
+      <meta name="description" content="멋쟁이 사자처럼 태킷 프론트엔드 스쿨 12기 바닐라 프로젝트 4조 4인머스캣의 바닐라 프로젝트 웹사이트.">
+      <meta name="keywords" content="멋쟁이 사자처럼, 프론트엔드 스쿨">
+      <meta property="og:site_name" content="TAING">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="TAING">
+      <meta property="og:description" content="멋쟁이 사자처럼 태킷 프론트엔드 스쿨 12기 바닐라 프로젝트 4조 4인머스캣의 바닐라 프로젝트 웹사이트.">
+      <meta property="og:image" content="/assets/images/og.png">
+      <meta property="og:image:width" content="800">
+      <meta property="og:image:height" content="400">
+      <meta property="og:url" content="https://t4ing.vercel.app">
+      <meta property="og:locale" content="ko_KR">
+    `;
+
+    head.insertAdjacentHTML('afterbegin', metaTag);
+  }
+
   render() {
     return html`
       <t-header></t-header>

@@ -24,7 +24,12 @@ class SvgIcon extends TaingElement {
     `,
   ];
 
-  @state() device = '';
+  @property({
+    hasChanged(newVal: string, oldVal: string) {
+      return newVal !== oldVal;
+    },
+  })
+  device: string = '';
 
   width: number = 18;
   height: number = 18;
@@ -44,15 +49,6 @@ class SvgIcon extends TaingElement {
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
-  update(changedProperties: PropertyValues): void {
-    super.update(changedProperties);
-
-    if (changedProperties.has('device')) {
-      this.setIconSize();
-      this.requestUpdate();
-    }
-  }
-
   setIconSize() {
     const index =
       this.device === 'mobile' ? 0 : this.device === 'tablet' ? 1 : 2;
@@ -60,13 +56,7 @@ class SvgIcon extends TaingElement {
     [this.width, this.height] = size;
     this.height ||= this.width;
     this.svgDevice = this.size[index] ? this.device : 'mobile';
-  }
 
-  handleResize() {
-    this.device = super.getDevice;
-  }
-
-  render() {
     return html`
       <svg
         role="img"
@@ -81,5 +71,13 @@ class SvgIcon extends TaingElement {
         />
       </svg>
     `;
+  }
+
+  handleResize() {
+    this.device = super.getDevice;
+  }
+
+  render() {
+    return this.setIconSize();
   }
 }

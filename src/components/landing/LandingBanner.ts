@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingBannerCSS from '../../styles/landingBannerCSS';
 import { LandingUtils } from './LandingUtils';
+import './BtnJoin';
 
 @customElement('landing-banner')
 export class Banner extends TaingElement {
@@ -73,23 +74,12 @@ export class Banner extends TaingElement {
           ${this.renderSlide('slides-down')} ${this.renderSlide('slides-up')}
         </div>
         <hgroup class="banner">
-          <h2>티빙 오리지널 콘텐츠,</h2>
-          <h2>방송, 영화, 해외시리즈까지</h2>
-          <h2>재미를 플레이해보세요.</h2>
+          <h2>
+            타잉 오리지널 콘텐츠,<br />방송, 영화, 해외시리즈까지<br />재미를
+            플레이해보세요.
+          </h2>
           <p>간편하게 가입하고 원하실 때 해지할 수 있어요.</p>
-          <a
-            href="/src/pages/login/"
-            target="_self"
-            rel="noopener noreferrer"
-            aria-label="Go to the login page to experience the new Taing"
-          >
-            <img
-              src="/assets/images/profile/default.webp"
-              alt="taing logo"
-              aria-hidden="true"
-            />
-            새로워진 타잉을 만나보세요!
-          </a>
+          <button-join>새로워진 타잉을 만나보세요!</button-join>
         </hgroup>
       </section>
     `;

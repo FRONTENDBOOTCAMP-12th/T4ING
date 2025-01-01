@@ -92,11 +92,12 @@ export class Panorama extends TaingElement {
         role="region"
       >
         <h2 id="panorama-title" class="panorama-title">내가 찾던 재미</h2>
-        <p class="panorama-description-primary">
+        <p class="panorama-description">
           보고 싶은 콘텐츠를 발견하세요!
-        </p>
-        <p class="panorama-description-secondary">
-          최신, 인기 TV프로그램, 영화, 해외시리즈, 파라마운트+ 오리지널 및 독점
+          <span>
+            최신, 인기 TV프로그램, 영화, 해외시리즈, 파라마운트+ 오리지널 및
+            독점
+          </span>
         </p>
 
         <div

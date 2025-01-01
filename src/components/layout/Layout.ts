@@ -3,6 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import './Header';
 import './Footer';
+import { Panorama } from './../landing/LandingPanorama';
 
 @customElement('t-layout')
 export class Layout extends TaingElement {
@@ -13,6 +14,12 @@ export class Layout extends TaingElement {
         display: flex;
         flex-flow: column nowrap;
         height: inherit;
+      }
+      t-header + div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
       }
 
       .has-padding {

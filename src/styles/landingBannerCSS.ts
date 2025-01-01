@@ -68,6 +68,9 @@ export default css`
   }
 
   .banner {
+    --title-font-size: var(--text-size-m);
+    --desc-margin: 0 var(--size-4);
+    --desc-font-size: var(--text-size-s);
     position: relative;
     z-index: 10;
     width: 100%;
@@ -76,39 +79,34 @@ export default css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: url('/assets/images/bg/dimmd.webp') 50% / auto calc(100% + 2px)
+      repeat-x;
     color: var(--white);
     text-align: center;
 
+    @media (min-width: 48rem) {
+      --desc-margin: var(--size-2) var(--size-7);
+      --title-font-size: var(--text-size-l);
+    }
+    @media (min-width: 120rem) {
+      --title-font-size: var(--text-size-3xl);
+      --desc-margin: var(--size-5) 3.75rem;
+      --desc-font-size: var(--text-size-xl);
+    }
+
     h2 {
+      font-size: var(--title-font-size);
+      font-weight: 700;
       line-height: 1.4;
-      font-size: var(--text-size-l);
-      margin: 0 0;
+      transition: 0.3s;
     }
 
     p {
+      margin-block: var(--desc-margin);
+      font-size: var(--desc-font-size);
       line-height: 1.6;
-      font-size: var(--text-size-s);
-      margin: 0.5rem 0;
       color: var(--gray400);
-    }
-
-    a {
-      font-size: var(--text-size-m);
-      text-decoration: none;
-      background-color: var(--red-2);
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      color: var(--white);
-      transition: background-color 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      img {
-        width: 1.5rem;
-        height: 1.5rem;
-      }
+      transition: 0.3s;
     }
   }
 `;

@@ -59,8 +59,12 @@ class ProfileImageList extends TaingElement {
 
       .btn-close {
         position: absolute;
-        inset-inline-end: 0;
-        inset-block-start: 0;
+        inset-inline-end: 4rem;
+        inset-block-start: 4rem;
+        padding: 1rem;
+        border: none;
+        background-color: initial;
+        cursor: pointer;
       }
     `,
   ];
@@ -86,7 +90,7 @@ class ProfileImageList extends TaingElement {
   selectImage(obj: ProfileImages) {
     this.closeProfileImgList();
     this.dispatchEvent(
-      customEventParam('select-image', {
+      customEventParam('selectImage', {
         imgObj: obj,
       })
     );
@@ -123,7 +127,12 @@ class ProfileImageList extends TaingElement {
               class="btn-close"
               @click=${this.closeProfileImgList}
             >
-              닫기
+              <span class="sr-only">닫기</span>
+              <svg-icon
+                svg-id="close"
+                .size=${[[22], [28], [50]]}
+                centered="true"
+              ></svg-icon>
             </button>
           </div>
         `

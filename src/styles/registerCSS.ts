@@ -68,15 +68,6 @@ export default css`
     gap: var(--input-container-gap);
   }
 
-  form .register__input-wrap {
-    & p {
-      color: var(--gray500);
-      font-weight: 400;
-      font-size: var(--font-size);
-      line-height: 160%;
-    }
-  }
-
   .register__checkbox-wrap {
     display: flex;
     flex-direction: column;
@@ -90,5 +81,9 @@ export default css`
     flex-direction: column;
     gap: 8px;
     padding-left: var(--checkbox-marketing-wrap-padding);
+  }
+
+  .inValid {
+    color: red;
   }
 `;

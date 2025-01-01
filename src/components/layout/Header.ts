@@ -235,7 +235,9 @@ class Header extends TaingElement {
             `
           : nothing}
       </header>
-      <taing-search ?hidden=${!this.isActiveSearch}></taing-search>
+      ${isLogin()
+        ? html`<taing-search ?hidden=${!this.isActiveSearch}></taing-search>`
+        : nothing}
     `;
   }
 }

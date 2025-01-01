@@ -1,5 +1,5 @@
 export function isValidId(input: string): boolean {
-  const baseRegex = /^[a-zA-Z0-9]{6,12}$/;
+  const baseRegex = /^(?=.*[a-zA-Z])([a-zA-Z0-9]{6,12})$/;
 
   if (input.includes('@')) {
     const [beforeAt, afterAt] = input.split('@');
@@ -22,4 +22,9 @@ export function isValidPw(input: string): boolean {
   return (
     containsLetters && containsNumbers && containsSpecialChars && isProperLength
   );
+}
+
+export function isValidEmail(input: string): boolean {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(input);
 }

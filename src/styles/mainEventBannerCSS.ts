@@ -67,6 +67,13 @@ export default css`
 
     @media (max-width: 767px) {
       width: calc(100% - 16px);
+      &.is-middle {
+        margin-inline: 0.5rem;
+      }
+
+      &.is-end {
+        transform: translateX(1rem);
+      }
     }
   }
 

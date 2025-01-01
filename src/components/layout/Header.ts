@@ -107,7 +107,8 @@ class Header extends TaingElement {
   ];
 
   @state() isActiveSearch = false;
-  @property({ type: String }) userImgPath = '';
+  @property({ type: String }) userImgPath =
+    '/assets/images/profile/default.webp';
   @property({ type: String }) userName = '타잉';
 
   connectedCallback() {
@@ -125,13 +126,25 @@ class Header extends TaingElement {
     if (isLogin()) {
       const { profile } =
         JSON.parse(localStorage.getItem('taingUserProfile')!) ||
-        JSON.parse(sessionStorage.getItem('taingUserProfile')!);
-      const { name, avatar } = await fetchData('users_profile', `/${profile}`);
+        JSON.parse(sessionStorage.getItem('taingUserProfile')!) ||
+        {};
 
-      this.userImgPath = avatar
-        ? await getPbImageURL(await fetchData('profile_image', `/${avatar}`))
-        : '/assets/images/profile/default.webp';
-      this.userName = name;
+      if (profile) {
+        try {
+          console.log(profile);
+          const { name, avatar } = await fetchData(
+            'users_profile',
+            `/${profile}`
+          );
+
+          this.userImgPath = avatar
+            ? getPbImageURL(await fetchData('profile_image', `/${avatar}`))
+            : '/assets/images/profile/default.webp';
+          this.userName = name;
+        } catch (error) {
+          console.error(error);
+        }
+      }
     }
   }
 
@@ -158,14 +171,21 @@ class Header extends TaingElement {
   }
 
   navMenu = [
-    { navName: '실시간', url: '/', className: 'tv' },
-    { navName: 'TV프로그램', url: '/' },
-    { navName: '영화', url: '/' },
-    { navName: 'Paramount+', url: '/', className: 'paramount', iconOnly: true },
+    { navName: '실시간', url: '/guide/', className: 'tv' },
+    { navName: 'TV프로그램', url: '/guide/' },
+    { navName: '영화', url: '/guide/' },
+    {
+      navName: 'Paramount+',
+      url: '/guide/',
+      className: 'paramount',
+      iconOnly: true,
+    },
   ];
 
   render() {
-    const page = location.pathname.split('/').filter((str) => str !== '')[2];
+    const mainPage =
+      location.href.split(location.origin).filter((str) => str !== '')[0] ===
+      '/';
 
     return html`
       <header id="header" class="header">
@@ -174,7 +194,7 @@ class Header extends TaingElement {
             <img src="/assets/images/logo/logo.svg" class="logo" alt="TAING" />
           </a>
         </h1>
-        ${isLogin() && page === 'main'
+        ${isLogin() && mainPage
           ? html`
               <nav class="header__gnb">
                 ${this.navMenu.map(

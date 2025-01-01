@@ -41,6 +41,7 @@ class Footer extends TaingElement {
           inset-inline-end: var(--padding-inline);
           inset-block-start: var(--padding-block-start);
 
+          a,
           button {
             padding: 0;
             border: none;
@@ -53,8 +54,8 @@ class Footer extends TaingElement {
             cursor: pointer;
 
             &:after {
-              margin-inline-start: var(--size-4);
-              content: '+';
+              margin-inline-start: var(--size-2);
+              content: '>';
             }
           }
         }
@@ -200,14 +201,26 @@ class Footer extends TaingElement {
 
         <aside class="link-list mobile-hidden">
           <div class="link-list__item">
-            <button type="button" class="link-list__button">
+            <a
+              href="/"
+              class="link-list__button"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="브랜드 사이트로 이동합니다."
+            >
               브랜드 바로가기
-            </button>
+            </a>
           </div>
           <div class="link-list__item">
-            <button type="button" class="link-list__button">
+            <a
+              href="/"
+              class="link-list__button"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="그룹 계열사로 이동합니다."
+            >
               그룹 계열사 바로가기
-            </button>
+            </a>
           </div>
         </aside>
 

@@ -18,7 +18,6 @@ import gsap from 'gsap';
 import './ProfileImageList';
 import '../Button';
 import '../SvgIcon';
-import { setStorage } from '../../utils/storage';
 
 @customElement('t-profile')
 class Profile extends TaingElement {
@@ -158,7 +157,6 @@ class Profile extends TaingElement {
   ];
 
   @property({ type: Array }) data: UserProfile[] = [];
-  @state() userIndex: number = -1;
   @state() isEdit = false;
 
   DEFAULT_NAME = '타잉';
@@ -166,6 +164,7 @@ class Profile extends TaingElement {
   changeProfileIndexArray: boolean[] = Array(4).fill(false);
   changeNameIndexArray: boolean[] = Array(4).fill(false);
   profileListItem: HTMLLIElement[] = [];
+  userIndex: number = -1;
 
   connectedCallback() {
     super.connectedCallback();
@@ -203,7 +202,7 @@ class Profile extends TaingElement {
         )
       );
       const { items } = await response.json();
-      const sortArray = Array(4).fill({}); //참조복사 주의
+      const sortArray = Array(4).fill({});
       const defaultProfile = {
         name: this.DEFAULT_NAME,
         src: this.DEFAULT_IMG_PATH,
@@ -214,8 +213,8 @@ class Profile extends TaingElement {
       const promiseArray = sortArray.map((profile) => {
         if (profile.avatar || profile.name) {
           return (async () => {
-            if (profile.avatar.length) {
-              profile.avatar = await getPbImageURL(
+            if (profile.avatar) {
+              profile.avatar = getPbImageURL(
                 await fetchData('profile_image', `/${profile.avatar}`)
               );
             } else {
@@ -255,7 +254,7 @@ class Profile extends TaingElement {
           : sessionStorage;
 
         storage.setItem('taingUserProfile', JSON.stringify({ profile }));
-        location.href = '/src/pages/main/';
+        location.href = '/';
       }
     } catch (err) {
       console.error(err);
@@ -271,28 +270,28 @@ class Profile extends TaingElement {
       'profile-img-list'
     ) as TaingElement;
 
-    this.userIndex = index;
     imgListComponent.hidden = false;
+    this.userIndex = index;
   }
 
   selectAvatar(e: CustomEvent) {
     const { imgObj } = e.detail;
 
     this.changeProfileIndexArray[this.userIndex] = true;
-    this.data[this.userIndex].avatar = '';
-    this.data[this.userIndex].src =
-      getPbImageURL(imgObj) || this.DEFAULT_IMG_PATH;
     this.profileListItem[this.userIndex].dataset.imgId = imgObj.id;
+    this.data[this.userIndex].avatar = null;
+    this.data[this.userIndex].src = getPbImageURL(imgObj);
     this.requestUpdate();
   }
 
   profileUpdate(e: Event) {
     e.preventDefault();
+
     const changeIndexArray = this.changeProfileIndexArray.map((item, index) => {
       return item || this.changeNameIndexArray[index];
     });
 
-    if (changeIndexArray.length) {
+    if (changeIndexArray.find((changed) => changed)) {
       for (const [index, isChanged] of changeIndexArray.entries()) {
         if (isChanged) {
           const changeProfile = this.profileListItem[index];
@@ -311,10 +310,13 @@ class Profile extends TaingElement {
                 'users_profile',
                 {
                   name: nickname,
-                  avatar: changeProfile.dataset.imgId || undefined,
+                  avatar: changeProfile.dataset.imgId,
                 },
                 `/${changeProfile.id}`
-              );
+              ).then(() => {
+                this.changeProfileIndexArray[index] = false;
+                this.changeNameIndexArray[index] = false;
+              });
             } catch (error) {
               console.error(error);
             }
@@ -323,13 +325,12 @@ class Profile extends TaingElement {
               createUserProfile('POST', 'users_profile', {
                 account: getUserId()!,
                 name: nickname,
-                avatar: changeProfile.dataset.imgId || undefined,
+                avatar: changeProfile.dataset.imgId,
                 index: index,
               }).then((result) => {
-                this.changeProfileIndexArray = Array(4).fill(false);
-                this.changeNameIndexArray = Array(4).fill(false);
-                this.data[index] = result;
-                changeProfile.id = result.id; // 아이디가 늦게 추가될 경우 엑박
+                changeProfile.id = result.id;
+                this.changeProfileIndexArray[index] = false;
+                this.changeNameIndexArray[index] = false;
               });
             } catch (err) {
               console.error(err);
@@ -356,6 +357,7 @@ class Profile extends TaingElement {
   }
 
   render() {
+    // console.log(this.data);
     return html`<section class="section-profile">
       <hgroup class="section-title">
         <h2 class="section-title__h">프로필 선택</h2>
@@ -376,9 +378,7 @@ class Profile extends TaingElement {
                   >
                     <figure class="profile-list__img">
                       <img
-                        src="${profile.avatar ||
-                        profile.src ||
-                        this.DEFAULT_IMG_PATH}"
+                        src="${profile.avatar || profile.src}"
                         alt="${profile.name}"
                       />
                       ${this.isEdit
@@ -407,7 +407,7 @@ class Profile extends TaingElement {
                           <span class="sr-only">프로필 편집</span>
                         </button>`
                       : html`<a
-                          href="/src/pages/main/"
+                          href="/"
                           class="profile-list__btn select"
                           @click=${this.selectProfile}
                         >
@@ -442,7 +442,7 @@ class Profile extends TaingElement {
       <profile-img-list
         hidden
         selectIndex=${this.userIndex}
-        @select-image=${this.selectAvatar}
+        @selectImage=${this.selectAvatar}
       ></profile-img-list>
     </section>`;
   }

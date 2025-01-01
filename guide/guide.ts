@@ -72,6 +72,10 @@ class GuideBadge extends TaingElement {
 @customElement('t-guide')
 class Guide extends TaingElement {
   static styles = css`
+    :host {
+      inline-size: 100%;
+    }
+
     .guide-wrap {
       padding: 2rem;
 

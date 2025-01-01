@@ -1,9 +1,10 @@
-import { html, nothing } from 'lit';
-import { TaingElement } from '../Taing';
+import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { TaingElement } from '../Taing';
+import { isLogin } from '../../utils/authUtils';
+import '../../components/main/MainModal';
 import '../../pages/main';
 import '../../pages/landing';
-import { isLogin } from '../../utils/authUtils';
 
 @customElement('main-page')
 class Main extends TaingElement {

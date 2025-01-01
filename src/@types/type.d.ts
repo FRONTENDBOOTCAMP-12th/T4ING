@@ -139,7 +139,7 @@ export interface PopupImage extends DefaultCollectionField {
 export interface UserProfile extends DefaultCollectionField {
   account: string;
   name: string;
-  avatar?: string;
+  avatar?: string | null;
   index: number;
   [key?: string]: string;
 }

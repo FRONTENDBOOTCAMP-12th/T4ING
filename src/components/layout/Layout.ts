@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import './Header';
 import './Footer';
-import { Panorama } from './../landing/LandingPanorama';
+import { isLogin } from '../../utils/authUtils';
 
 @customElement('t-layout')
 export class Layout extends TaingElement {
@@ -14,12 +14,6 @@ export class Layout extends TaingElement {
         display: flex;
         flex-flow: column nowrap;
         height: inherit;
-      }
-      t-header + div {
-        // display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
       }
 
       .has-padding {
@@ -32,6 +26,11 @@ export class Layout extends TaingElement {
         @media (min-width: 120rem) {
           --padding-top: 6.25rem;
         }
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
         padding-top: var(--padding-top);
       }
     `,
@@ -40,7 +39,7 @@ export class Layout extends TaingElement {
   constructor() {
     super();
 
-    this.metaOg();
+    // this.metaOg();
   }
 
   metaOg() {

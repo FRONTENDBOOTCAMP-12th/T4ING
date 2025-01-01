@@ -16,7 +16,7 @@ export class Layout extends TaingElement {
         height: inherit;
       }
       t-header + div {
-        display: flex;
+        // display: flex;
         justify-content: center;
         align-items: center;
         flex: 1;

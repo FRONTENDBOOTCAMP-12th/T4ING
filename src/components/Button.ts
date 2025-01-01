@@ -1,8 +1,8 @@
 import { CSSResultGroup, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { TaingElement } from './Taing';
 import { buttonCSS } from '../styles/buttonCSS';
-import { classMap } from 'lit/directives/class-map.js';
 
 @customElement('t-button')
 class Button extends TaingElement {

@@ -11,6 +11,7 @@ import '../src/components/Checkbox';
 import '../src/components/Button';
 import '../src/components/Modal';
 import '../src/components/main/MainModal';
+import '../src/components/landing/BtnJoin';
 
 @customElement('guide-logo')
 class GuideLogo extends TaingElement {
@@ -160,6 +161,7 @@ class Guide extends TaingElement {
           <t-button type="submit" color="primary">로그인</t-button>
           <t-button color="secondary">본인인증</t-button>
           <t-button color="line">프로필 편집</t-button>
+          <button-join>새로워진 타잉을 만나보세요!</button-join>
           <p class="guide-sub-title">Disabled style</p>
           <t-button color="primary" disabled>로그인</t-button>
           <t-button color="secondary" disabled>본인인증</t-button>

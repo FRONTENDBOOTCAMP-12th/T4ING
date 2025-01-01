@@ -13,6 +13,7 @@ export default defineConfig({
         profile: resolve(__dirname, 'src/pages/profile/index.html'),
         register: resolve(__dirname, 'src/pages/register/index.html'),
         user: resolve(__dirname, 'src/pages/user/index.html'),
+        goodbye: resolve(__dirname, 'src/pages/goodbye/index.html'),
         guide: resolve(__dirname, 'guide/index.html'),
       },
       output: {

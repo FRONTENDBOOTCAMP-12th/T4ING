@@ -1,7 +1,8 @@
 import { css, CSSResultGroup, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { openModal } from '../../utils/modal';
+import { getTokenHeader, getUserId } from '../../utils/authUtils';
 import '../Modal';
 
 @customElement('t-user')
@@ -51,6 +52,39 @@ class User extends TaingElement {
     `,
   ];
 
+  logout(option: boolean = false) {
+    sessionStorage.clear();
+    if (option === true) {
+      localStorage.clear();
+    } else {
+      location.href = '/src/pages/landing/';
+    }
+  }
+
+  async deleteUser() {
+    const apiUrl = `${
+      import.meta.env.VITE_PB_API
+    }/collections/users/records/${getUserId()}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'DELETE',
+        headers: getTokenHeader(),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '회원탈퇴 실패');
+      }
+
+      this.logout(true);
+
+      location.href = '/src/pages/goodbye/';
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   render() {
     return html`
       <ul class="user-menu">
@@ -77,10 +111,14 @@ class User extends TaingElement {
         </li>
       </ul>
 
-      <t-modal class="modal-logout" cancel hidden
+      <t-modal class="modal-logout" cancel hidden @modalConfirm=${this.logout}
         >로그아웃 하시겠습니까?</t-modal
       >
-      <t-modal class="modal-withdraw" cancel hidden
+      <t-modal
+        class="modal-withdraw"
+        cancel
+        hidden
+        @modalConfirm=${this.deleteUser}
         >회원 탈퇴 하시겠습니까?</t-modal
       >
     `;

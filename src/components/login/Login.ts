@@ -19,6 +19,7 @@ interface CustomInputElement extends HTMLInputElement {
 class Login extends TaingElement {
   static styles: CSSResultGroup = [super.styles, loginCSS];
   @property({ type: Boolean }) autoLogin = false;
+  @property({ type: Boolean }) isSubmitting = false;
   @property({ type: String }) errorMessage = '';
 
   connectedCallback() {
@@ -49,6 +50,7 @@ class Login extends TaingElement {
   }
 
   async fetchData() {
+    this.isSubmitting = true;
     const apiUrl = `${
       import.meta.env.VITE_PB_API
     }/collections/users/auth-with-password`;
@@ -89,6 +91,8 @@ class Login extends TaingElement {
       location.href = '/src/pages/profile/';
     } catch {
       this.handleLoginFail();
+    } finally {
+      this.isSubmitting = false;
     }
   }
 
@@ -97,8 +101,6 @@ class Login extends TaingElement {
     this.fetchData();
   }
 
-  debouncedSubmit = debounce((e: Event) => this.handleSubmit(e), 200);
-
   handleCheckboxChange(e: CustomEvent) {
     this.autoLogin = e.detail.checked;
   }
@@ -106,7 +108,7 @@ class Login extends TaingElement {
   handleKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      this.debouncedSubmit(e);
+      this.handleSubmit(e);
     }
   }
 
@@ -124,7 +126,7 @@ class Login extends TaingElement {
         >
         <div class="login-wrap">
           <h1 class="login__title">TVING ID 로그인</h1>
-          <form @keydown=${this.handleKeyDown} @submit=${this.debouncedSubmit}>
+          <form @keydown=${this.handleKeyDown} @submit=${this.handleSubmit}>
             <div class="login__input-wrap">
               <t-input id="idField">
                 <label slot="label">아이디</label>
@@ -140,7 +142,11 @@ class Login extends TaingElement {
             >
               자동로그인
             </login-checkbox>
-            <t-button buttonType="submit" color="primary">
+            <t-button
+              buttonType="submit"
+              color="primary"
+              .disabled=${this.isSubmitting}
+            >
               로그인하기
             </t-button>
             <div class="login__find-acount-wrap">

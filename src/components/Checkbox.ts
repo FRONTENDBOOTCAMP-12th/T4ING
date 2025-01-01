@@ -5,6 +5,7 @@ import { TaingElement } from './Taing';
 @customElement('t-checkbox')
 export class Checkbox extends TaingElement {
   @property({ type: Boolean }) checked = false;
+  @property({ type: String }) id = 'default';
 
   static styles: CSSResultGroup = [
     super.styles,
@@ -82,7 +83,7 @@ export class Checkbox extends TaingElement {
         <input
           type="checkbox"
           class="checkbox"
-          name="state"
+          id=${this.id}
           .checked=${this.checked}
           @change=${this.handleChange}
         />

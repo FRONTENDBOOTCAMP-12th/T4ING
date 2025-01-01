@@ -2,7 +2,11 @@ import { html, CSSResultGroup } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import registerCSS from '../../styles/registerCSS';
-import { isValidId, isValidPw } from '../../utils/validationUtils';
+import {
+  isValidId,
+  isValidPw,
+  isValidEmail,
+} from '../../utils/validationUtils';
 import { debounce } from '../../utils/debounce';
 import { isLogin } from '../../utils/authUtils';
 import '../Form';
@@ -22,6 +26,10 @@ interface CheckboxChangeEvntDetail {
 }
 type CheckboxChangeEvent = CustomEvent<CheckboxChangeEvntDetail>;
 
+interface CheckboxElement extends HTMLInputElement {
+  checked: boolean;
+}
+
 @customElement('register-page')
 export class Register extends TaingElement {
   static styles: CSSResultGroup = [super.styles, registerCSS];
@@ -31,7 +39,8 @@ export class Register extends TaingElement {
   @property({ type: Object }) valid = {
     idValid: false,
     pwValid: false,
-    pwCheckValid: false,
+    pwConfirmValid: false,
+    emailValid: false,
   };
   @property({ type: Object }) requiredCheckList = {
     list1: false,
@@ -51,15 +60,16 @@ export class Register extends TaingElement {
     passwordConfirm: '',
     email: '',
   };
+  @property({ type: String }) idHint = '영문 또는 영문, 숫자 조합 6~12자리';
+  @property({ type: String }) pwHint =
+    '영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리';
+  @property({ type: String }) pwConfirmHint = '';
+  @property({ type: String }) emailHint = '';
   @property({ type: String }) modalMessage = '';
 
   get agreeAllCheckbox() {
-    return this.renderRoot.querySelector<HTMLInputElement>('#agreeAll')!;
-  }
-
-  get checkboxes() {
-    return this.renderRoot.querySelectorAll<HTMLInputElement>(
-      '.register__checkbox'
+    return this.renderRoot.querySelector<HTMLInputElement>(
+      '.register__checkbox-agreeAll'
     )!;
   }
 
@@ -67,16 +77,21 @@ export class Register extends TaingElement {
     return this.renderRoot.querySelector<HTMLInputElement>('#registerModal')!;
   }
 
+  getInputElement(id: string) {
+    return this.renderRoot.querySelector<HTMLInputElement>(`#${id}`)!;
+  }
+
   async signUp() {
     this.isSubmitting = true;
     const apiUrl = `${import.meta.env.VITE_PB_API}/collections/users/records`;
+    const payload = Object.assign(this.payload, this.optionalCheckList);
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(this.payload),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -85,12 +100,11 @@ export class Register extends TaingElement {
         throw new Error();
       }
       this.modalMessage = '회원가입이 완료되었습니다';
-      await this.showModal();
+      this.showModal();
     } catch {
-      await this.showModal();
+      this.showModal();
     } finally {
       this.isSubmitting = false;
-      location.href = '/src/pages/login/';
     }
   }
 
@@ -129,6 +143,7 @@ export class Register extends TaingElement {
   ) {
     this.requiredCheckList[key] = e.detail.checked;
     this.updateAllValidPassed();
+    this.updateAgreeAllCheckbox();
   }
 
   handleOptionalChange(
@@ -136,28 +151,62 @@ export class Register extends TaingElement {
     key: keyof typeof this.optionalCheckList
   ) {
     this.optionalCheckList[key] = e.detail.checked;
+    this.updateAgreeAllCheckbox();
   }
 
   handleIdInputChange(e: InputChangeEvent) {
-    this.payload.userId = e.detail.value;
-    this.valid.idValid = isValidId(e.detail.value);
+    const value = e.detail.value;
+    const isValid = isValidId(value);
+
+    this.payload.userId = value;
+    this.valid.idValid = isValid;
+    this.idHint = !value
+      ? '영문 또는 영문, 숫자 조합 6~12자리'
+      : isValid
+        ? '사용 가능한 아이디입니다.'
+        : '영문 또는 영문, 숫자 조합 6~12자리로 입력해주세요';
     this.updateAllValidPassed();
   }
 
   handlePwInputChange(e: InputChangeEvent) {
-    this.payload.password = e.detail.value;
-    this.valid.pwValid = isValidPw(e.detail.value);
+    const value = e.detail.value;
+    const isValid = isValidPw(value);
+
+    this.payload.password = value;
+    this.valid.pwValid = isValid;
+    this.pwHint = !value
+      ? '영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리'
+      : isValid
+        ? '사용 가능한 비밀번호입니다.'
+        : '영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리로 입력해주세요';
     this.updateAllValidPassed();
   }
 
-  handlePwCheckInputChange(e: InputChangeEvent) {
-    this.payload.passwordConfirm = e.detail.value;
-    this.valid.pwCheckValid = this.payload.password === e.detail.value;
+  handlePwConfirmInputChange(e: InputChangeEvent) {
+    const value = e.detail.value;
+    const isMatch = this.payload.password === value;
+
+    this.payload.passwordConfirm = value;
+    this.valid.pwConfirmValid = isMatch;
+    this.pwConfirmHint = !value
+      ? ''
+      : isMatch
+        ? ''
+        : '비밀번호가 일치하지 않습니다.';
     this.updateAllValidPassed();
   }
 
   handleEmailInputChange(e: InputChangeEvent) {
-    this.payload.email = e.detail.value;
+    const value = e.detail.value;
+    const isValid = isValidEmail(value);
+
+    this.payload.email = value;
+    this.valid.emailValid = isValid;
+    this.emailHint = !value
+      ? ''
+      : isValid
+        ? ''
+        : '이메일 형식이 올바르지 않습니다.';
     this.updateAllValidPassed();
   }
 
@@ -167,23 +216,33 @@ export class Register extends TaingElement {
       Object.values(this.requiredCheckList).every((list) => list);
   }
 
-  async showModal(): Promise<void> {
-    this.modal.hidden = false;
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        this.modal.hidden = true;
-        resolve();
-      }, 2000);
-    });
+  updateAgreeAllCheckbox() {
+    if (
+      Object.values(this.optionalCheckList).every((value) => value) &&
+      Object.values(this.requiredCheckList).every((list) => list)
+    ) {
+      this.agreeAllCheckbox.checked = true;
+    } else {
+      this.agreeAllCheckbox.checked = false;
+    }
   }
 
+  showModal() {
+    this.modal.hidden = false;
+  }
+
+  handleModalConfirm() {
+    location.href = '/src/pages/login/';
+  }
   render() {
     if (isLogin()) {
       location.href = '/src/pages/main/';
     } else {
       return html`
         <div class="register-container">
-          <t-modal id="registerModal">${this.modalMessage}</t-modal>
+          <t-modal id="registerModal" @modalConfirm=${
+            this.handleModalConfirm
+          }>${this.modalMessage}</t-modal>
           <div class="register-wrap">
             <div class="register__title-wrap">
               <h1 class="register__title">타잉 회원가입</h1>
@@ -191,17 +250,16 @@ export class Register extends TaingElement {
             </div>
             <form @submit=${this.handleSubmit}>
               <div class="register__input-container">
-              <div class="register__input-wrap">
                 <t-input
                   class="register__input"
                   id="idField"
                   @inputChange=${debounce(this.handleIdInputChange, 300)}
                 >
                   <label slot="label">아이디</label>
+                  <p slot="hint" class=${
+                    this.payload.userId && !this.valid.idValid ? 'inValid' : ''
+                  }>${this.idHint}</p>
                 </t-input>
-                <p>영문 또는 영문, 숫자 조합 6~12자리</p>
-              </div>
-              <div class="register__input-wrap">
                 <t-input
                   class="register__input"
                   id="pwField"
@@ -209,16 +267,25 @@ export class Register extends TaingElement {
                   @inputChange=${debounce(this.handlePwInputChange, 300)}
                 >
                   <label slot="label">비밀번호</label>
+                  <p slot="hint" class=${
+                    this.payload.password && !this.valid.pwValid
+                      ? 'inValid'
+                      : ''
+                  }>${this.pwHint}</p>
                 </t-input>
-                <p>영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15자리</p>
-              </div>
+                
               <t-input
                 class="register__input"
-                id="pwCheckField"
+                id="pwConfirmField"
                 type="password"
-                @inputChange=${debounce(this.handlePwCheckInputChange, 300)}
+                @inputChange=${debounce(this.handlePwConfirmInputChange, 300)}
               >
                 <label slot="label">비밀번호</label>
+                <p slot="hint" class=${
+                  this.payload.passwordConfirm && !this.valid.pwConfirmValid
+                    ? 'inValid'
+                    : ''
+                }>${this.pwConfirmHint}</p>
               </t-input>
               <t-input
                 class="register__input"
@@ -227,6 +294,9 @@ export class Register extends TaingElement {
                 @inputChange=${debounce(this.handleEmailInputChange, 300)}
               >
                 <label slot="label">이메일</label>
+                <p slot="hint" class=${
+                  this.payload.email && !this.valid.emailValid ? 'inValid' : ''
+                }>${this.emailHint}</p>
               </t-input>
               </div>
               <login-checkbox class="register__checkbox-agreeAll" .checked=${

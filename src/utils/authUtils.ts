@@ -15,7 +15,7 @@ function decodeJWT(token: string | null) {
   }
 }
 
-function getToken() {
+export function getToken() {
   return (
     localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
   );

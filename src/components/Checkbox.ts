@@ -5,7 +5,7 @@ import { TaingElement } from './Taing';
 @customElement('t-checkbox')
 export class Checkbox extends TaingElement {
   @property({ type: Boolean }) checked = false;
-  @property({ type: String }) id = 'default';
+  @property({ type: String }) id = `checkbox-${Math.random()}`;
 
   static styles: CSSResultGroup = [
     super.styles,

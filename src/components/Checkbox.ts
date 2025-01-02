@@ -58,20 +58,6 @@ export class Checkbox extends TaingElement {
         font-weight: 600;
         line-height: 150%;
       }
-
-      .icon-check {
-        // display: inline-block;
-        // background-image: url('/assets/images/icon/checkbox.svg');
-        // background-size: cover;
-        // background-position: center;
-        // margin-right: var(--icon-margin-right);
-        // inline-size: var(--icon-width);
-        // block-size: var(--icon-height);
-      }
-
-      .checkbox:checked + .checkbox-label .icon-check {
-        // background-image: url('/assets/images/icon/checkbox_checked.svg');
-      }
     `,
   ];
 

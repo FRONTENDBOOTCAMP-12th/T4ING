@@ -5,6 +5,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingSlideCSS from '../../styles/landingSlideCSS';
 import { LandingUtils } from './LandingUtils';
+import { LandingItem } from '../../@types/type';
 
 @customElement('landing-slide')
 export class Slide extends TaingElement {
@@ -12,12 +13,13 @@ export class Slide extends TaingElement {
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
+  private landingData: Array<LandingItem> = [];
 
   connectedCallback(): void {
     super.connectedCallback();
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
-    this.loadSlides();
+    this.initSlides();
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
@@ -25,29 +27,34 @@ export class Slide extends TaingElement {
     super.disconnectedCallback();
     window.removeEventListener('resize', this.handleResize.bind(this));
   }
-
+  async initSlides(): Promise<void> {
+    this.landingData = await LandingUtils.fetchData(
+      this.apiUrl,
+      'landing_origin'
+    );
+    this.updateSlides();
+  }
   async handleResize() {
     const newDevice = super.getDevice;
 
     if (this.device !== newDevice) {
       this.device = newDevice;
-      await this.loadSlides();
+      this.updateSlides();
 
       if (this.device === 'tablet' && this.slides.length === 0) {
         this.device = 'mobile';
-        await this.loadSlides();
+        this.updateSlides();
       }
     }
   }
-
-  async loadSlides(): Promise<void> {
-    this.slides = await LandingUtils.fetchSlides(
+  updateSlides(): void {
+    this.slides = LandingUtils.filterSlide(
+      this.landingData,
       this.apiUrl,
-      'landing_origin',
       this.device,
+      'landing_origin',
       20
     );
-    await this.requestUpdate();
   }
 
   render() {

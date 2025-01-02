@@ -1,6 +1,6 @@
 # T4ING
 
-![T4ING Top](/public/assets/images/README/top.png)
+![T4ING Top](https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/top.png)
 [타잉 바로가기](https://t4ing.vercel.app)
 
 ## 📜 목차
@@ -30,12 +30,12 @@
 
 ![4인머스켓 로고](/public/assets/images/og.png)
 
-| 이름                                                                                                                                      | 역할    | 주요 기여                                               | GitHub                                    |
-| ----------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------- | ----------------------------------------- |
-| <div align="center"><img src="/public/assets/images/README/icon.png?size=100" width="80" height="80" alt="윤헌주"/> <br> **윤헌주**</div> | 팀 리더 | 스크럼 마스터, 랜딩 페이지                              | [hunzooyun](https://github.com/hunzooyun) |
-| <div align="center"><img src="/public/assets/images/README/icon.png?size=100" width="80" height="80" alt="박혜미"/> <br> **박혜미**</div> | 조원    | 프로필 편집, 검색 기능, 모달, 헤더, 푸터, 가이드 페이지 | [bohyemian](https://github.com/bohyemian) |
-| <div align="center"><img src="/public/assets/images/README/icon.png?size=100" width="80" height="80" alt="김민규"/> <br> **김민규**</div> | 조원    | 백엔드 설계, 로그인, 회원가입, 프로젝트 배포            | [MinQyu](https://github.com/MinQyu)       |
-| <div align="center"><img src="/public/assets/images/README/icon.png?size=100" width="80" height="80" alt="전혜림"/> <br> **전혜림**</div> | 조원    | 메인페이지, Swiper 공통 컴포넌트 설계                   | [gofla1996](https://github.com/gofla1996) |
+| 이름                                                                                                                                                                                   | 역할    | 주요 기여                                               | GitHub                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------- | ----------------------------------------- |
+| <div align="center"><img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/icon.png?size=100" width="80" height="80" alt="윤헌주"/> <br> **윤헌주**</div> | 팀 리더 | 스크럼 마스터, 랜딩 페이지                              | [hunzooyun](https://github.com/hunzooyun) |
+| <div align="center"><img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/icon.png?size=100" width="80" height="80" alt="박혜미"/> <br> **박혜미**</div> | 조원    | 프로필 편집, 검색 기능, 모달, 헤더, 푸터, 가이드 페이지 | [bohyemian](https://github.com/bohyemian) |
+| <div align="center"><img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/icon.png?size=100" width="80" height="80" alt="김민규"/> <br> **김민규**</div> | 조원    | 백엔드 설계, 로그인, 회원가입, 프로젝트 배포            | [MinQyu](https://github.com/MinQyu)       |
+| <div align="center"><img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/icon.png?size=100" width="80" height="80" alt="전혜림"/> <br> **전혜림**</div> | 조원    | 메인페이지, Swiper 공통 컴포넌트 설계                   | [gofla1996](https://github.com/gofla1996) |
 
 <br>
 
@@ -152,27 +152,27 @@ T4ING
 
 ### 메인
 
-<img src="/public/assets/images/README/main.gif" alt="메인"/>
+<img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/main.gif" alt="메인"/>
 
 ### 랜딩
 
-<img src="/public/assets/images/README/landing.gif" alt="랜딩"/>
+<img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/landing.gif" alt="랜딩"/>
 
 ### 회원가입
 
-<img src="/public/assets/images/README/join.gif" alt="회원가입"/>
+<img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/join.gif" alt="회원가입"/>
 
 ### 로그인
 
-<img src="/public/assets/images/README/login.gif" alt="로그인"/>
+<img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/login.gif" alt="로그인"/>
 
 ### 프로필 편집
 
-<img src="/public/assets/images/README/profile.gif" alt="프로필 편집"/>
+<img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/profile.gif" alt="프로필 편집"/>
 
 ### 검색
 
-<img src="/public/assets/images/README/search.gif" alt="검색"/>
+<img src="https://raw.githubusercontent.com/wiki/FRONTENDBOOTCAMP-12th/T4ING/README/search.gif" alt="검색"/>
 
 <br>
 

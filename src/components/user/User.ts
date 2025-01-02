@@ -54,9 +54,8 @@ class User extends TaingElement {
 
   logout(option: boolean = false) {
     sessionStorage.clear();
-    if (option === true) {
-      localStorage.clear();
-    } else {
+    localStorage.clear();
+    if (option !== true) {
       location.href = '/src/pages/landing/';
     }
   }

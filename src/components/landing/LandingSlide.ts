@@ -1,6 +1,7 @@
+import { SwiperElement } from './../Swiper';
 import { SwiperOptions } from 'swiper/types';
 import { html, CSSResultGroup } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import landingSlideCSS from '../../styles/landingSlideCSS';
 import { LandingUtils } from './LandingUtils';
@@ -50,6 +51,10 @@ export class Slide extends TaingElement {
   }
 
   render() {
+    if (this.slides.length === 0) {
+      return;
+    }
+
     const swiperOptions: SwiperOptions = {
       autoplay: {
         delay: 1000,

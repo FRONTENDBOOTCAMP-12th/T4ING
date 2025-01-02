@@ -38,12 +38,12 @@ export default css`
       transform: translateY(0%);
     }
     to {
-      transform: translateY(-100%);
+      transform: translateY(-50%);
     }
   }
   @keyframes scroll-down {
     from {
-      transform: translateY(-100%);
+      transform: translateY(-50%);
     }
     to {
       transform: translateY(0%);
@@ -60,7 +60,7 @@ export default css`
     text-align: center;
     margin: 1rem 0;
     img {
-      width: 100%;
+      width: 95%;
       max-width: 600px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);

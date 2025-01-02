@@ -2,7 +2,7 @@
 
 # T4ING
 
-![T4ING Logo](/public/TAING.svg)
+![T4ING Top](/public/assets/images/README/top.png)
 
 ## 🌟 프로젝트 소개
 

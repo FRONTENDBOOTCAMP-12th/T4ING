@@ -18,7 +18,7 @@ export class LandingPage extends TaingElement {
   connectedCallback(): void {
     super.connectedCallback();
     if (isLogin()) {
-      location.href = '/src/pages/main/';
+      location.href = '/';
     }
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';

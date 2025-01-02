@@ -1,6 +1,23 @@
 import { LandingItem } from '../../@types/type';
 
 export class LandingUtils {
+  static slidesDevice(data: LandingItem[]): Record<string, LandingItem[]> {
+    return data.reduce(
+      (acc, item) => {
+        if (item.device === 'mobile' || item.device === 'tablet') {
+          acc['mobile'].push(item);
+        }
+        if (item.device === 'tablet' || item.device === 'desktop') {
+          acc['tablet'].push(item);
+        }
+        if (item.device === 'desktop') {
+          acc['desktop'].push(item);
+        }
+        return acc;
+      },
+      { mobile: [], tablet: [], desktop: [] } as Record<string, LandingItem[]>
+    );
+  }
   static filterSlide(
     data: LandingItem[],
     apiUrl: string,

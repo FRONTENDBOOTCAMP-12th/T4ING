@@ -27,13 +27,13 @@ class Input extends TaingElement {
 
         @media (min-width: 48rem) {
           --padding-block: var(--size-4);
-          --font-size: var(--text-size-m);
+          --font-size: var(--text-size-s);
           --input-line-height: 1.375rem;
         }
         @media (min-width: 120rem) {
           --padding-inline-start: var(--size-6);
           --padding-block: 1.625rem;
-          --font-size: var(--text-size-xl);
+          --font-size: var(--text-size-l);
           --input-line-height: 2.75rem;
         }
       }

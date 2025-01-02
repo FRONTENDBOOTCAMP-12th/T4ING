@@ -9,14 +9,7 @@ import { LandingUtils } from './LandingUtils';
 @customElement('landing-slide')
 export class Slide extends TaingElement {
   static styles: CSSResultGroup = [super.styles, landingSlideCSS];
-  @state() private slidesDevice: Record<
-    string,
-    Array<{ img: string; title: string }>
-  > = {
-    mobile: [],
-    tablet: [],
-    desktop: [],
-  };
+  @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
 
@@ -39,17 +32,21 @@ export class Slide extends TaingElement {
     if (this.device !== newDevice) {
       this.device = newDevice;
       await this.loadSlides();
+
+      if (this.device === 'tablet' && this.slides.length === 0) {
+        this.device = 'mobile';
+        await this.loadSlides();
+      }
     }
   }
 
   async loadSlides(): Promise<void> {
-    const allSlides = await LandingUtils.fetchSlides(
+    this.slides = await LandingUtils.fetchSlides(
       this.apiUrl,
       'landing_origin',
       this.device,
       20
     );
-    this.slidesDevice = LandingUtils.slidesDevice(allSlides);
     await this.requestUpdate();
   }
 
@@ -69,10 +66,6 @@ export class Slide extends TaingElement {
       centeredSlides: true,
       loop: true,
     };
-    const slides =
-      this.device === 'tablet' && this.slidesDevice['tablet'].length === 0
-        ? this.slidesDevice['mobile']
-        : this.slidesDevice[this.device] || [];
     return html`
       <div class="slide-container">
         <hgroup>
@@ -91,7 +84,7 @@ export class Slide extends TaingElement {
             aria-label="Go to the login page"
           >
             <swiper-element
-              .slides="${slides}"
+              .slides="${[...this.slides]}"
               .options=${swiperOptions}
               key="${this.device}"
             >

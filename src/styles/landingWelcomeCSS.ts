@@ -11,6 +11,7 @@ export default css`
     --font-size-text: 1rem;
     --line-height-text: 1.4;
     --margin-text: 1rem 0;
+    --img-width: 12rem;
 
     position: relative;
     top: 0;
@@ -25,6 +26,17 @@ export default css`
     text-align: center;
     color: white;
     margin-top: 5rem;
+
+    img {
+      width: var(--img-width);
+      height: auto;
+    }
+    @media (min-width: 48rem) {
+      --img-width: 18rem;
+    }
+    @media (min-width: 120rem) {
+      --img-width: 33vw;
+    }
 
     p {
       line-height: var(--line-height-text);

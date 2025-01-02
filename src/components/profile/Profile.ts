@@ -357,7 +357,6 @@ class Profile extends TaingElement {
   }
 
   render() {
-    // console.log(this.data);
     return html`<section class="section-profile">
       <hgroup class="section-title">
         <h2 class="section-title__h">프로필 선택</h2>

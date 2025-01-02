@@ -132,7 +132,6 @@ class Header extends TaingElement {
 
       if (profile) {
         try {
-          console.log(profile);
           const { name, avatar } = await fetchData(
             'users_profile',
             `/${profile}`

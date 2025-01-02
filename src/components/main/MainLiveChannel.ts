@@ -156,8 +156,8 @@ class MainTop extends TaingElement {
             .observeParents=${true}
             .breakpoints="${{
               768: {
-                slidesPerView: 5,
-                slidesPerGroup: 5,
+                slidesPerView: 4,
+                slidesPerGroup: 4,
                 spaceBetween: 20,
               },
               1920: {

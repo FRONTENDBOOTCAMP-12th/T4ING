@@ -4,6 +4,8 @@
 
 ![T4ING Top](/public/assets/images/README/top.png)
 
+> 배포 레파지토리 [밍큐네 T4ING](https://github.com/MinQyu/T4ING)
+
 ## 🌟 프로젝트 소개
 
 **T4ING**은 **4인머스켓**이 개발한 [Vite](https://vitejs.dev), [Lit](https://lit.dev), [TypeScript](https://www.typescriptlang.org), [PocketHost](https://pocketbase.io/), [Swiper](https://swiperjs.com/), [GSAP](https://greensock.com/gsap/) 등을 사용하여 개발된 **반응형 웹 애플리케이션**입니다.  

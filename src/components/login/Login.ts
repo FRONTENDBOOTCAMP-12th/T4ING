@@ -24,7 +24,7 @@ class Login extends TaingElement {
 
   connectedCallback() {
     if (isLogin()) {
-      location.href = '/src/pages/main/';
+      location.href = '/';
     }
     super.connectedCallback();
   }

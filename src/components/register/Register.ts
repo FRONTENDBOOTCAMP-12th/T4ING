@@ -236,7 +236,7 @@ export class Register extends TaingElement {
   }
   render() {
     if (isLogin()) {
-      location.href = '/src/pages/main/';
+      location.href = '/';
     } else {
       return html`
         <div class="register-container">

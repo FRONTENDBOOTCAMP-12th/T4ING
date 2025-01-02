@@ -2,6 +2,19 @@
 
 ![T4ING Top](/public/assets/images/README/top.png)
 
+## 📜 목차
+
+1. [T4ING Top](#t4ing-top)
+2. [🌟 프로젝트 소개](#프로젝트-소개)
+3. [🧑‍🤝‍🧑 TEAM 4인머스켓](#team-4인머스켓)
+4. [🛠️ 개발환경](#️-개발환경)
+5. [🎯 개발목표 및 컨벤션](#개발목표-및-컨벤션)
+   - [기능 요구사항 충족](#기능-요구사항-충족)
+   - [컨벤션](#컨벤션)
+6. [📑 주요 기능](#주요-기능)
+7. [📂 프로젝트 구조](#프로젝트-구조)
+8. [🖥️ 애플리케이션 동작](#애플리케이션-동작)
+
 ## 🌟 프로젝트 소개
 
 > 멋쟁이 사자처럼 프론트엔드 부트캠프 12기 바닐라 프로젝트  
@@ -11,7 +24,7 @@
   가독성이 높고 직관적인 UI/UX를 제공합니다.
 - 프로젝트 진행기간 : 2024.12.12. ~ 2025.01.03.
 
----
+<br>
 
 ## 🧑‍🤝‍🧑 TEAM 4인머스켓
 
@@ -24,7 +37,7 @@
 | <div align="center"><img src="/public/assets/images/README/icon.png?size=100" width="80" height="80" alt="김민규"/> <br> **김민규**</div> | 조원    | 백엔드 설계, 로그인, 회원가입, 프로젝트 배포            | [MinQyu](https://github.com/MinQyu)       |
 | <div align="center"><img src="/public/assets/images/README/icon.png?size=100" width="80" height="80" alt="전혜림"/> <br> **전혜림**</div> | 조원    | 메인페이지, Swiper 공통 컴포넌트 설계                   | [gofla1996](https://github.com/gofla1996) |
 
----
+<br>
 
 ## 🛠️ 개발환경
 
@@ -39,17 +52,48 @@
 | 디자인 & 개발 환경(IDE) | ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white) ![Visual Studio Code](https://img.shields.io/badge/Vscode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)                                                                                                                                                                                                         |
 | 호스팅                  | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)                                                                                                                                                                                                                                                                                                                                  |
 
----
+<br>
+
+## 🎯 개발목표 및 컨벤션
+
+### 기능 요구사항 충족
+
+- 슬라이드가 필요한 ui에서는 [**swiper.js**](https://swiperjs.com/)를 사용
+  - 각 슬라이드를 데이터로 받아 동적으로 렌더링 되도록 제작
+  - 슬라이드의 `prev`, `next` 버튼도 구현
+  - 키보드 키로도 작동되도록 구현
+- [localStorage](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)를 사용하여 “시청 중인 컨텐츠”의 UI를 구성
+- [localStorage](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)를 사용하여 검색기록이 남을 수 있도록 UI를 구성
+- 랜딩페이지 애니메이션을 구현
+- “회원가입 기능”을 구현
+  - 최소한 이메일, 비밀번호 입력 필드(`input`), 제출 버튼(`button`)을 가지도록 구성
+- 이메일과 비밀번호의 유효성을 확인
+  - 이메일 조건 : 최소 `@`, `.` 포함
+  - 비밀번호 조건 : 특수문자 포함 최소 6자 - 최대 16자
+  - 이메일과 비밀번호가 모두 입력되어 있고, 조건을 만족해야 제출 버튼이 활성화 되도록 구현
+- 회원가입을 통해 사용자(user)를 생성하고 관리
+  - 데이터 통신을 통해 유저를 생성하고 관리
+  - 유저의 회원을 탈퇴할 수 있는 기능을 구현
+  - 로그인된 유저를 인식하여 UI를 다르게 랜더링
+  - 로그인되지 않은 사용자면 회원가입 페이지로 리디렉션
+  - 회원가입시 중복된 유저가 있는지 체크
+
+### 컨벤션
+
+- [코딩 컨벤션](https://github.com/FRONTENDBOOTCAMP-12th/T4ING/wiki/%EC%BD%94%EB%94%A9-%EC%BB%A8%EB%B2%A4%EC%85%98)
+- [커밋 컨벤션](https://github.com/FRONTENDBOOTCAMP-12th/T4ING/wiki/%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98)
+
+<br>
 
 ## 📑 주요 기능
 
-1. **사용자 인증**: PocketHost를 활용한 회원가입, 로그인, 회원 탈퇴 기능.
-2. **사용자 맞춤형 서비스**: 사용자 프로필 편집, 검색어 저장 기능.
-3. **반응형 UI**: 디바이스 크기별 반응형 UI 디자인.
-4. **swiper**: swiper.js를 이용한 인터랙티브 UI.
-5. **모듈화된 컴포넌트**: Lit을 사용한 재사용 가능한 웹 컴포넌트
+- **사용자 인증**: PocketHost를 활용한 회원가입, 로그인, 회원 탈퇴 기능.
+- **사용자 맞춤형 서비스**: 사용자 프로필 편집, 검색어 저장 기능.
+- **반응형 UI**: 디바이스 크기별 반응형 UI 디자인.
+- **swiper**: swiper.js를 이용한 인터랙티브 UI.
+- **모듈화된 컴포넌트**: Lit을 사용한 재사용 가능한 웹 컴포넌트
 
----
+<br>
 
 ## 📂 프로젝트 구조
 
@@ -102,8 +146,6 @@ T4ING
 
 ```
 
----
+<br>
 
 ## 🖥️ 애플리케이션 동작
-
----

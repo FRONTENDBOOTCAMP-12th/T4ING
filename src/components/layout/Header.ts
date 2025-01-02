@@ -116,6 +116,7 @@ class Header extends TaingElement {
 
     this.fetchProfile();
     window.addEventListener('scroll', this.debounceScroll.bind(this));
+    window.addEventListener('keydown', this.closeSearch.bind(this));
   }
 
   get header() {
@@ -131,7 +132,6 @@ class Header extends TaingElement {
 
       if (profile) {
         try {
-          console.log(profile);
           const { name, avatar } = await fetchData(
             'users_profile',
             `/${profile}`
@@ -167,6 +167,12 @@ class Header extends TaingElement {
       this.classList.add('bg');
     } else {
       this.classList.remove('bg');
+    }
+  }
+
+  closeSearch(e: KeyboardEvent) {
+    if (e.code === 'Escape') {
+      this.search();
     }
   }
 

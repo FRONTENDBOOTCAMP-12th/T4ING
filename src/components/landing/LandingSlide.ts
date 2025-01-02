@@ -69,7 +69,7 @@ export class Slide extends TaingElement {
     return html`
       <div class="slide-container">
         <hgroup>
-          <h2 class="slide-title">티빙에만 있는 재미</h2>
+          <h2 class="slide-title">타잉에만 있는 재미</h2>
           <p class="slide-description">
             오리지널 콘텐츠를 만나보세요!
             <span>차별화된 웰메이드 오리지널 콘텐츠</span>

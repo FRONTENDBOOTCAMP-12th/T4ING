@@ -4,6 +4,7 @@ import { TaingElement } from '../Taing';
 import landingBannerCSS from '../../styles/landingBannerCSS';
 import { LandingUtils } from './LandingUtils';
 import './BtnJoin';
+import { LandingItem } from '../../@types/type';
 
 @customElement('landing-banner')
 export class Banner extends TaingElement {
@@ -11,12 +12,13 @@ export class Banner extends TaingElement {
   @property({ type: Array }) slides: Array<{ img: string; title: string }> = [];
   @property({ type: String }) apiUrl: string = '';
   @property({ type: String }) device: string = 'mobile';
+  private landingData: Array<LandingItem> = [];
 
   connectedCallback(): void {
     super.connectedCallback();
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
-    this.loadSlides();
+    this.initSlides();
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
@@ -24,21 +26,28 @@ export class Banner extends TaingElement {
     super.disconnectedCallback();
     window.removeEventListener('resize', this.handleResize.bind(this));
   }
-
-  async handleResize() {
+  async initSlides(): Promise<void> {
+    this.landingData = await LandingUtils.fetchData(
+      this.apiUrl,
+      'landing_float'
+    );
+    this.updateSlides();
+  }
+  async handleResize(): Promise<void> {
     const newDevice = super.getDevice;
 
     if (this.device !== newDevice) {
       this.device = newDevice;
-      await this.loadSlides();
+      this.updateSlides();
     }
   }
 
-  async loadSlides(): Promise<void> {
-    this.slides = await LandingUtils.fetchSlides(
+  updateSlides(): void {
+    this.slides = LandingUtils.filterSlide(
+      this.landingData,
       this.apiUrl,
-      'landing_float',
       this.device,
+      'landing_float',
       20
     );
     this.updateAnimation();

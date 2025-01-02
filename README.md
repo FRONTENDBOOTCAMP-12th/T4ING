@@ -1,6 +1,7 @@
 # T4ING
 
 ![T4ING Top](/public/assets/images/README/top.png)
+[타잉 바로가기](t4ing.vercel.app)
 
 ## 📜 목차
 
@@ -148,6 +149,13 @@ T4ING
 <br>
 
 ## 🖥️ 애플리케이션 동작
+
+<img src="/public/assets/images/README/main.gif" alt="메인"/>
+<img src="/public/assets/images/README/landing.gif" alt="랜딩"/>
+<img src="/public/assets/images/README/join.gif" alt="회원가입"/>
+<img src="/public/assets/images/README/login.gif" alt="로그인"/>
+<img src="/public/assets/images/README/profile.gif" alt="프로필 편집"/>
+<img src="/public/assets/images/README/search.gif" alt="검색"/>
 
 <br>
 

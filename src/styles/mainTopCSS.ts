@@ -196,8 +196,12 @@ export default css`
       object-fit: contain;
 
       @media (min-width: 768px) {
-        max-width: 2.4rem;
-        max-height: 2.4rem;
+        max-width: 2rem;
+        max-height: 2rem;
+      }
+      @media (min-width: 1920px) {
+        max-width: 2.3rem;
+        max-height: 2.3rem;
       }
     }
   }

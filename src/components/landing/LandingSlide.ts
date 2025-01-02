@@ -1,4 +1,4 @@
-import { SwiperElement } from './../Swiper';
+import './../Swiper';
 import { SwiperOptions } from 'swiper/types';
 import { html, CSSResultGroup } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';

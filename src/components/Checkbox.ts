@@ -34,8 +34,19 @@ export class Checkbox extends TaingElement {
       }
 
       .checkbox {
-        position: absolute;
-        opacity: 0;
+        display: inline-block;
+        background-image: url('/assets/images/icon/checkbox.svg');
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        margin-right: var(--icon-margin-right);
+        inline-size: var(--icon-width);
+        block-size: var(--icon-height);
+        appearance: none;
+
+        &:checked {
+          background-image: url('/assets/images/icon/checkbox_checked.svg');
+        }
       }
 
       .checkbox-label {
@@ -49,17 +60,17 @@ export class Checkbox extends TaingElement {
       }
 
       .icon-check {
-        display: inline-block;
-        background-image: url('/assets/images/icon/checkbox.svg');
-        background-size: cover;
-        background-position: center;
-        margin-right: var(--icon-margin-right);
-        inline-size: var(--icon-width);
-        block-size: var(--icon-height);
+        // display: inline-block;
+        // background-image: url('/assets/images/icon/checkbox.svg');
+        // background-size: cover;
+        // background-position: center;
+        // margin-right: var(--icon-margin-right);
+        // inline-size: var(--icon-width);
+        // block-size: var(--icon-height);
       }
 
       .checkbox:checked + .checkbox-label .icon-check {
-        background-image: url('/assets/images/icon/checkbox_checked.svg');
+        // background-image: url('/assets/images/icon/checkbox_checked.svg');
       }
     `,
   ];

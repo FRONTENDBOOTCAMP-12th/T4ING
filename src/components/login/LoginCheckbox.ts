@@ -22,12 +22,13 @@ export class LoginCheckbox extends Checkbox {
         padding: var(--container-padding);
       }
 
-      .icon-check {
+      .checkbox {
         background-image: url('/assets/images/icon/login_checkbox.svg');
-      }
+        border-radius: 50%;
 
-      .checkbox:checked + .checkbox-label .icon-check {
-        background-image: url('/assets/images/icon/login_checkbox_checked.svg');
+        &:checked {
+          background-image: url('/assets/images/icon/login_checkbox_checked.svg');
+        }
       }
     `,
   ];

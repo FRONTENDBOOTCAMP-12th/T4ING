@@ -1,11 +1,11 @@
 import { customElement, property } from 'lit/decorators.js';
 import { TaingElement } from '../Taing';
 import { html, CSSResultGroup } from 'lit';
-import { Banner } from './LandingBanner';
-import { Slide } from './LandingSlide';
-import { Panorama } from './LandingPanorama';
-import { Welcome } from './LandingWelcome';
 import { isLogin } from '../../utils/authUtils';
+import './LandingBanner';
+import './LandingSlide';
+import './LandingPanorama';
+import './LandingWelcome';
 
 @customElement('landing-page')
 export class LandingPage extends TaingElement {

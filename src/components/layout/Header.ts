@@ -171,8 +171,11 @@ class Header extends TaingElement {
   }
 
   closeSearch(e: KeyboardEvent) {
-    if (e.code === 'Escape') {
-      this.search();
+    if (!this.hidden) {
+      if (e.code === 'Escape') {
+        this.isActiveSearch = false;
+        this.classList.remove('open-search');
+      }
     }
   }
 

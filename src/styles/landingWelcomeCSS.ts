@@ -11,7 +11,7 @@ export default css`
     --font-size-text: 1rem;
     --line-height-text: 1.4;
     --margin-text: 1rem 0;
-    --img-width: 12rem;
+    --img-width: 10rem;
 
     position: relative;
     top: 0;
@@ -28,14 +28,15 @@ export default css`
     margin-top: 5rem;
 
     img {
+      transition: 0.3s;
       width: var(--img-width);
       height: auto;
     }
     @media (min-width: 48rem) {
-      --img-width: 18rem;
+      --img-width: 15rem;
     }
     @media (min-width: 120rem) {
-      --img-width: 33vw;
+      --img-width: 22rem;
     }
 
     p {

@@ -152,19 +152,19 @@ class MainTop extends TaingElement {
                 : 'is-middle'}"
             .slidesPerView=${3}
             .slidesPerGroup=${3}
-            .spaceBetween=${20}
+            .spaceBetween=${8}
             .observer=${true}
             .observeParents=${true}
             .breakpoints="${{
               768: {
                 slidesPerView: 5,
                 slidesPerGroup: 5,
-                spaceBetween: 20,
+                spaceBetween: 8,
               },
               1920: {
-                slidesPerView: 7,
-                slidesPerGroup: 7,
-                spaceBetween: 20,
+                slidesPerView: 6,
+                slidesPerGroup: 6,
+                spaceBetween: 8,
               },
             }}"
           >

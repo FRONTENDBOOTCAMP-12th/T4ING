@@ -70,6 +70,7 @@ export default css`
   swiper-slide,
   swiper-slide.swiper-slide-active {
     display: flex;
+    justify-content: flex-end;
     position: relative;
     inline-size: 100%;
     transition: transform 0.3s ease-in-out;
@@ -85,9 +86,9 @@ export default css`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    inline-size: 80%;
+    inline-size: 70%;
     block-size: auto;
-    min-width: 80%;
+    min-width: 50%;
     overflow: hidden;
     gap: 0.5rem;
   }
@@ -151,17 +152,18 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    inline-size: 10vw;
     z-index: 40;
 
     & .ranking {
+      position: absolute;
+      left: 0;
       font-size: 10vw;
       font-weight: 700;
       font-style: italic;
 
       @media (min-width: 768px) {
-        font-weight: 600;
-        font-size: 7vw;
+        font-weight: 700;
+        font-size: 6.2vw;
       }
     }
   }
@@ -169,7 +171,7 @@ export default css`
   .icons-container {
     display: flex;
     position: absolute;
-    inline-size: 80%;
+    inline-size: 70%;
     block-size: 100%;
   }
 
@@ -194,8 +196,8 @@ export default css`
       object-fit: contain;
 
       @media (min-width: 768px) {
-        max-width: 2rem;
-        max-height: 2rem;
+        max-width: 2.4rem;
+        max-height: 2.4rem;
       }
     }
   }

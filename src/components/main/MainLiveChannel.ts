@@ -189,7 +189,17 @@ class MainTop extends TaingElement {
                             ${index + 1}
                           </div>
                         </div>
-                        ${slide.title}
+                        <div class="title-text-container">
+                          <p class="title-text">
+                          ${slide.channel}
+                          </p>
+                          <p class="title-text">
+                          ${slide.title}
+                          </p>
+                          <p class="title-text">
+                          ${slide.progress}%
+                          </p>
+                        </div>
                       </figcaption>
                     </figure>
                   </swiper-slide>

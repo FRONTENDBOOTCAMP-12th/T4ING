@@ -1,7 +1,7 @@
 # T4ING
 
 ![T4ING Top](/public/assets/images/README/top.png)
-[타잉 바로가기](t4ing.vercel.app)
+[타잉 바로가기](https://t4ing.vercel.app)
 
 ## 📜 목차
 

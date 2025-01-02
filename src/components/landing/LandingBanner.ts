@@ -48,7 +48,7 @@ export class Banner extends TaingElement {
     const slideCount = this.slides.length;
     if (slideCount === 0) return;
 
-    const animationDuration = slideCount * 10;
+    const animationDuration = slideCount * 2;
     this.style.setProperty('--animation-duration', `${animationDuration}s`);
   }
 

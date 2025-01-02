@@ -1,6 +1,6 @@
 # T4ING
 
-![T4ING Logo](/public/TAING.svg)
+![T4ING Top](https://t4ing.vercel.app/assets/images/README/top.png)
 
 > 배포 레파지토리 [밍큐네 T4ING](https://github.com/MinQyu/T4ING)
 

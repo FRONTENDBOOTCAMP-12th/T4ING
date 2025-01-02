@@ -12,7 +12,8 @@
     "eslint": "^8.56.0",
     "prettier": "^3.1.1",
     "typescript": "^5.7.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vite-plugin-html": "^3.2.2"
   },
   "dependencies": {
     "gsap": "^3.12.5",

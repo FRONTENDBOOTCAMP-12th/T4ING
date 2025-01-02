@@ -1,6 +1,8 @@
+> 배포 레파지토리 [밍큐네 T4ING](https://github.com/MinQyu/T4ING)
+
 # T4ING
 
-![T4ING Top](https://t4ing.vercel.app/assets/images/README/top.png)
+![T4ING Top](/public/assets/images/README/top.png)
 
 > 배포 레파지토리 [밍큐네 T4ING](https://github.com/MinQyu/T4ING)
 
@@ -8,6 +10,19 @@
 
 **T4ING**은 **4인머스켓**이 개발한 [Vite](https://vitejs.dev), [Lit](https://lit.dev), [TypeScript](https://www.typescriptlang.org), [PocketHost](https://pocketbase.io/), [Swiper](https://swiperjs.com/), [GSAP](https://greensock.com/gsap/) 등을 사용하여 개발된 **반응형 웹 애플리케이션**입니다.  
 이 프로젝트는 직관적인 UI/UX를 제공하며, 최신 기술을 통해 빠르고 효율적인 웹 경험을 선사합니다.
+
+---
+
+## 🧑‍🤝‍🧑 TEAM 4인머스켓
+
+![4인머스켓 로고](/public/assets/images/og.png)
+
+| 이름                                                                                                                                 | 역할    | 주요 기여                                                        | GitHub                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------------------- | ----------------------------------------- |
+| <div align="center"><img src="https://github.com/hunzooyun.png?size=100" width="80" height="80" alt="윤헌주"/> <br> **윤헌주**</div> | 팀 리더 | 스크럼 마스터, 랜딩 페이지                                       | [hunzooyun](https://github.com/hunzooyun) |
+| <div align="center"><img src="https://github.com/bohyemian.png?size=100" width="80" height="80" alt="박혜미"/> <br> **박혜미**</div> | 조원    | 가이드 페이지, 이미지 리소스 관리, 헤더, 푸터, 프로필 편집, 모달 | [bohyemian](https://github.com/bohyemian) |
+| <div align="center"><img src="https://github.com/MinQyu.png?size=100" width="80" height="80" alt="김민규"/> <br> **김민규**</div>    | 조원    | 백엔드 설계, 로그인, 회원가입, 프로젝트 배포                     | [MinQyu](https://github.com/MinQyu)       |
+| <div align="center"><img src="https://github.com/gofla1996.png?size=100" width="80" height="80" alt="전혜림"/> <br> **전혜림**</div> | 조원    | 메인페이지, Swiper 공통 컴포넌트 설계                            | [gofla1996](https://github.com/gofla1996) |
 
 ---
 

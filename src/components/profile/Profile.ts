@@ -359,7 +359,9 @@ class Profile extends TaingElement {
   render() {
     return html`<section class="section-profile">
       <hgroup class="section-title">
-        <h2 class="section-title__h">프로필 선택</h2>
+        <h2 class="section-title__h">
+          프로필 ${this.isEdit ? '편집' : '선택'}
+        </h2>
         <p class="section-title__desc">
           ${this.isEdit ? '편집' : '시청'}할 프로필을 선택해주세요.
         </p>

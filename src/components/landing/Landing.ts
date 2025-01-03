@@ -17,33 +17,34 @@ export class LandingPage extends TaingElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    if (isLogin()) {
-      location.href = '/';
-    }
     this.device = super.getDevice;
     this.apiUrl = import.meta.env.VITE_PB_API || '';
   }
 
   render() {
-    return html`
-      <div class="landing-page">
-        <landing-Banner
-          .apiUrl="${this.apiUrl}"
-          .device="${this.device}"
-        ></landing-Banner>
+    if (isLogin()) {
+      location.href = '/';
+    } else {
+      return html`
+        <div class="landing-page">
+          <landing-Banner
+            .apiUrl="${this.apiUrl}"
+            .device="${this.device}"
+          ></landing-Banner>
 
-        <landing-Slide
-          .apiUrl="${this.apiUrl}"
-          .device="${this.device}"
-        ></landing-Slide>
+          <landing-Slide
+            .apiUrl="${this.apiUrl}"
+            .device="${this.device}"
+          ></landing-Slide>
 
-        <landing-Panorama
-          .apiUrl="${this.apiUrl}"
-          .device="${this.device}"
-        ></landing-Panorama>
+          <landing-Panorama
+            .apiUrl="${this.apiUrl}"
+            .device="${this.device}"
+          ></landing-Panorama>
 
-        <landing-Welcome></landing-Welcome>
-      </div>
-    `;
+          <landing-Welcome></landing-Welcome>
+        </div>
+      `;
+    }
   }
 }

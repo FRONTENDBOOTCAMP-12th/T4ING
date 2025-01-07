@@ -22,3 +22,5 @@ docs-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env
